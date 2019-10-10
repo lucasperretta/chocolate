@@ -1,0 +1,2 @@
+include ':chocolate'
+rootProject.name='Chocolate Library'
