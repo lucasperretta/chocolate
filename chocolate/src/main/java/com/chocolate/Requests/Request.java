@@ -1,10 +1,15 @@
-package com.chocolate;
+package com.chocolate.Requests;
+
+import android.content.Context;
+
+import com.chocolate.Requests.Loopj.JSONRequest;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public abstract class Request<Response extends Request.Response, Body, Handler> {
 
@@ -17,6 +22,8 @@ public abstract class Request<Response extends Request.Response, Body, Handler> 
     @NotNull protected String URL;
     @Nullable protected Body body;
     @Nullable protected Progress.Listener progressListener;
+    @NotNull protected final List<Header> headers = new ArrayList<>();
+    protected int timeout = 20*1000;
 
     // Constructor.....
     public Request() {}
@@ -25,7 +32,7 @@ public abstract class Request<Response extends Request.Response, Body, Handler> 
     protected abstract Handler perform();
 
     // Protected Methods.....
-    protected void onProgress(long bytesWritten, long totalSize, int progress) {
+    protected void onProgressUpdate(long bytesWritten, long totalSize, int progress) {
         if (progressListener != null) progressListener.progress(new Progress(bytesWritten, totalSize, progress));
     }
 
@@ -35,18 +42,10 @@ public abstract class Request<Response extends Request.Response, Body, Handler> 
 
     // Methods.....
     public Request<Response, Body, Handler> to(@NotNull String url) {
-        return url(url, false);
+        return to(url, false);
     }
 
     public Request<Response, Body, Handler> to(@NotNull String url, boolean ignoreBaseURL) {
-        return url(url, ignoreBaseURL);
-    }
-
-    public Request<Response, Body, Handler> url(@NotNull String url) {
-        return url(url, false);
-    }
-
-    public Request<Response, Body, Handler> url(@NotNull String url, boolean ignoreBaseURL) {
         this.URL = (ignoreBaseURL ? "" : baseURL) + url;
         return this;
     }
@@ -67,9 +66,25 @@ public abstract class Request<Response extends Request.Response, Body, Handler> 
 
     public Body getBody() { return body; }
 
+    public Request<Response, Body, Handler> addHeader(String header, String value) {
+        headers.add(new Header(header, value));
+        return this;
+    }
+
+    public List<Header> getHeaders() { return headers; }
+
     public Request<Response, Body, Handler> progress(Progress.Listener listener) {
         this.progressListener = listener;
         return this;
+    }
+
+    public Request<Response, Body, Handler> timeout(int timeout) {
+        this.timeout = timeout;
+        return this;
+    }
+
+    public int getTimeout() {
+        return timeout;
     }
 
     public Progress.Listener getProgressListener() { return progressListener; }
@@ -88,8 +103,8 @@ public abstract class Request<Response extends Request.Response, Body, Handler> 
         return baseURL;
     }
 
-    public static JSONRequest json() {
-        return new JSONRequest();
+    public static JSONRequest json(Context context) {
+        return new JSONRequest(context);
     }
 
     // Enums.....
@@ -105,6 +120,22 @@ public abstract class Request<Response extends Request.Response, Body, Handler> 
 
     // Classes.....
     public static abstract class Plugin<RequestType> {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     }
 
@@ -236,7 +267,7 @@ public abstract class Request<Response extends Request.Response, Body, Handler> 
         }
 
         // Constructor.....
-        private Status(int code, boolean succeed) {
+        public Status(int code, boolean succeed) {
             value = code;
             description = codesHashMap.get(code + "");
             isSuccessful = succeed;
@@ -249,13 +280,23 @@ public abstract class Request<Response extends Request.Response, Body, Handler> 
 
     }
 
+    protected class Header {
+
+        // Variables.....
+        @NotNull public final String header;
+        @NotNull public final String value;
+
+        // Constructor.....
+        protected Header(@NotNull String header, @NotNull String value) {
+            this.header = header;
+            this.value = value;
+        }
+
+    }
+
     // Interfaces.....
     public interface Callback<Response extends Request.Response> {
         void finished(Response response);
     }
-
-
-
-
 
 }
