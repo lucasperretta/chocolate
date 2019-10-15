@@ -11,7 +11,7 @@ import com.loopj.android.http.RequestParams;
 
 import org.jetbrains.annotations.NotNull;
 
-public abstract class LoopjBaseRequest<Response extends Request.Response> extends Request<Response, RequestParams, RequestHandle> {
+public abstract class LoopjBaseRequest<CurrentClass extends LoopjBaseRequest, Response extends Request.Response> extends Request<CurrentClass, Response, RequestParams, RequestHandle> {
 
     // Variables.....
     @NotNull protected final Context context;
@@ -71,16 +71,16 @@ public abstract class LoopjBaseRequest<Response extends Request.Response> extend
     }
 
     // Methods.....
-    public LoopjBaseRequest<Response> useCookies(boolean value) {
+    public CurrentClass useCookies(boolean value) {
         this.useCookies = value;
-        return this;
+        return (CurrentClass) this;
     }
 
     public boolean getUseCookies() { return useCookies; }
 
-    public LoopjBaseRequest<Response> fixNoHttpException(boolean value) {
+    public CurrentClass fixNoHttpException(boolean value) {
         this.fixNoHttpException = value;
-        return this;
+        return (CurrentClass) this;
     }
 
     public boolean getFixNoHttpException() {

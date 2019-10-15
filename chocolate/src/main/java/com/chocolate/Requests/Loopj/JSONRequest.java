@@ -11,7 +11,7 @@ import org.jetbrains.annotations.Nullable;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class JSONRequest extends LoopjBaseRequest<JSONRequest.Response> {
+public class JSONRequest extends LoopjBaseRequest<JSONRequest, JSONRequest.Response> {
 
     // Constructor.....
     public JSONRequest(Context context) {

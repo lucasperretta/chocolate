@@ -11,10 +11,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public abstract class Request<Response extends Request.Response, Body, Handler> {
+public abstract class Request<CurrentClass extends Request, Response extends Request.Response, Body, Handler> {
 
     // Static Variables.....
-    protected static String baseURL;
+    private static String baseURL;
 
     // Variables.....
     @NotNull protected Callback<Response> callback;
@@ -41,46 +41,46 @@ public abstract class Request<Response extends Request.Response, Body, Handler> 
     }
 
     // Methods.....
-    public Request<Response, Body, Handler> to(@NotNull String url) {
+    public CurrentClass to(@NotNull String url) {
         return to(url, false);
     }
 
-    public Request<Response, Body, Handler> to(@NotNull String url, boolean ignoreBaseURL) {
+    public CurrentClass to(@NotNull String url, boolean ignoreBaseURL) {
         this.URL = (ignoreBaseURL ? "" : baseURL) + url;
-        return this;
+        return (CurrentClass) this;
     }
 
     public String getURL() { return URL; }
 
-    public Request<Response, Body, Handler> method(@NotNull Method method) {
+    public CurrentClass method(@NotNull Method method) {
         this.method = method;
-        return this;
+        return (CurrentClass) this;
     }
 
     public Method getMethod() { return method; }
 
-    public Request<Response, Body, Handler> body(Body body) {
+    public CurrentClass body(Body body) {
         this.body = body;
-        return this;
+        return (CurrentClass) this;
     }
 
     public Body getBody() { return body; }
 
-    public Request<Response, Body, Handler> addHeader(String header, String value) {
+    public CurrentClass addHeader(String header, String value) {
         headers.add(new Header(header, value));
-        return this;
+        return (CurrentClass) this;
     }
 
     public List<Header> getHeaders() { return headers; }
 
-    public Request<Response, Body, Handler> progress(Progress.Listener listener) {
+    public CurrentClass progress(Progress.Listener listener) {
         this.progressListener = listener;
-        return this;
+        return (CurrentClass) this;
     }
 
-    public Request<Response, Body, Handler> timeout(int timeout) {
+    public CurrentClass timeout(int timeout) {
         this.timeout = timeout;
-        return this;
+        return (CurrentClass) this;
     }
 
     public int getTimeout() {
@@ -119,7 +119,7 @@ public abstract class Request<Response extends Request.Response, Body, Handler> 
     }
 
     // Classes.....
-    public static abstract class Plugin<RequestType> {
+    public static abstract class Plugin<RequestType extends Request> {
 
 
 
