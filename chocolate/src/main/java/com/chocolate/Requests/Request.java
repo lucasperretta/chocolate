@@ -13,14 +13,14 @@ import java.util.HashMap;
 import java.util.List;
 
 @SuppressWarnings("unused")
-public abstract class Request<Self extends Request, Response extends Request.Response, Body, Handler> {
+public abstract class Request<Self extends Request, ResponseType extends Request.Response, Body, Handler> {
 
     // Static Variables.....
     private static String baseURL;
 
     // Variables.....
     @NotNull protected final Context context;
-    @SuppressWarnings({"WeakerAccess", "NullableProblems"}) @NotNull protected Callback<Response> callback;
+    @SuppressWarnings({"WeakerAccess", "NullableProblems"}) @NotNull protected Callback<ResponseType> callback;
     @NotNull protected Method method = Method.GET;
     @NotNull protected String URL;
     @Nullable protected Body body;
@@ -42,7 +42,7 @@ public abstract class Request<Self extends Request, Response extends Request.Res
         if (progressListener != null) progressListener.progress(new Progress(bytesWritten, totalSize, progress));
     }
 
-    protected void onFinished(Response response) {
+    protected void onFinished(ResponseType response) {
         callback.finished(response);
     }
 
@@ -101,7 +101,7 @@ public abstract class Request<Self extends Request, Response extends Request.Res
     @Nullable public Progress.Listener getProgressListener() { return progressListener; }
 
     // Methods.....
-    public Handler start(@NotNull Callback<Response> callback) {
+    public Handler start(@NotNull Callback<ResponseType> callback) {
         this.callback = callback;
         return perform();
     }
@@ -136,19 +136,6 @@ public abstract class Request<Self extends Request, Response extends Request.Res
 
     // Classes.....
     public static abstract class Plugin<RequestType extends Request> {
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -315,8 +302,8 @@ public abstract class Request<Self extends Request, Response extends Request.Res
     }
 
     // Interfaces.....
-    public interface Callback<Response extends Request.Response> {
-        void finished(Response response);
+    public interface Callback<ResponseType extends Request.Response> {
+        void finished(ResponseType response);
     }
 
 }

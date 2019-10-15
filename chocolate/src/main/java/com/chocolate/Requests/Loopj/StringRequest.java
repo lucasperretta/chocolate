@@ -28,7 +28,7 @@ public class StringRequest extends LoopjBaseRequest<StringRequest, StringRequest
             }
 
             @Override public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, String responseString) {
-
+                onFinished(new Response(responseString, new Status(statusCode, true), headers, null));
             }
         });
     }

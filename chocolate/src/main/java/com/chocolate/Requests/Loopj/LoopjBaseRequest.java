@@ -12,7 +12,7 @@ import com.loopj.android.http.RequestParams;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public abstract class LoopjBaseRequest<Self extends LoopjBaseRequest, Response extends Request.Response> extends Request<Self, Response, RequestParams, RequestHandle> {
+public abstract class LoopjBaseRequest<Self extends LoopjBaseRequest, ResponseType extends Request.Response> extends Request<Self, ResponseType, RequestParams, RequestHandle> {
 
     // Variables.....
     @SuppressWarnings("WeakerAccess") protected boolean fixNoHttpException = false;
