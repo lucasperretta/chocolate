@@ -73,14 +73,14 @@ public abstract class LoopjBaseRequest<CurrentClass extends LoopjBaseRequest, Re
     // Methods.....
     public CurrentClass useCookies(boolean value) {
         this.useCookies = value;
-        return (CurrentClass) this;
+        return getThis();
     }
 
     public boolean getUseCookies() { return useCookies; }
 
     public CurrentClass fixNoHttpException(boolean value) {
         this.fixNoHttpException = value;
-        return (CurrentClass) this;
+        return getThis();
     }
 
     public boolean getFixNoHttpException() {

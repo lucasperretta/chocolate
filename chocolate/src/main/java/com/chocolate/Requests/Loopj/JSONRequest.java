@@ -23,7 +23,7 @@ public class JSONRequest extends LoopjBaseRequest<JSONRequest, JSONRequest.Respo
         return performRequest(new TextHttpResponseHandler() {
             @Override public void onProgress(long bytesWritten, long totalSize) {
                 int progress = (int) ((bytesWritten * 100) / totalSize);
-                if (progress<=100 && progress>=0) {
+                if (progress <= 100 && progress >= 0) {
                     onProgressUpdate(bytesWritten, totalSize, progress);
                 }
             }

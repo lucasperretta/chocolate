@@ -40,6 +40,11 @@ public abstract class Request<CurrentClass extends Request, Response extends Req
         callback.finished(response);
     }
 
+    @SuppressWarnings("unchecked")
+    protected CurrentClass getThis() {
+        return (CurrentClass) this;
+    }
+
     // Methods.....
     public CurrentClass to(@NotNull String url) {
         return to(url, false);
@@ -47,40 +52,40 @@ public abstract class Request<CurrentClass extends Request, Response extends Req
 
     public CurrentClass to(@NotNull String url, boolean ignoreBaseURL) {
         this.URL = (ignoreBaseURL ? "" : baseURL) + url;
-        return (CurrentClass) this;
+        return getThis();
     }
 
     public String getURL() { return URL; }
 
     public CurrentClass method(@NotNull Method method) {
         this.method = method;
-        return (CurrentClass) this;
+        return getThis();
     }
 
     public Method getMethod() { return method; }
 
     public CurrentClass body(Body body) {
         this.body = body;
-        return (CurrentClass) this;
+        return getThis();
     }
 
     public Body getBody() { return body; }
 
     public CurrentClass addHeader(String header, String value) {
         headers.add(new Header(header, value));
-        return (CurrentClass) this;
+        return getThis();
     }
 
     public List<Header> getHeaders() { return headers; }
 
     public CurrentClass progress(Progress.Listener listener) {
         this.progressListener = listener;
-        return (CurrentClass) this;
+        return getThis();
     }
 
     public CurrentClass timeout(int timeout) {
         this.timeout = timeout;
-        return (CurrentClass) this;
+        return getThis();
     }
 
     public int getTimeout() {
