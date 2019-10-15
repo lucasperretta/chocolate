@@ -12,7 +12,7 @@ import com.loopj.android.http.RequestParams;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public abstract class LoopjBaseRequest<CurrentClass extends LoopjBaseRequest, Response extends Request.Response> extends Request<CurrentClass, Response, RequestParams, RequestHandle> {
+public abstract class LoopjBaseRequest<Self extends LoopjBaseRequest, Response extends Request.Response> extends Request<Self, Response, RequestParams, RequestHandle> {
 
     // Variables.....
     protected boolean fixNoHttpException = false;
@@ -77,22 +77,22 @@ public abstract class LoopjBaseRequest<CurrentClass extends LoopjBaseRequest, Re
     }
 
     // Setters.....
-    public CurrentClass useCookies(boolean value) {
+    public Self useCookies(boolean value) {
         this.useCookies = value;
         return self();
     }
 
-    public CurrentClass fixNoHttpException(boolean value) {
+    public Self fixNoHttpException(boolean value) {
         this.fixNoHttpException = value;
         return self();
     }
 
-    public CurrentClass enableRedirects(boolean enable) {
+    public Self enableRedirects(boolean enable) {
         this.enableRedirects = enable;
         return self();
     }
 
-    public CurrentClass setupClient(SetupClientCallback callback) {
+    public Self setupClient(SetupClientCallback callback) {
         this.setupClientCallback = callback;
         return self();
     }

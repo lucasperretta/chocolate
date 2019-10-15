@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 
 @SuppressWarnings("unused")
-public abstract class Request<CurrentClass extends Request, Response extends Request.Response, Body, Handler> {
+public abstract class Request<Self extends Request, Response extends Request.Response, Body, Handler> {
 
     // Static Variables.....
     private static String baseURL;
@@ -47,42 +47,42 @@ public abstract class Request<CurrentClass extends Request, Response extends Req
     }
 
     @SuppressWarnings("unchecked")
-    protected CurrentClass self() {
-        return (CurrentClass) this;
+    protected Self self() {
+        return (Self) this;
     }
 
     // Setters.....
-    public CurrentClass to(@NotNull String url) {
+    public Self to(@NotNull String url) {
         return to(url, false);
     }
 
     @SuppressWarnings("WeakerAccess")
-    public CurrentClass to(@NotNull String url, boolean ignoreBaseURL) {
+    public Self to(@NotNull String url, boolean ignoreBaseURL) {
         this.URL = (ignoreBaseURL ? "" : baseURL) + url;
         return self();
     }
 
-    public CurrentClass method(@NotNull Method method) {
+    public Self method(@NotNull Method method) {
         this.method = method;
         return self();
     }
 
-    public CurrentClass body(Body body) {
+    public Self body(Body body) {
         this.body = body;
         return self();
     }
 
-    public CurrentClass addHeader(String header, String value) {
+    public Self addHeader(String header, String value) {
         headers.add(new Header(header, value));
         return self();
     }
 
-    public CurrentClass progress(Progress.Listener listener) {
+    public Self progress(Progress.Listener listener) {
         this.progressListener = listener;
         return self();
     }
 
-    public CurrentClass timeout(int timeout) {
+    public Self timeout(int timeout) {
         this.timeout = timeout;
         return self();
     }
