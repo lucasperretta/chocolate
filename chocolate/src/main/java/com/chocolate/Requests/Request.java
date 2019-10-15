@@ -3,6 +3,7 @@ package com.chocolate.Requests;
 import android.content.Context;
 
 import com.chocolate.Requests.Loopj.JSONRequest;
+import com.chocolate.Requests.Loopj.StringRequest;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -109,7 +110,11 @@ public abstract class Request<CurrentClass extends Request, Response extends Req
         return baseURL;
     }
 
-    public static JSONRequest jsonObjectRaw(Context context) {
+    public static StringRequest string(@NotNull Context context) {
+        return new StringRequest(context);
+    }
+
+    public static JSONRequest jsonObjectRaw(@NotNull Context context) {
         return new JSONRequest(context);
     }
 

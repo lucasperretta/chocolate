@@ -55,7 +55,7 @@ public class JSONRequest extends LoopjBaseRequest<JSONRequest, JSONRequest.Respo
     }
 
     // Classes.....
-    public static class Response extends Request.Response<JSONObject, cz.msebera.android.httpclient.Header, Throwable> {
+    public static class Response extends LoopjBaseRequest.Response<JSONObject> {
 
         // Variables.....
         public String raw;

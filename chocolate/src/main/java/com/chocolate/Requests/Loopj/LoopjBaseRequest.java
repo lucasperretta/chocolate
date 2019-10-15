@@ -12,6 +12,8 @@ import com.loopj.android.http.RequestParams;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import cz.msebera.android.httpclient.Header;
+
 public abstract class LoopjBaseRequest<CurrentClass extends LoopjBaseRequest, Response extends Request.Response> extends Request<CurrentClass, Response, RequestParams, RequestHandle> {
 
     // Variables.....
@@ -102,6 +104,16 @@ public abstract class LoopjBaseRequest<CurrentClass extends LoopjBaseRequest, Re
     public boolean getFixNoHttpException() { return fixNoHttpException; }
 
     public boolean getEnableRedirects() { return enableRedirects; }
+
+    // Classes.....
+    public static abstract class Response<Type> extends Request.Response<Type, cz.msebera.android.httpclient.Header, Throwable> {
+
+        // Constructors.....
+        public Response(@Nullable Type value, @NotNull Status status, @Nullable cz.msebera.android.httpclient.Header[] headers, @Nullable Throwable throwable) {
+            super(value, status, headers, throwable);
+        }
+
+    }
 
     // Interfaces.....
     public interface SetupClientCallback {
