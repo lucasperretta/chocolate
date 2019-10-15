@@ -10,17 +10,19 @@ import com.loopj.android.http.RequestHandle;
 import com.loopj.android.http.RequestParams;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public abstract class LoopjBaseRequest<CurrentClass extends LoopjBaseRequest, Response extends Request.Response> extends Request<CurrentClass, Response, RequestParams, RequestHandle> {
 
     // Variables.....
-    @NotNull protected final Context context;
     protected boolean fixNoHttpException = false;
     protected boolean useCookies = true;
+    protected boolean enableRedirects = true;
+    @Nullable SetupClientCallback setupClientCallback;
 
     // Constructor.....
     public LoopjBaseRequest(@NotNull Context context) {
-        this.context = context;
+        super(context);
         addHeader("X-REQUESTED-WITH", "android");
         addHeader("Accept", "application/json");
     }
@@ -36,6 +38,9 @@ public abstract class LoopjBaseRequest<CurrentClass extends LoopjBaseRequest, Re
             PersistentCookieStore persistentCookieStore = new PersistentCookieStore(context);
             client.setCookieStore(persistentCookieStore);
         }
+        client.setEnableRedirects(enableRedirects);
+
+        if (setupClientCallback != null) setupClientCallback.setup(client);
 
         return client;
     }
@@ -70,21 +75,37 @@ public abstract class LoopjBaseRequest<CurrentClass extends LoopjBaseRequest, Re
         return requestHandle;
     }
 
-    // Methods.....
+    // Setters.....
     public CurrentClass useCookies(boolean value) {
         this.useCookies = value;
-        return getThis();
+        return self();
     }
-
-    public boolean getUseCookies() { return useCookies; }
 
     public CurrentClass fixNoHttpException(boolean value) {
         this.fixNoHttpException = value;
-        return getThis();
+        return self();
     }
 
-    public boolean getFixNoHttpException() {
-        return fixNoHttpException;
+    public CurrentClass enableRedirects(boolean enable) {
+        this.enableRedirects = enable;
+        return self();
+    }
+
+    public CurrentClass setupClient(SetupClientCallback callback) {
+        this.setupClientCallback = callback;
+        return self();
+    }
+
+    // Getters.....
+    public boolean getUseCookies() { return useCookies; }
+
+    public boolean getFixNoHttpException() { return fixNoHttpException; }
+
+    public boolean getEnableRedirects() { return enableRedirects; }
+
+    // Interfaces.....
+    public interface SetupClientCallback {
+        void setup(AsyncHttpClient client);
     }
 
 }

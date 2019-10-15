@@ -17,6 +17,7 @@ public abstract class Request<CurrentClass extends Request, Response extends Req
     private static String baseURL;
 
     // Variables.....
+    @NotNull protected final Context context;
     @NotNull protected Callback<Response> callback;
     @NotNull protected Method method = Method.GET;
     @NotNull protected String URL;
@@ -26,7 +27,7 @@ public abstract class Request<CurrentClass extends Request, Response extends Req
     protected int timeout = 20*1000;
 
     // Constructor.....
-    public Request() {}
+    public Request(@NotNull Context context) { this.context = context; }
 
     // Abstract Methods.....
     protected abstract Handler perform();
@@ -41,59 +42,59 @@ public abstract class Request<CurrentClass extends Request, Response extends Req
     }
 
     @SuppressWarnings("unchecked")
-    protected CurrentClass getThis() {
+    protected CurrentClass self() {
         return (CurrentClass) this;
     }
 
-    // Methods.....
+    // Setters.....
     public CurrentClass to(@NotNull String url) {
         return to(url, false);
     }
 
     public CurrentClass to(@NotNull String url, boolean ignoreBaseURL) {
         this.URL = (ignoreBaseURL ? "" : baseURL) + url;
-        return getThis();
+        return self();
     }
-
-    public String getURL() { return URL; }
 
     public CurrentClass method(@NotNull Method method) {
         this.method = method;
-        return getThis();
+        return self();
     }
-
-    public Method getMethod() { return method; }
 
     public CurrentClass body(Body body) {
         this.body = body;
-        return getThis();
+        return self();
     }
-
-    public Body getBody() { return body; }
 
     public CurrentClass addHeader(String header, String value) {
         headers.add(new Header(header, value));
-        return getThis();
+        return self();
     }
-
-    public List<Header> getHeaders() { return headers; }
 
     public CurrentClass progress(Progress.Listener listener) {
         this.progressListener = listener;
-        return getThis();
+        return self();
     }
 
     public CurrentClass timeout(int timeout) {
         this.timeout = timeout;
-        return getThis();
+        return self();
     }
 
-    public int getTimeout() {
-        return timeout;
-    }
+    // Getters.....
+    public String getURL() { return URL; }
+
+    public Method getMethod() { return method; }
+
+    public Body getBody() { return body; }
+
+    public List<Header> getHeaders() { return headers; }
+
+    public int getTimeout() { return timeout; }
 
     public Progress.Listener getProgressListener() { return progressListener; }
 
+    // Methods.....
     public Handler start(Callback<Response> callback) {
         this.callback = callback;
         return perform();
@@ -108,7 +109,7 @@ public abstract class Request<CurrentClass extends Request, Response extends Req
         return baseURL;
     }
 
-    public static JSONRequest json(Context context) {
+    public static JSONRequest jsonObjectRaw(Context context) {
         return new JSONRequest(context);
     }
 
