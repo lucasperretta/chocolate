@@ -15,13 +15,13 @@ import org.jetbrains.annotations.Nullable;
 public abstract class LoopjBaseRequest<Self extends LoopjBaseRequest, Response extends Request.Response> extends Request<Self, Response, RequestParams, RequestHandle> {
 
     // Variables.....
-    protected boolean fixNoHttpException = false;
-    protected boolean useCookies = true;
-    protected boolean enableRedirects = true;
-    @Nullable SetupClientCallback setupClientCallback;
+    @SuppressWarnings("WeakerAccess") protected boolean fixNoHttpException = false;
+    @SuppressWarnings("WeakerAccess") protected boolean useCookies = true;
+    @SuppressWarnings("WeakerAccess") protected boolean enableRedirects = true;
+    @SuppressWarnings("WeakerAccess") @Nullable SetupClientCallback setupClientCallback;
 
     // Constructor.....
-    public LoopjBaseRequest(@NotNull Context context) {
+    @SuppressWarnings("WeakerAccess") public LoopjBaseRequest(@NotNull Context context) {
         super(context);
         this
                 .addHeader("X-REQUESTED-WITH", "android")
@@ -29,7 +29,7 @@ public abstract class LoopjBaseRequest<Self extends LoopjBaseRequest, Response e
     }
 
     // Protected Methods.....
-    protected AsyncHttpClient getHttpClient() {
+    @SuppressWarnings("WeakerAccess") protected AsyncHttpClient getHttpClient() {
         AsyncHttpClient client = new AsyncHttpClient(fixNoHttpException, 80, 443);
         for (Header header : headers) {
             client.addHeader(header.header, header.value);
@@ -46,7 +46,7 @@ public abstract class LoopjBaseRequest<Self extends LoopjBaseRequest, Response e
         return client;
     }
 
-    protected RequestHandle performRequest(AsyncHttpResponseHandler handler) {
+    @SuppressWarnings("WeakerAccess") protected RequestHandle performRequest(AsyncHttpResponseHandler handler) {
         RequestHandle requestHandle = null;
         if (body == null) body = new RequestParams();
 
@@ -105,6 +105,7 @@ public abstract class LoopjBaseRequest<Self extends LoopjBaseRequest, Response e
     public boolean getEnableRedirects() { return enableRedirects; }
 
     // Classes.....
+    @SuppressWarnings({"RedundantSuppression", "WeakerAccess", "SpellCheckingInspection", "NullableProblems"})
     public static abstract class Response<Type> extends Request.Response<Type, cz.msebera.android.httpclient.Header, Throwable> {
 
         // Constructors.....
