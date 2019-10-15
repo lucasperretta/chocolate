@@ -12,8 +12,6 @@ import com.loopj.android.http.RequestParams;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import cz.msebera.android.httpclient.Header;
-
 public abstract class LoopjBaseRequest<CurrentClass extends LoopjBaseRequest, Response extends Request.Response> extends Request<CurrentClass, Response, RequestParams, RequestHandle> {
 
     // Variables.....
@@ -25,8 +23,9 @@ public abstract class LoopjBaseRequest<CurrentClass extends LoopjBaseRequest, Re
     // Constructor.....
     public LoopjBaseRequest(@NotNull Context context) {
         super(context);
-        addHeader("X-REQUESTED-WITH", "android");
-        addHeader("Accept", "application/json");
+        this
+                .addHeader("X-REQUESTED-WITH", "android")
+                .addHeader("Accept", "application/json");
     }
 
     // Protected Methods.....

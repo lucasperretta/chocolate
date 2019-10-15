@@ -2,14 +2,11 @@ package com.chocolate.Requests.Loopj;
 
 import android.content.Context;
 
-import com.chocolate.Requests.Request;
 import com.loopj.android.http.RequestHandle;
 import com.loopj.android.http.TextHttpResponseHandler;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import cz.msebera.android.httpclient.Header;
 
 public class StringRequest extends LoopjBaseRequest<StringRequest, StringRequest.Response> {
 
@@ -37,6 +34,7 @@ public class StringRequest extends LoopjBaseRequest<StringRequest, StringRequest
     }
 
     // Classes.....
+    @SuppressWarnings({"RedundantSuppression", "WeakerAccess", "SpellCheckingInspection", "NullableProblems"})
     public static class Response extends LoopjBaseRequest.Response<String> {
 
         // Constructors.....

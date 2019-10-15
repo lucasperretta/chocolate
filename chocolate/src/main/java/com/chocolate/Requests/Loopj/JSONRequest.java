@@ -55,6 +55,7 @@ public class JSONRequest extends LoopjBaseRequest<JSONRequest, JSONRequest.Respo
     }
 
     // Classes.....
+    @SuppressWarnings({"RedundantSuppression", "WeakerAccess", "SpellCheckingInspection", "NullableProblems"})
     public static class Response extends LoopjBaseRequest.Response<JSONObject> {
 
         // Variables.....

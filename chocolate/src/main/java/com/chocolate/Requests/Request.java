@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+@SuppressWarnings("unused")
 public abstract class Request<CurrentClass extends Request, Response extends Request.Response, Body, Handler> {
 
     // Static Variables.....
@@ -19,16 +20,19 @@ public abstract class Request<CurrentClass extends Request, Response extends Req
 
     // Variables.....
     @NotNull protected final Context context;
-    @NotNull protected Callback<Response> callback;
+    @SuppressWarnings({"WeakerAccess", "NullableProblems"}) @NotNull protected Callback<Response> callback;
     @NotNull protected Method method = Method.GET;
     @NotNull protected String URL;
     @Nullable protected Body body;
-    @Nullable protected Progress.Listener progressListener;
+    @SuppressWarnings("WeakerAccess") @Nullable protected Progress.Listener progressListener;
     @NotNull protected final List<Header> headers = new ArrayList<>();
     protected int timeout = 20*1000;
 
     // Constructor.....
-    public Request(@NotNull Context context) { this.context = context; }
+    public Request(@NotNull Context context) {
+        this.context = context;
+        this.URL = baseURL;
+    }
 
     // Abstract Methods.....
     protected abstract Handler perform();
@@ -52,6 +56,7 @@ public abstract class Request<CurrentClass extends Request, Response extends Req
         return to(url, false);
     }
 
+    @SuppressWarnings("WeakerAccess")
     public CurrentClass to(@NotNull String url, boolean ignoreBaseURL) {
         this.URL = (ignoreBaseURL ? "" : baseURL) + url;
         return self();
@@ -83,20 +88,20 @@ public abstract class Request<CurrentClass extends Request, Response extends Req
     }
 
     // Getters.....
-    public String getURL() { return URL; }
+    @NotNull public String getURL() { return URL; }
 
-    public Method getMethod() { return method; }
+    @NotNull public Method getMethod() { return method; }
 
-    public Body getBody() { return body; }
+    @Nullable public Body getBody() { return body; }
 
-    public List<Header> getHeaders() { return headers; }
+    @NotNull public List<Header> getHeaders() { return headers; }
 
     public int getTimeout() { return timeout; }
 
-    public Progress.Listener getProgressListener() { return progressListener; }
+    @Nullable public Progress.Listener getProgressListener() { return progressListener; }
 
     // Methods.....
-    public Handler start(Callback<Response> callback) {
+    public Handler start(@NotNull Callback<Response> callback) {
         this.callback = callback;
         return perform();
     }
@@ -150,6 +155,7 @@ public abstract class Request<CurrentClass extends Request, Response extends Req
 
     }
 
+    @SuppressWarnings({"RedundantSuppression", "WeakerAccess", "SpellCheckingInspection", "NullableProblems"})
     public static abstract class Response<Type, Header, Error> {
 
         // Variables.....
@@ -173,6 +179,7 @@ public abstract class Request<CurrentClass extends Request, Response extends Req
 
     }
 
+    @SuppressWarnings({"RedundantSuppression", "WeakerAccess", "SpellCheckingInspection", "NullableProblems"})
     public static class Progress {
 
         // Variables.....
@@ -194,6 +201,7 @@ public abstract class Request<CurrentClass extends Request, Response extends Req
 
     }
 
+    @SuppressWarnings({"RedundantSuppression", "WeakerAccess", "SpellCheckingInspection", "NullableProblems"})
     public static class Status {
         // Variables.....
         public final int value;
@@ -291,6 +299,7 @@ public abstract class Request<CurrentClass extends Request, Response extends Req
 
     }
 
+    @SuppressWarnings({"RedundantSuppression", "WeakerAccess", "SpellCheckingInspection", "NullableProblems"})
     protected class Header {
 
         // Variables.....
