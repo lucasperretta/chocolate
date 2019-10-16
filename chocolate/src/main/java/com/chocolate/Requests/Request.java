@@ -249,7 +249,7 @@ public abstract class Request<Self extends Request, ResponseType extends Request
         static {
             codesHashMap = new HashMap<>();
             //region Asignaciónes
-            codesHashMap.put("0", "Timeout");
+            codesHashMap.put("0", "ERROR");
             codesHashMap.put("100", "Continue");
             codesHashMap.put("101", "Switching Protocols");
             codesHashMap.put("102", "Processing");
@@ -291,7 +291,7 @@ public abstract class Request<Self extends Request, ResponseType extends Request
             codesHashMap.put("416", "Requested Range Not Satisfiable");
             codesHashMap.put("417", "Expectation Failed");
             codesHashMap.put("418", "I'm a teapot");
-            codesHashMap.put("419", "Must re-login");
+            codesHashMap.put("419", "Authentication Timeout");
             codesHashMap.put("420", "Enhance Your Calm");
             codesHashMap.put("422", "Unprocessable Entity");
             codesHashMap.put("423", "Locked");
@@ -326,7 +326,7 @@ public abstract class Request<Self extends Request, ResponseType extends Request
         // Constructor.....
         public Status(int code, boolean succeed) {
             value = code;
-            description = codesHashMap.get(code + "");
+            description = codesHashMap.containsKey(code + "") ? codesHashMap.get(code + "") : "Unknown";
             isSuccessful = succeed;
         }
 
