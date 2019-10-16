@@ -18,6 +18,7 @@ public abstract class Request<Self extends Request, ResponseType extends Request
 
     // Static Variables.....
     private static String baseURL;
+    private static final List<Plugin> plugins = new ArrayList<>();
 
     // Variables.....
     @NotNull protected final Context context;
@@ -28,6 +29,7 @@ public abstract class Request<Self extends Request, ResponseType extends Request
     @SuppressWarnings("WeakerAccess") @Nullable protected Progress.Listener progressListener;
     @NotNull protected final List<Header> headers = new ArrayList<>();
     protected int timeout = 20*1000;
+    private boolean canceled = false;
 
     // Constructor.....
     public Request(@NotNull Context context) {
@@ -37,6 +39,7 @@ public abstract class Request<Self extends Request, ResponseType extends Request
 
     // Abstract Methods.....
     protected abstract Handler perform();
+
     public abstract String getRequestType();
 
     // Protected Methods.....
@@ -45,6 +48,8 @@ public abstract class Request<Self extends Request, ResponseType extends Request
     }
 
     protected void onFinished(ResponseType response) {
+        if (canceled) return;
+        // TODO: CALL THE onFinishingRequest() METHOD ON THE AVAILABLE PLUGINS.....................................................................
         callback.finished(response);
     }
 
@@ -105,7 +110,13 @@ public abstract class Request<Self extends Request, ResponseType extends Request
     // Methods.....
     public Handler start(@NotNull Callback<ResponseType> callback) {
         this.callback = callback;
+        if (canceled) return null;
+        // TODO: CALL THE onStartingRequest() METHOD ON THE AVAILABLE PLUGINS.....................................................................
         return perform();
+    }
+
+    public void cancel() {
+        canceled = true;
     }
 
     // Static Methods.....
@@ -122,7 +133,7 @@ public abstract class Request<Self extends Request, ResponseType extends Request
     }
 
     public static <Type> JSONObjectRequest<Type> jsonObject(Context context, Class<Type> typeClass) {
-        return new JSONObjectRequest<Type>(context, typeClass);
+        return new JSONObjectRequest<>(context, typeClass);
     }
 
     public static JSONRequest jsonObjectRaw(@NotNull Context context) {
@@ -141,10 +152,23 @@ public abstract class Request<Self extends Request, ResponseType extends Request
     }
 
     // Classes.....
-    public static abstract class Plugin<RequestType extends Request> {
+    public static abstract class Plugin {
 
+        // Abstract Methods.....
+        public abstract void onStartingRequest(Request request);
 
+        public abstract void onFinishingRequest(Request request);
 
+        // Methods.....
+        public void subscribe() {
+            if (!plugins.contains(this)) {
+                plugins.add(this);
+            }
+        }
+
+        public void unsubscribe() {
+            plugins.remove(this);
+        }
 
     }
 
