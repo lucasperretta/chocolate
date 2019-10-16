@@ -2,6 +2,7 @@ package com.chocolate.Requests;
 
 import android.content.Context;
 
+import com.chocolate.Requests.Loopj.JSONObjectRequest;
 import com.chocolate.Requests.Loopj.JSONRequest;
 import com.chocolate.Requests.Loopj.StringRequest;
 
@@ -117,6 +118,10 @@ public abstract class Request<Self extends Request, ResponseType extends Request
 
     public static StringRequest string(@NotNull Context context) {
         return new StringRequest(context);
+    }
+
+    public static <Type> JSONObjectRequest<Type> jsonObject(Context context, Class<Type> typeClass) {
+        return new JSONObjectRequest<Type>(context);
     }
 
     public static JSONRequest jsonObjectRaw(@NotNull Context context) {
