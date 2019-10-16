@@ -6,6 +6,7 @@ import com.chocolate.Requests.Loopj.BinaryRequest;
 import com.chocolate.Requests.Loopj.JSONObjectRequest;
 import com.chocolate.Requests.Loopj.JSONRequest;
 import com.chocolate.Requests.Loopj.StringRequest;
+import com.chocolate.Requests.Plugins.LoggerPlugin;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -19,8 +20,7 @@ import java.util.List;
 public abstract class Request<Self extends Request, ResponseType extends Request.Response, Body, Handler> {
 
     // Static Variables.....
-    private static String baseURL;
-    private static final List<Plugin> plugins = new ArrayList<>();
+    private static Configuration configuration = new Configuration();
 
     // Variables.....
     @NotNull protected final Context context;
@@ -40,7 +40,7 @@ public abstract class Request<Self extends Request, ResponseType extends Request
     public Request(@NotNull Context context, @Nullable String description) {
         this.context = context;
         this.description = description;
-        this.URL = baseURL;
+        this.URL = configuration.baseURL;
     }
 
     public Request(@NotNull Context context) {
@@ -59,8 +59,8 @@ public abstract class Request<Self extends Request, ResponseType extends Request
 
     protected void onFinished(ResponseType response) {
         this.requestEndTime = Calendar.getInstance().getTimeInMillis();
-        for (int i = 0; i < plugins.size() && !canceled; i++) {
-            plugins.get(i).onFinishingRequest(this, response);
+        for (int i = 0; i < configuration.plugins.size() && !canceled; i++) {
+            configuration.plugins.get(i).onFinishingRequest(this, response);
         }
         if (canceled) return;
         callback.finished(response);
@@ -78,7 +78,7 @@ public abstract class Request<Self extends Request, ResponseType extends Request
 
     @SuppressWarnings("WeakerAccess")
     public Self to(@NotNull String url, boolean ignoreBaseURL) {
-        this.URL = (ignoreBaseURL ? "" : baseURL) + url;
+        this.URL = (ignoreBaseURL ? "" : configuration.baseURL) + url;
         return self();
     }
 
@@ -137,8 +137,8 @@ public abstract class Request<Self extends Request, ResponseType extends Request
     public Handler start(@NotNull Callback<ResponseType> callback) {
         this.callback = callback;
         this.requestStartTime = Calendar.getInstance().getTimeInMillis();
-        for (int i = 0; i < plugins.size() && !canceled; i++) {
-            plugins.get(i).onStartingRequest(this);
+        for (int i = 0; i < configuration.plugins.size() && !canceled; i++) {
+            configuration.plugins.get(i).onStartingRequest(this);
         }
         if (canceled) return null;
         return perform();
@@ -149,12 +149,12 @@ public abstract class Request<Self extends Request, ResponseType extends Request
     }
 
     // Static Methods.....
-    public static void setBaseURL(String URL) {
-        baseURL = URL;
+    public void setup(Configuration.SetupCallback callback) {
+        callback.setup(new Configuration());
     }
 
-    public static String getBaseURL() {
-        return baseURL;
+    @NotNull public static String getBaseURL() {
+        return configuration.baseURL;
     }
 
     // Static Helpers.....
@@ -193,18 +193,8 @@ public abstract class Request<Self extends Request, ResponseType extends Request
 
         public abstract void onFinishingRequest(Request request, Response response);
 
+        // Overridable Methods.....
         public void onRequestCanceled(Request request) {}
-
-        // Methods.....
-        public void subscribe() {
-            if (!plugins.contains(this)) {
-                plugins.add(this);
-            }
-        }
-
-        public void unsubscribe() {
-            plugins.remove(this);
-        }
 
     }
 
@@ -228,13 +218,9 @@ public abstract class Request<Self extends Request, ResponseType extends Request
         }
 
         // Methods.....
-        public boolean failed() {
-            return !status.isSuccessful;
-        }
+        public boolean failed() { return !status.isSuccessful; }
 
-        public boolean success() {
-            return status.isSuccessful;
-        }
+        public boolean success() { return status.isSuccessful; }
 
     }
 
@@ -256,6 +242,51 @@ public abstract class Request<Self extends Request, ResponseType extends Request
         // Interfaces.....
         public interface Listener {
             void progress(Progress progress);
+        }
+
+    }
+
+    @SuppressWarnings({"RedundantSuppression", "WeakerAccess", "SpellCheckingInspection", "NullableProblems"})
+    public static class Configuration {
+
+        // Variables.....
+        @NotNull private String baseURL = "";
+        @NotNull private LoggerPlugin loggerPlugin = new LoggerPlugin();
+        @NotNull private final List<Plugin> plugins = new ArrayList<>();
+
+        // Constructor.....
+        private Configuration() {
+            enableLogging(true);
+        }
+
+        // Methods.....
+        public Configuration setBaseURL(@NotNull String URL) {
+            this.baseURL = URL;
+            return this;
+        }
+
+        public Configuration addPlugin(@NotNull Plugin plugin) {
+            if (!plugins.contains(plugin)) plugins.add(plugin);
+            return this;
+        }
+
+        public Configuration removePlugin(@NotNull Plugin plugin) {
+            plugins.remove(plugin);
+            return this;
+        }
+
+        public Configuration enableLogging(boolean enable) {
+            if (enable) {
+                if (!plugins.contains(loggerPlugin)) plugins.add(0, loggerPlugin);
+            } else {
+                plugins.remove(loggerPlugin);
+            }
+            return this;
+        }
+
+        // Interfaces.....
+        public interface SetupCallback {
+            void setup(Configuration configuration);
         }
 
     }
