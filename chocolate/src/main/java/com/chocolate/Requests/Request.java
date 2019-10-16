@@ -149,7 +149,7 @@ public abstract class Request<Self extends Request, ResponseType extends Request
     }
 
     // Static Methods.....
-    public void setup(Configuration.SetupCallback callback) {
+    public static void setup(Configuration.SetupCallback callback) {
         callback.setup(new Configuration());
     }
 
