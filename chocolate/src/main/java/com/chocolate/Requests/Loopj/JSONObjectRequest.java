@@ -9,8 +9,6 @@ import com.loopj.android.http.TextHttpResponseHandler;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public class JSONObjectRequest<Type> extends LoopjBaseRequest<JSONObjectRequest<Type>, JSONObjectRequest.Response<Type>> {
 
