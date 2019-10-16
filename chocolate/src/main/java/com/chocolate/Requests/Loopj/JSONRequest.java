@@ -54,6 +54,10 @@ public class JSONRequest extends LoopjBaseRequest<JSONRequest, JSONRequest.Respo
         });
     }
 
+    @Override public String getRequestType() {
+        return "JSON Raw";
+    }
+
     // Classes.....
     @SuppressWarnings({"RedundantSuppression", "WeakerAccess", "SpellCheckingInspection", "NullableProblems"})
     public static class Response extends LoopjBaseRequest.Response<JSONObject> {

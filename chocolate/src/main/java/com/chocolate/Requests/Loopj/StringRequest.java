@@ -33,6 +33,10 @@ public class StringRequest extends LoopjBaseRequest<StringRequest, StringRequest
         });
     }
 
+    @Override public String getRequestType() {
+        return String.class.getSimpleName();
+    }
+
     // Classes.....
     @SuppressWarnings({"RedundantSuppression", "WeakerAccess", "SpellCheckingInspection", "NullableProblems"})
     public static class Response extends LoopjBaseRequest.Response<String> {

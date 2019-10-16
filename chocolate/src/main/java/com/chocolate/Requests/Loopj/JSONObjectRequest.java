@@ -10,12 +10,22 @@ import org.jetbrains.annotations.Nullable;
 
 public class JSONObjectRequest<Type> extends LoopjBaseRequest<JSONObjectRequest<Type>, JSONObjectRequest.Response<Type>> {
 
+    // Variables.....
+    private Class<Type> typeClass;
+
     // Constructor.....
-    public JSONObjectRequest(@NotNull Context context) { super(context); }
+    public JSONObjectRequest(@NotNull Context context, Class<Type> typeClass) {
+        super(context);
+        this.typeClass = typeClass;
+    }
 
     // Methods.....
     @Override protected RequestHandle perform() {
         return null;
+    }
+
+    @Override public String getRequestType() {
+        return "JSON Object (" + typeClass.getSimpleName() + ")";
     }
 
     // Classes.....

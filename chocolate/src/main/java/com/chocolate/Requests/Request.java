@@ -37,6 +37,7 @@ public abstract class Request<Self extends Request, ResponseType extends Request
 
     // Abstract Methods.....
     protected abstract Handler perform();
+    public abstract String getRequestType();
 
     // Protected Methods.....
     protected void onProgressUpdate(long bytesWritten, long totalSize, int progress) {
@@ -121,7 +122,7 @@ public abstract class Request<Self extends Request, ResponseType extends Request
     }
 
     public static <Type> JSONObjectRequest<Type> jsonObject(Context context, Class<Type> typeClass) {
-        return new JSONObjectRequest<Type>(context);
+        return new JSONObjectRequest<Type>(context, typeClass);
     }
 
     public static JSONRequest jsonObjectRaw(@NotNull Context context) {
