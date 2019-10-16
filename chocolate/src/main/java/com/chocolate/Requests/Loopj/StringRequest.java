@@ -11,6 +11,8 @@ import org.jetbrains.annotations.Nullable;
 public class StringRequest extends LoopjBaseRequest<StringRequest, StringRequest.Response> {
 
     // Constructors.....
+    public StringRequest(@NotNull Context context, @Nullable String description) { super(context, description); }
+
     public StringRequest(@NotNull Context context) { super(context); }
 
     // Methods.....
@@ -43,7 +45,7 @@ public class StringRequest extends LoopjBaseRequest<StringRequest, StringRequest
 
         // Constructors.....
         public Response(@Nullable String value, @NotNull Status status, @Nullable cz.msebera.android.httpclient.Header[] headers, @Nullable Throwable throwable) {
-            super(value, status, headers, throwable);
+            super(value, status, headers, throwable, value);
         }
 
     }

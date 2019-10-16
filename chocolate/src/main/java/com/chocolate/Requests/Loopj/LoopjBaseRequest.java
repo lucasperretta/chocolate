@@ -20,7 +20,9 @@ public abstract class LoopjBaseRequest<Self extends LoopjBaseRequest, ResponseTy
     @SuppressWarnings("WeakerAccess") protected boolean enableRedirects = true;
     @SuppressWarnings("WeakerAccess") @Nullable SetupClientCallback setupClientCallback;
 
-    // Constructor.....
+    // Constructors.....
+    @SuppressWarnings("WeakerAccess") public LoopjBaseRequest(@NotNull Context context, @Nullable String description) { super(context, description); }
+
     @SuppressWarnings("WeakerAccess") public LoopjBaseRequest(@NotNull Context context) {
         super(context);
         this
@@ -109,8 +111,8 @@ public abstract class LoopjBaseRequest<Self extends LoopjBaseRequest, ResponseTy
     public static abstract class Response<Type> extends Request.Response<Type, cz.msebera.android.httpclient.Header, Throwable> {
 
         // Constructors.....
-        public Response(@Nullable Type value, @NotNull Status status, @Nullable cz.msebera.android.httpclient.Header[] headers, @Nullable Throwable throwable) {
-            super(value, status, headers, throwable);
+        public Response(@Nullable Type value, @NotNull Status status, @Nullable cz.msebera.android.httpclient.Header[] headers, @Nullable Throwable throwable, @Nullable String stringResponse) {
+            super(value, status, headers, throwable, stringResponse);
         }
 
     }

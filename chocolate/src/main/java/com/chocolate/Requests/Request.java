@@ -22,6 +22,7 @@ public abstract class Request<Self extends Request, ResponseType extends Request
 
     // Variables.....
     @NotNull protected final Context context;
+    @Nullable protected final String description;
     @SuppressWarnings({"WeakerAccess", "NullableProblems"}) @NotNull protected Callback<ResponseType> callback;
     @NotNull protected Method method = Method.GET;
     @NotNull protected String URL;
@@ -32,9 +33,14 @@ public abstract class Request<Self extends Request, ResponseType extends Request
     private boolean canceled = false;
 
     // Constructor.....
-    public Request(@NotNull Context context) {
+    public Request(@NotNull Context context, @Nullable String description) {
         this.context = context;
+        this.description = description;
         this.URL = baseURL;
+    }
+
+    public Request(@NotNull Context context) {
+        this(context, null);
     }
 
     // Abstract Methods.....
@@ -95,6 +101,8 @@ public abstract class Request<Self extends Request, ResponseType extends Request
     }
 
     // Getters.....
+    @Nullable public String getDescription() { return description; }
+
     @NotNull public String getURL() { return URL; }
 
     @NotNull public Method getMethod() { return method; }
@@ -128,8 +136,8 @@ public abstract class Request<Self extends Request, ResponseType extends Request
         return baseURL;
     }
 
-    public static StringRequest string(@NotNull Context context) {
-        return new StringRequest(context);
+    public static StringRequest string(@NotNull Context context, @Nullable String description) {
+        return new StringRequest(context, description);
     }
 
     public static <Type> JSONObjectRequest<Type> jsonObject(Context context, Class<Type> typeClass) {
@@ -157,7 +165,9 @@ public abstract class Request<Self extends Request, ResponseType extends Request
         // Abstract Methods.....
         public abstract void onStartingRequest(Request request);
 
-        public abstract void onFinishingRequest(Request request);
+        public abstract void onFinishingRequest(Request request, Response response);
+
+        public void onRequestCanceled(Request request) {}
 
         // Methods.....
         public void subscribe() {
@@ -180,17 +190,23 @@ public abstract class Request<Self extends Request, ResponseType extends Request
         @Nullable public final Error error;
         @Nullable public final Header[] headers;
         @NotNull public final Status status;
+        @Nullable public final String stringResponse;
 
         // Constructor.....
-        public Response(@Nullable Type value, @NotNull Status status, @Nullable Header[] headers, @Nullable Error error) {
+        public Response(@Nullable Type value, @NotNull Status status, @Nullable Header[] headers, @Nullable Error error, @Nullable String stringResponse) {
             this.value = value;
             this.status = status;
             this.headers = headers;
             this.error = error;
+            this.stringResponse = stringResponse;
         }
 
         // Methods.....
         public boolean failed() {
+            return !status.isSuccessful;
+        }
+
+        public boolean success() {
             return status.isSuccessful;
         }
 
@@ -224,7 +240,7 @@ public abstract class Request<Self extends Request, ResponseType extends Request
         public final int value;
         public final String description;
         public final boolean isSuccessful;
-        private static final HashMap<String, String> codesHashMap;
+        public static final HashMap<String, String> codesHashMap;
         static {
             codesHashMap = new HashMap<>();
             //region Asignaciónes

@@ -13,7 +13,9 @@ import org.json.JSONObject;
 
 public class JSONRequest extends LoopjBaseRequest<JSONRequest, JSONRequest.Response> {
 
-    // Constructor.....
+    // Constructors.....
+    public JSONRequest(@NotNull Context context, @Nullable String description) { super(context, description); }
+
     public JSONRequest(Context context) {
         super(context);
     }
@@ -62,13 +64,9 @@ public class JSONRequest extends LoopjBaseRequest<JSONRequest, JSONRequest.Respo
     @SuppressWarnings({"RedundantSuppression", "WeakerAccess", "SpellCheckingInspection", "NullableProblems"})
     public static class Response extends LoopjBaseRequest.Response<JSONObject> {
 
-        // Variables.....
-        public String raw;
-
         // Constructor.....
         public Response(@NotNull String raw, @Nullable JSONObject object, @NotNull Request.Status status, @Nullable cz.msebera.android.httpclient.Header[] headers, @Nullable Throwable throwable) {
-            super(object, status, headers, throwable);
-            this.raw = raw;
+            super(object, status, headers, throwable, raw);
         }
 
     }
