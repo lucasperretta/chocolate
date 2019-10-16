@@ -18,11 +18,13 @@ public class JSONObjectRequest<Type> extends LoopjBaseRequest<JSONObjectRequest<
     private Class<Type> typeClass;
 
     // Constructors.....
-    public JSONObjectRequest(@NotNull Context context, @Nullable String description) { super(context, description); }
+    public JSONObjectRequest(@NotNull Context context, Class<Type> typeClass, @Nullable String description) {
+        super(context, description);
+        this.typeClass = typeClass;
+    }
 
     public JSONObjectRequest(@NotNull Context context, Class<Type> typeClass) {
-        super(context);
-        this.typeClass = typeClass;
+        this(context, typeClass, null);
     }
 
     // Methods.....

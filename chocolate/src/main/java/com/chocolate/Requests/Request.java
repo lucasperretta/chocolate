@@ -22,7 +22,7 @@ public abstract class Request<Self extends Request, ResponseType extends Request
 
     // Variables.....
     @NotNull protected final Context context;
-    @Nullable protected final String description;
+    @SuppressWarnings("WeakerAccess") @Nullable protected final String description;
     @SuppressWarnings({"WeakerAccess", "NullableProblems"}) @NotNull protected Callback<ResponseType> callback;
     @NotNull protected Method method = Method.GET;
     @NotNull protected String URL;
@@ -54,8 +54,10 @@ public abstract class Request<Self extends Request, ResponseType extends Request
     }
 
     protected void onFinished(ResponseType response) {
+        for (int i = 0; i < plugins.size() && !canceled; i++) {
+            plugins.get(i).onFinishingRequest(this, response);
+        }
         if (canceled) return;
-        // TODO: CALL THE onFinishingRequest() METHOD ON THE AVAILABLE PLUGINS.....................................................................
         callback.finished(response);
     }
 
@@ -118,8 +120,10 @@ public abstract class Request<Self extends Request, ResponseType extends Request
     // Methods.....
     public Handler start(@NotNull Callback<ResponseType> callback) {
         this.callback = callback;
+        for (int i = 0; i < plugins.size() && !canceled; i++) {
+            plugins.get(i).onStartingRequest(this);
+        }
         if (canceled) return null;
-        // TODO: CALL THE onStartingRequest() METHOD ON THE AVAILABLE PLUGINS.....................................................................
         return perform();
     }
 
@@ -136,16 +140,17 @@ public abstract class Request<Self extends Request, ResponseType extends Request
         return baseURL;
     }
 
+    // Static Helpers.....
     public static StringRequest string(@NotNull Context context, @Nullable String description) {
         return new StringRequest(context, description);
     }
 
-    public static <Type> JSONObjectRequest<Type> jsonObject(Context context, Class<Type> typeClass) {
-        return new JSONObjectRequest<>(context, typeClass);
+    public static <Type> JSONObjectRequest<Type> jsonObject(@NotNull Context context, @Nullable String description, @NotNull Class<Type> typeClass) {
+        return new JSONObjectRequest<>(context, typeClass, description);
     }
 
-    public static JSONRequest jsonObjectRaw(@NotNull Context context) {
-        return new JSONRequest(context);
+    public static JSONRequest jsonObjectRaw(@NotNull Context context, @Nullable String description) {
+        return new JSONRequest(context, description);
     }
 
     // Enums.....

@@ -6,6 +6,7 @@ import com.chocolate.Requests.Request;
 
 public class LoggerPlugin extends Request.Plugin {
 
+    // Methods.....
     @Override public void onStartingRequest(Request request) {
         print(request.getMethod().toString() + " Request to URL: " + request.getURL(), false);
     }
