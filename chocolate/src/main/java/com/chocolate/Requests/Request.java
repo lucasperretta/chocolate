@@ -9,7 +9,9 @@ import com.chocolate.Requests.Loopj.StringRequest;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -31,6 +33,8 @@ public abstract class Request<Self extends Request, ResponseType extends Request
     @NotNull protected final List<Header> headers = new ArrayList<>();
     protected int timeout = 20*1000;
     private boolean canceled = false;
+    protected Long requestStartTime;
+    protected Long requestEndTime;
 
     // Constructor.....
     public Request(@NotNull Context context, @Nullable String description) {
@@ -54,6 +58,7 @@ public abstract class Request<Self extends Request, ResponseType extends Request
     }
 
     protected void onFinished(ResponseType response) {
+        this.requestEndTime = Calendar.getInstance().getTimeInMillis();
         for (int i = 0; i < plugins.size() && !canceled; i++) {
             plugins.get(i).onFinishingRequest(this, response);
         }
@@ -117,9 +122,21 @@ public abstract class Request<Self extends Request, ResponseType extends Request
 
     @Nullable public Progress.Listener getProgressListener() { return progressListener; }
 
+    @Nullable public Long getRequestStartTime() { return requestStartTime; }
+
+    @Nullable public Long getRequestEndTime() { return requestEndTime; }
+
+    @Nullable public Long getElapsedTime() {
+        if (requestStartTime != null && requestEndTime != null) {
+            return requestEndTime - requestStartTime;
+        }
+        return null;
+    }
+
     // Methods.....
     public Handler start(@NotNull Callback<ResponseType> callback) {
         this.callback = callback;
+        this.requestStartTime = Calendar.getInstance().getTimeInMillis();
         for (int i = 0; i < plugins.size() && !canceled; i++) {
             plugins.get(i).onStartingRequest(this);
         }

@@ -17,7 +17,7 @@ public class LoggerPlugin extends Request.Plugin {
                         "URL: " + request.getURL() + "\n" +
                         "Request Method: " + request.getMethod().toString() + "\n" +
                         "Request Status: " + (response.success() ? "SUCCESS" : "FAILURE") + "\n" +
-                        "Request Timeout: " + ((float)request.getTimeout())/1000 + " Seconds\n" +
+                        "Elapsed Time: " + request.getElapsedTime() + "ms (Timeout: " + request.getTimeout() + "ms)\n" +
                         "Status Code: " + response.status.value + " " + response.status.description + "\n" +
                         "Request Type: " + request.getRequestType() +
                         (response.stringResponse != null ? ("\nResponse: " + response.stringResponse) : ""),
