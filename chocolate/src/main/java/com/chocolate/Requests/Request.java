@@ -2,6 +2,7 @@ package com.chocolate.Requests;
 
 import android.content.Context;
 
+import com.chocolate.Requests.Loopj.BinaryRequest;
 import com.chocolate.Requests.Loopj.JSONObjectRequest;
 import com.chocolate.Requests.Loopj.JSONRequest;
 import com.chocolate.Requests.Loopj.StringRequest;
@@ -9,7 +10,6 @@ import com.chocolate.Requests.Loopj.StringRequest;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -158,6 +158,10 @@ public abstract class Request<Self extends Request, ResponseType extends Request
     }
 
     // Static Helpers.....
+    public static BinaryRequest binary(@NotNull Context context, @Nullable String description) {
+        return new BinaryRequest(context, description);
+    }
+
     public static StringRequest string(@NotNull Context context, @Nullable String description) {
         return new StringRequest(context, description);
     }
