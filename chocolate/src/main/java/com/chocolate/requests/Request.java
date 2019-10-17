@@ -25,7 +25,7 @@ public abstract class Request<Self extends Request, ResponseType extends Request
 
     // Variables.....
     @NotNull protected final Context context;
-    @SuppressWarnings("WeakerAccess") @Nullable protected final String description;
+    @Nullable protected final String description;
     @SuppressWarnings({"WeakerAccess", "NullableProblems"}) @NotNull protected Callback<ResponseType> callback;
     @NotNull protected Method method = Method.GET;
     @NotNull protected String URL;
@@ -34,8 +34,8 @@ public abstract class Request<Self extends Request, ResponseType extends Request
     @NotNull protected final List<Header> headers = new ArrayList<>();
     protected int timeout = 20*1000;
     private boolean canceled = false;
-    protected Long requestStartTime;
-    protected Long requestEndTime;
+    @SuppressWarnings("WeakerAccess") protected Long requestStartTime;
+    @SuppressWarnings("WeakerAccess") protected Long requestEndTime;
 
     // Constructor.....
     public Request(@NotNull Context context, @Nullable String description) {
@@ -61,7 +61,7 @@ public abstract class Request<Self extends Request, ResponseType extends Request
     protected void onFinished(ResponseType response) {
         this.requestEndTime = Calendar.getInstance().getTimeInMillis();
         for (int i = 0; i < configuration.plugins.size() && !canceled; i++) {
-            configuration.plugins.get(i).onFinishingRequest(this, response);
+            configuration.plugins.get(i).onFinishingRequest(context, this, response);
         }
         if (canceled) return;
         callback.finished(response);
@@ -139,13 +139,16 @@ public abstract class Request<Self extends Request, ResponseType extends Request
         this.callback = callback;
         this.requestStartTime = Calendar.getInstance().getTimeInMillis();
         for (int i = 0; i < configuration.plugins.size() && !canceled; i++) {
-            configuration.plugins.get(i).onStartingRequest(this);
+            configuration.plugins.get(i).onStartingRequest(context, this);
         }
         if (canceled) return null;
         return perform();
     }
 
     public void cancel() {
+        for (int i = 0; i < configuration.plugins.size(); i++) {
+            configuration.plugins.get(i).onRequestCanceled(context, this);
+        }
         canceled = true;
     }
 
@@ -194,12 +197,12 @@ public abstract class Request<Self extends Request, ResponseType extends Request
     public static abstract class Plugin {
 
         // Abstract Methods.....
-        public abstract void onStartingRequest(Request request);
+        public abstract void onStartingRequest(@NotNull Context context, @NotNull Request request);
 
-        public abstract void onFinishingRequest(Request request, Response response);
+        public abstract void onFinishingRequest(@NotNull Context context, @NotNull Request request, @NotNull Response response);
 
         // Overridable Methods.....
-        public void onRequestCanceled(Request request) {}
+        public void onRequestCanceled(@NotNull Context context, @NotNull Request request) {}
 
     }
 

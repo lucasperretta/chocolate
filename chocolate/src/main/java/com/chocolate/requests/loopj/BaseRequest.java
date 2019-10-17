@@ -12,6 +12,7 @@ import com.loopj.android.http.RequestParams;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+@SuppressWarnings("unused")
 public abstract class BaseRequest<Self extends BaseRequest, ResponseType extends BaseRequest.Response> extends Request<Self, ResponseType, RequestParams, RequestHandle> {
 
     // Variables.....

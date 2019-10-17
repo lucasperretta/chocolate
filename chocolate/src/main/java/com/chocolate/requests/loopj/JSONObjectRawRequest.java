@@ -8,6 +8,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.json.JSONObject;
 
+@SuppressWarnings("unused")
 public final class JSONObjectRawRequest extends StringParsableRequest<JSONObjectRawRequest, JSONObjectRawRequest.Response, JSONObject> {
 
     // Constructors.....

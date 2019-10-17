@@ -5,6 +5,7 @@ import android.content.Context;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+@SuppressWarnings("unused")
 public final class StringRequest extends StringParsableRequest<StringRequest, StringRequest.Response, String> {
 
     // Constructors.....

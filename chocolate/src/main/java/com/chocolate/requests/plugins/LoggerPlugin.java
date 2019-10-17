@@ -1,17 +1,21 @@
 package com.chocolate.requests.plugins;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.chocolate.requests.Request;
 
+import org.jetbrains.annotations.NotNull;
+
+@SuppressWarnings("unused")
 public class LoggerPlugin extends Request.Plugin {
 
     // Methods.....
-    @Override public void onStartingRequest(Request request) {
+    @Override public void onStartingRequest(@NotNull Context context, @NotNull Request request) {
         print(request.getMethod().toString() + " Request to URL: " + request.getURL(), false);
     }
 
-    @Override public void onFinishingRequest(Request request, Request.Response response) {
+    @Override public void onFinishingRequest(@NotNull Context context, @NotNull Request request, @NotNull Request.Response response) {
         print("Request\n" +
                         (request.getDescription() != null ? ("Detail: " + request.getDescription() + "\n") : "") +
                         "URL: " + request.getURL() + "\n" +

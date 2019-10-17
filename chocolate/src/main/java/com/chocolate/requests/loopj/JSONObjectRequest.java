@@ -7,6 +7,7 @@ import com.chocolate.requests.Request;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+@SuppressWarnings("unused")
 public final class JSONObjectRequest<Type> extends StringParsableRequest<JSONObjectRequest<Type>, JSONObjectRequest.Response<Type>, Type> {
 
     // Variables.....

@@ -10,6 +10,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 
+@SuppressWarnings("unused")
 public final class JSONArrayRequest<Type> extends StringParsableRequest<JSONArrayRequest<Type>, JSONArrayRequest.Response<Type>, ArrayList<Type>> {
 
     // Variables.....

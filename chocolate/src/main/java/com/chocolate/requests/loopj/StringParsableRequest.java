@@ -9,11 +9,12 @@ import com.loopj.android.http.TextHttpResponseHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+@SuppressWarnings("unused")
 public abstract class StringParsableRequest<Self extends StringParsableRequest, ResponseType extends BaseRequest.Response<ParseType>, ParseType> extends BaseRequest<Self, ResponseType> {
 
     // Variables.....
-    protected boolean printStackTraceOnParseFailure = true;
-    @Nullable protected SetupGsonCallback setupGsonCallback = null;
+    @SuppressWarnings("WeakerAccess") protected boolean printStackTraceOnParseFailure = true;
+    @SuppressWarnings("WeakerAccess") @Nullable protected SetupGsonCallback setupGsonCallback = null;
 
     // Constructors.....
     public StringParsableRequest(@NotNull Context context, @Nullable String description) {

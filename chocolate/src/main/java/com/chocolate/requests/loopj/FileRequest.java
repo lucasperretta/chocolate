@@ -10,6 +10,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 
+@SuppressWarnings("unused")
 public final class FileRequest extends BaseRequest<FileRequest, FileRequest.Response> {
 
     // Constructors.....
