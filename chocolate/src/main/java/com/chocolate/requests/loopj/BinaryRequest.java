@@ -38,7 +38,7 @@ public final class BinaryRequest extends BaseRequest<BinaryRequest, BinaryReques
 
     // Classes.....
     @SuppressWarnings({"RedundantSuppression", "WeakerAccess", "SpellCheckingInspection", "NullableProblems"})
-    public static class Response extends BaseRequest.Response<byte[]> {
+    public static final class Response extends BaseRequest.Response<byte[]> {
 
         // Constructors.....
         public Response(@Nullable byte[] value, @NotNull Status status, @Nullable cz.msebera.android.httpclient.Header[] headers, @Nullable Throwable throwable, @Nullable String stringResponse) {

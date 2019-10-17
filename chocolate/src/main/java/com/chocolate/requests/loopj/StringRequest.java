@@ -27,7 +27,7 @@ public final class StringRequest extends StringParsableRequest<StringRequest, St
 
     // Classes.....
     @SuppressWarnings({"RedundantSuppression", "WeakerAccess", "SpellCheckingInspection", "NullableProblems"})
-    public static class Response extends BaseRequest.Response<String> {
+    public static final class Response extends BaseRequest.Response<String> {
 
         // Constructors.....
         public Response(@Nullable String value, @NotNull Status status, @Nullable cz.msebera.android.httpclient.Header[] headers, @Nullable Throwable throwable) {

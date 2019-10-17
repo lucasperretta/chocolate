@@ -32,7 +32,7 @@ public final class JSONObjectRawRequest extends StringParsableRequest<JSONObject
 
     // Classes.....
     @SuppressWarnings({"RedundantSuppression", "WeakerAccess", "SpellCheckingInspection", "NullableProblems"})
-    public static class Response extends BaseRequest.Response<JSONObject> {
+    public static final class Response extends BaseRequest.Response<JSONObject> {
 
         // Constructor.....
         public Response(@NotNull String raw, @Nullable JSONObject object, @NotNull Request.Status status, @Nullable cz.msebera.android.httpclient.Header[] headers, @Nullable Throwable throwable) {

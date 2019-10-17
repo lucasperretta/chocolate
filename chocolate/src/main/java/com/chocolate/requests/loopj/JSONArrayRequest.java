@@ -40,7 +40,7 @@ public final class JSONArrayRequest<Type> extends StringParsableRequest<JSONArra
 
     // Classes.....
     @SuppressWarnings({"RedundantSuppression", "WeakerAccess", "SpellCheckingInspection", "NullableProblems"})
-    public static class Response<Type> extends BaseRequest.Response<ArrayList<Type>> {
+    public static final class Response<Type> extends BaseRequest.Response<ArrayList<Type>> {
 
         // Constructor.....
         public Response(@NotNull String raw, @Nullable ArrayList<Type> array, @NotNull Request.Status status, @Nullable cz.msebera.android.httpclient.Header[] headers, @Nullable Throwable throwable) {
