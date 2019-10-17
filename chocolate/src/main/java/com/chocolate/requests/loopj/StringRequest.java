@@ -5,7 +5,7 @@ import android.content.Context;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class StringRequest extends StringParsableRequest<StringRequest, StringRequest.Response, String> {
+public final class StringRequest extends StringParsableRequest<StringRequest, StringRequest.Response, String> {
 
     // Constructors.....
     public StringRequest(@NotNull Context context, @Nullable String description) { super(context, description); }

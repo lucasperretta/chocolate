@@ -8,7 +8,7 @@ import com.loopj.android.http.RequestHandle;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class BinaryRequest extends BaseRequest<BinaryRequest, BinaryRequest.Response> {
+public final class BinaryRequest extends BaseRequest<BinaryRequest, BinaryRequest.Response> {
 
     // Constructors.....
     public BinaryRequest(@NotNull Context context, @Nullable String description) {

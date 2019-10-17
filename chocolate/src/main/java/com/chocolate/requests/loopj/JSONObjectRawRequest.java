@@ -3,15 +3,12 @@ package com.chocolate.requests.loopj;
 import android.content.Context;
 
 import com.chocolate.requests.Request;
-import com.loopj.android.http.RequestHandle;
-import com.loopj.android.http.TextHttpResponseHandler;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.json.JSONException;
 import org.json.JSONObject;
 
-public class JSONObjectRawRequest extends BaseRequest<JSONObjectRawRequest, JSONObjectRawRequest.Response> {
+public final class JSONObjectRawRequest extends StringParsableRequest<JSONObjectRawRequest, JSONObjectRawRequest.Response, JSONObject> {
 
     // Constructors.....
     public JSONObjectRawRequest(@NotNull Context context, @Nullable String description) { super(context, description); }
@@ -21,39 +18,12 @@ public class JSONObjectRawRequest extends BaseRequest<JSONObjectRawRequest, JSON
     }
 
     // Methods......
-    @Override protected RequestHandle perform() {
-        return performRequest(new TextHttpResponseHandler() {
-            @Override public void onProgress(long bytesWritten, long totalSize) {
-                int progress = (int) ((bytesWritten * 100) / totalSize);
-                if (progress <= 100 && progress >= 0) {
-                    onProgressUpdate(bytesWritten, totalSize, progress);
-                }
-            }
+    @Override protected JSONObject parse(String responseString) throws Throwable {
+        return new JSONObject(responseString);
+    }
 
-            @Override public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, String responseString, Throwable throwable) {
-                JSONObject jsonObject = null;
-                JSONException exception = null;
-                try {
-                    jsonObject = new JSONObject(responseString);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    exception = e;
-                }
-                onFinished(new Response(responseString, jsonObject, new Request.Status(statusCode, false), headers, throwable == null ? exception : throwable));
-            }
-
-            @Override public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, String responseString) {
-                JSONObject jsonObject = null;
-                JSONException exception = null;
-                try {
-                    jsonObject = new JSONObject(responseString);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    exception = e;
-                }
-                onFinished(new Response(responseString, jsonObject, new Request.Status(statusCode, exception == null), headers, exception));
-            }
-        });
+    @Override protected Response response(boolean success, int statusCode, cz.msebera.android.httpclient.Header[] headers, String responseString, Throwable throwable, JSONObject parsed) {
+        return new Response(responseString, parsed, new Status(statusCode, success), headers, throwable);
     }
 
     @Override public String getRequestType() {

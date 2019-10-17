@@ -1,4 +1,4 @@
 package com.chocolate.requests.loopj;
 
-public class FileRequest {
+public final class FileRequest {
 }
