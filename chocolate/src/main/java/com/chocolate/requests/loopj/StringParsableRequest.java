@@ -11,7 +11,7 @@ import org.jetbrains.annotations.Nullable;
 public abstract class StringParsableRequest<Self extends StringParsableRequest, ResponseType extends BaseRequest.Response<ParseType>, ParseType> extends BaseRequest<Self, ResponseType> {
 
     // Variables.....
-    private boolean printStackTraceOnParseFailure = true;
+    protected boolean printStackTraceOnParseFailure = true;
 
     // Constructors.....
     public StringParsableRequest(@NotNull Context context, @Nullable String description) {
@@ -28,7 +28,7 @@ public abstract class StringParsableRequest<Self extends StringParsableRequest, 
     protected abstract ResponseType response(boolean success, int statusCode, cz.msebera.android.httpclient.Header[] headers, String responseString, Throwable throwable, ParseType parsed);
 
     // Methods.....
-    @Override protected RequestHandle perform() {
+    @Override protected final RequestHandle perform() {
         return performRequest(new TextHttpResponseHandler() {
             @Override public void onProgress(long bytesWritten, long totalSize) {
                 int progress = (int) ((bytesWritten * 100) / totalSize);

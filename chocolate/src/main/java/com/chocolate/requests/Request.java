@@ -3,6 +3,7 @@ package com.chocolate.requests;
 import android.content.Context;
 
 import com.chocolate.requests.loopj.BinaryRequest;
+import com.chocolate.requests.loopj.JSONArrayRequest;
 import com.chocolate.requests.loopj.JSONObjectRequest;
 import com.chocolate.requests.loopj.JSONObjectRawRequest;
 import com.chocolate.requests.loopj.StringRequest;
@@ -168,6 +169,10 @@ public abstract class Request<Self extends Request, ResponseType extends Request
 
     public static <Type> JSONObjectRequest<Type> jsonObject(@NotNull Context context, @Nullable String description, @NotNull Class<Type> typeClass) {
         return new JSONObjectRequest<>(context, typeClass, description);
+    }
+
+    public static <Type>JSONArrayRequest<Type> jsonArray(@NotNull Context context, @Nullable String description, @NotNull Class<Type> typeClass) {
+        return new JSONArrayRequest<>(context, typeClass, description);
     }
 
     public static JSONObjectRawRequest jsonObjectRaw(@NotNull Context context, @Nullable String description) {
