@@ -12,7 +12,7 @@ import com.loopj.android.http.RequestParams;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public abstract class LoopjBaseRequest<Self extends LoopjBaseRequest, ResponseType extends LoopjBaseRequest.Response> extends Request<Self, ResponseType, RequestParams, RequestHandle> {
+public abstract class BaseRequest<Self extends BaseRequest, ResponseType extends BaseRequest.Response> extends Request<Self, ResponseType, RequestParams, RequestHandle> {
 
     // Variables.....
     @SuppressWarnings("WeakerAccess") protected boolean fixNoHttpException = false;
@@ -21,9 +21,9 @@ public abstract class LoopjBaseRequest<Self extends LoopjBaseRequest, ResponseTy
     @SuppressWarnings("WeakerAccess") @Nullable SetupClientCallback setupClientCallback;
 
     // Constructors.....
-    @SuppressWarnings("WeakerAccess") public LoopjBaseRequest(@NotNull Context context, @Nullable String description) { super(context, description); }
+    @SuppressWarnings("WeakerAccess") public BaseRequest(@NotNull Context context, @Nullable String description) { super(context, description); }
 
-    @SuppressWarnings("WeakerAccess") public LoopjBaseRequest(@NotNull Context context) {
+    @SuppressWarnings("WeakerAccess") public BaseRequest(@NotNull Context context) {
         super(context);
         this
                 .addHeader("X-REQUESTED-WITH", "android")

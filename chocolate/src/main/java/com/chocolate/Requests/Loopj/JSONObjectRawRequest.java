@@ -11,7 +11,7 @@ import org.jetbrains.annotations.Nullable;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class JSONObjectRawRequest extends LoopjBaseRequest<JSONObjectRawRequest, JSONObjectRawRequest.Response> {
+public class JSONObjectRawRequest extends BaseRequest<JSONObjectRawRequest, JSONObjectRawRequest.Response> {
 
     // Constructors.....
     public JSONObjectRawRequest(@NotNull Context context, @Nullable String description) { super(context, description); }
@@ -62,7 +62,7 @@ public class JSONObjectRawRequest extends LoopjBaseRequest<JSONObjectRawRequest,
 
     // Classes.....
     @SuppressWarnings({"RedundantSuppression", "WeakerAccess", "SpellCheckingInspection", "NullableProblems"})
-    public static class Response extends LoopjBaseRequest.Response<JSONObject> {
+    public static class Response extends BaseRequest.Response<JSONObject> {
 
         // Constructor.....
         public Response(@NotNull String raw, @Nullable JSONObject object, @NotNull Request.Status status, @Nullable cz.msebera.android.httpclient.Header[] headers, @Nullable Throwable throwable) {

@@ -13,7 +13,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 
-public class JSONArrayRequest<Type> extends LoopjBaseRequest<JSONArrayRequest<Type>, JSONArrayRequest.Response<Type>> {
+public class JSONArrayRequest<Type> extends BaseRequest<JSONArrayRequest<Type>, JSONArrayRequest.Response<Type>> {
 
     // Variables.....
     private Class<Type> typeClass;
@@ -70,7 +70,7 @@ public class JSONArrayRequest<Type> extends LoopjBaseRequest<JSONArrayRequest<Ty
 
     // Classes.....
     @SuppressWarnings({"RedundantSuppression", "WeakerAccess", "SpellCheckingInspection", "NullableProblems"})
-    public static class Response<Type> extends LoopjBaseRequest.Response<ArrayList<Type>> {
+    public static class Response<Type> extends BaseRequest.Response<ArrayList<Type>> {
 
         // Constructor.....
         public Response(@NotNull String raw, @Nullable ArrayList<Type> array, @NotNull Request.Status status, @Nullable cz.msebera.android.httpclient.Header[] headers, @Nullable Throwable throwable) {

@@ -10,7 +10,7 @@ import com.loopj.android.http.TextHttpResponseHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class JSONObjectRequest<Type> extends LoopjBaseRequest<JSONObjectRequest<Type>, JSONObjectRequest.Response<Type>> {
+public class JSONObjectRequest<Type> extends BaseRequest<JSONObjectRequest<Type>, JSONObjectRequest.Response<Type>> {
 
     // Variables.....
     private Class<Type> typeClass;
@@ -67,7 +67,7 @@ public class JSONObjectRequest<Type> extends LoopjBaseRequest<JSONObjectRequest<
 
     // Classes.....
     @SuppressWarnings({"RedundantSuppression", "WeakerAccess", "SpellCheckingInspection", "NullableProblems"})
-    public static class Response<Type> extends LoopjBaseRequest.Response<Type> {
+    public static class Response<Type> extends BaseRequest.Response<Type> {
 
         // Constructor.....
         public Response(@NotNull String raw, @Nullable Type object, @NotNull Request.Status status, @Nullable cz.msebera.android.httpclient.Header[] headers, @Nullable Throwable throwable) {

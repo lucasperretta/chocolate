@@ -8,7 +8,7 @@ import com.loopj.android.http.TextHttpResponseHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public abstract class StringParsableRequest<Self extends StringParsableRequest, ResponseType extends LoopjBaseRequest.Response<ParseType>, ParseType> extends LoopjBaseRequest<Self, ResponseType> {
+public abstract class StringParsableRequest<Self extends StringParsableRequest, ResponseType extends BaseRequest.Response<ParseType>, ParseType> extends BaseRequest<Self, ResponseType> {
 
     // Variables.....
     private boolean printStackTraceOnParseFailure = true;

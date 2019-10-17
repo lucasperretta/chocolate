@@ -8,7 +8,7 @@ import com.loopj.android.http.TextHttpResponseHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class StringRequest extends LoopjBaseRequest<StringRequest, StringRequest.Response> {
+public class StringRequest extends BaseRequest<StringRequest, StringRequest.Response> {
 
     // Constructors.....
     public StringRequest(@NotNull Context context, @Nullable String description) { super(context, description); }
@@ -41,7 +41,7 @@ public class StringRequest extends LoopjBaseRequest<StringRequest, StringRequest
 
     // Classes.....
     @SuppressWarnings({"RedundantSuppression", "WeakerAccess", "SpellCheckingInspection", "NullableProblems"})
-    public static class Response extends LoopjBaseRequest.Response<String> {
+    public static class Response extends BaseRequest.Response<String> {
 
         // Constructors.....
         public Response(@Nullable String value, @NotNull Status status, @Nullable cz.msebera.android.httpclient.Header[] headers, @Nullable Throwable throwable) {

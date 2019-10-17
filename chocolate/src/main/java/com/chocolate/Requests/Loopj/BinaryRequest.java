@@ -8,7 +8,7 @@ import com.loopj.android.http.RequestHandle;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class BinaryRequest extends LoopjBaseRequest<BinaryRequest, BinaryRequest.Response> {
+public class BinaryRequest extends BaseRequest<BinaryRequest, BinaryRequest.Response> {
 
     // Constructors.....
     public BinaryRequest(@NotNull Context context, @Nullable String description) {
@@ -38,7 +38,7 @@ public class BinaryRequest extends LoopjBaseRequest<BinaryRequest, BinaryRequest
 
     // Classes.....
     @SuppressWarnings({"RedundantSuppression", "WeakerAccess", "SpellCheckingInspection", "NullableProblems"})
-    public static class Response extends LoopjBaseRequest.Response<byte[]> {
+    public static class Response extends BaseRequest.Response<byte[]> {
 
         // Constructors.....
         public Response(@Nullable byte[] value, @NotNull Status status, @Nullable cz.msebera.android.httpclient.Header[] headers, @Nullable Throwable throwable, @Nullable String stringResponse) {
