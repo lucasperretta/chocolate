@@ -3,6 +3,8 @@ package com.chocolate.requests;
 import android.content.Context;
 
 import com.chocolate.requests.loopj.BinaryRequest;
+import com.chocolate.requests.loopj.FileRequest;
+import com.chocolate.requests.loopj.JSONArrayRawRequest;
 import com.chocolate.requests.loopj.JSONArrayRequest;
 import com.chocolate.requests.loopj.JSONObjectRawRequest;
 import com.chocolate.requests.loopj.JSONObjectRequest;
@@ -166,6 +168,10 @@ public abstract class Request<Self extends Request, ResponseType extends Request
         return new BinaryRequest(context, description);
     }
 
+    public static FileRequest file(@NotNull Context context, @Nullable String description) {
+        return new FileRequest(context, description);
+    }
+
     public static StringRequest string(@NotNull Context context, @Nullable String description) {
         return new StringRequest(context, description);
     }
@@ -180,6 +186,10 @@ public abstract class Request<Self extends Request, ResponseType extends Request
 
     public static JSONObjectRawRequest jsonObjectRaw(@NotNull Context context, @Nullable String description) {
         return new JSONObjectRawRequest(context, description);
+    }
+
+    public static JSONArrayRawRequest jsonArrayRaw(@NotNull Context context, @Nullable String description) {
+        return new JSONArrayRawRequest(context, description);
     }
 
     // Enums.....
