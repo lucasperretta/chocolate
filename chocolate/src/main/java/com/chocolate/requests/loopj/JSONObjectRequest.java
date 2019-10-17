@@ -1,30 +1,27 @@
-package com.chocolate.Requests.Loopj;
+package com.chocolate.requests.loopj;
 
 import android.content.Context;
 
-import com.chocolate.Requests.Request;
+import com.chocolate.requests.Request;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.RequestHandle;
 import com.loopj.android.http.TextHttpResponseHandler;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-
-public class JSONArrayRequest<Type> extends BaseRequest<JSONArrayRequest<Type>, JSONArrayRequest.Response<Type>> {
+public class JSONObjectRequest<Type> extends BaseRequest<JSONObjectRequest<Type>, JSONObjectRequest.Response<Type>> {
 
     // Variables.....
     private Class<Type> typeClass;
 
-    // Constructor.....
-    public JSONArrayRequest(@NotNull Context context, Class<Type> typeClass, @Nullable String description) {
+    // Constructors.....
+    public JSONObjectRequest(@NotNull Context context, Class<Type> typeClass, @Nullable String description) {
         super(context, description);
         this.typeClass = typeClass;
     }
 
-    public JSONArrayRequest(@NotNull Context context, Class<Type> typeClass) {
+    public JSONObjectRequest(@NotNull Context context, Class<Type> typeClass) {
         this(context, typeClass, null);
     }
 
@@ -39,10 +36,10 @@ public class JSONArrayRequest<Type> extends BaseRequest<JSONArrayRequest<Type>, 
             }
 
             @Override public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, String responseString, Throwable throwable) {
-                ArrayList<Type> responseObject = null;
+                Type responseObject = null;
                 Throwable parserThrowable = null;
                 try {
-                    responseObject = new Gson().fromJson(responseString, new TypeToken<ArrayList<Type>>() {}.getType());
+                    responseObject = new Gson().fromJson(responseString, typeClass);
                 } catch (Throwable e) {
                     e.printStackTrace();
                     parserThrowable = e;
@@ -51,10 +48,10 @@ public class JSONArrayRequest<Type> extends BaseRequest<JSONArrayRequest<Type>, 
             }
 
             @Override public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, String responseString) {
-                ArrayList<Type> responseObject = null;
+                Type responseObject = null;
                 Throwable parserThrowable = null;
                 try {
-                    responseObject = new Gson().fromJson(responseString, new TypeToken<ArrayList<Type>>() {}.getType());
+                    responseObject = new Gson().fromJson(responseString, typeClass);
                 } catch (Throwable e) {
                     e.printStackTrace();
                     parserThrowable = e;
@@ -65,16 +62,16 @@ public class JSONArrayRequest<Type> extends BaseRequest<JSONArrayRequest<Type>, 
     }
 
     @Override public String getRequestType() {
-        return "JSON Array (" + typeClass.getSimpleName() + ")";
+        return "JSON Object (" + typeClass.getSimpleName() + ")";
     }
 
     // Classes.....
     @SuppressWarnings({"RedundantSuppression", "WeakerAccess", "SpellCheckingInspection", "NullableProblems"})
-    public static class Response<Type> extends BaseRequest.Response<ArrayList<Type>> {
+    public static class Response<Type> extends BaseRequest.Response<Type> {
 
         // Constructor.....
-        public Response(@NotNull String raw, @Nullable ArrayList<Type> array, @NotNull Request.Status status, @Nullable cz.msebera.android.httpclient.Header[] headers, @Nullable Throwable throwable) {
-            super(array, status, headers, throwable, raw);
+        public Response(@NotNull String raw, @Nullable Type object, @NotNull Request.Status status, @Nullable cz.msebera.android.httpclient.Header[] headers, @Nullable Throwable throwable) {
+            super(object, status, headers, throwable, raw);
         }
 
     }

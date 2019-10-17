@@ -1,12 +1,12 @@
-package com.chocolate.Requests;
+package com.chocolate.requests;
 
 import android.content.Context;
 
-import com.chocolate.Requests.Loopj.BinaryRequest;
-import com.chocolate.Requests.Loopj.JSONObjectRequest;
-import com.chocolate.Requests.Loopj.JSONObjectRawRequest;
-import com.chocolate.Requests.Loopj.StringRequest;
-import com.chocolate.Requests.Plugins.LoggerPlugin;
+import com.chocolate.requests.loopj.BinaryRequest;
+import com.chocolate.requests.loopj.JSONObjectRequest;
+import com.chocolate.requests.loopj.JSONObjectRawRequest;
+import com.chocolate.requests.loopj.StringRequest;
+import com.chocolate.requests.plugins.LoggerPlugin;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

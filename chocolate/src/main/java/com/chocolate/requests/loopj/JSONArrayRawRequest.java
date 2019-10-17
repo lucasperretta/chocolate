@@ -1,4 +1,4 @@
-package com.chocolate.Requests.Loopj;
+package com.chocolate.requests.loopj;
 
 public class JSONArrayRawRequest {
 }

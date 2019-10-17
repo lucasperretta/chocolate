@@ -1,8 +1,8 @@
-package com.chocolate.Requests.Plugins;
+package com.chocolate.requests.plugins;
 
 import android.util.Log;
 
-import com.chocolate.Requests.Request;
+import com.chocolate.requests.Request;
 
 public class LoggerPlugin extends Request.Plugin {
 

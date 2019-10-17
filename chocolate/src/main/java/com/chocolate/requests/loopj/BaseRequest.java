@@ -1,8 +1,8 @@
-package com.chocolate.Requests.Loopj;
+package com.chocolate.requests.loopj;
 
 import android.content.Context;
 
-import com.chocolate.Requests.Request;
+import com.chocolate.requests.Request;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.PersistentCookieStore;
