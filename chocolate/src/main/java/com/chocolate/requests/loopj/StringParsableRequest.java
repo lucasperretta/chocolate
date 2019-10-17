@@ -2,6 +2,7 @@ package com.chocolate.requests.loopj;
 
 import android.content.Context;
 
+import com.google.gson.Gson;
 import com.loopj.android.http.RequestHandle;
 import com.loopj.android.http.TextHttpResponseHandler;
 
@@ -12,6 +13,7 @@ public abstract class StringParsableRequest<Self extends StringParsableRequest, 
 
     // Variables.....
     protected boolean printStackTraceOnParseFailure = true;
+    @Nullable protected SetupGsonCallback setupGsonCallback = null;
 
     // Constructors.....
     public StringParsableRequest(@NotNull Context context, @Nullable String description) {
@@ -66,6 +68,23 @@ public abstract class StringParsableRequest<Self extends StringParsableRequest, 
     public Self printStackTraceOnParseFailure(boolean print) {
         this.printStackTraceOnParseFailure = print;
         return self();
+    }
+
+    public Self setupGson(SetupGsonCallback callback) {
+        this.setupGsonCallback = callback;
+        return self();
+    }
+
+    protected Gson getGsonParser() {
+        Gson gson = null;
+        if (setupGsonCallback != null) gson = setupGsonCallback.setup();
+        if (gson == null) gson = new Gson();
+        return gson;
+    }
+
+    // Interfaces.....
+    public interface SetupGsonCallback {
+        @Nullable Gson setup();
     }
 
 }
