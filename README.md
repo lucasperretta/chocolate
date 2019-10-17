@@ -1,4 +1,5 @@
-<p align="center"><img src="https://i.ibb.co/zRcvmKb/Chocolate.png" width="400"></p>
+<div align="center"><img src="https://i.ibb.co/zRcvmKb/Chocolate.png" width="400"></div>
+<br>
 
 <div align="center">
 <a href="https://github.com/lucasperretta/chocolate"><img src="https://img.shields.io/static/v1?label=stable&message=BETA&color=informational" alt="Version"></a>
