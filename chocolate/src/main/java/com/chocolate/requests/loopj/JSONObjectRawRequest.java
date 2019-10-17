@@ -2,6 +2,8 @@ package com.chocolate.requests.loopj;
 
 import android.content.Context;
 
+import androidx.annotation.NonNull;
+
 import com.chocolate.requests.Request;
 
 import org.jetbrains.annotations.NotNull;
@@ -14,7 +16,7 @@ public final class JSONObjectRawRequest extends StringParsableRequest<JSONObject
     // Constructors.....
     public JSONObjectRawRequest(@NotNull Context context, @Nullable String description) { super(context, description); }
 
-    public JSONObjectRawRequest(Context context) {
+    public JSONObjectRawRequest(@NotNull Context context) {
         super(context);
     }
 
@@ -27,7 +29,7 @@ public final class JSONObjectRawRequest extends StringParsableRequest<JSONObject
         return new Response(responseString, parsed, new Status(statusCode, success), headers, throwable);
     }
 
-    @Override public String getRequestType() {
+    @NonNull @Override public String getRequestType() {
         return "JSON Raw";
     }
 

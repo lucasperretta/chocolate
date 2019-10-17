@@ -2,6 +2,8 @@ package com.chocolate.requests.loopj;
 
 import android.content.Context;
 
+import androidx.annotation.NonNull;
+
 import com.chocolate.requests.Request;
 import com.google.gson.reflect.TypeToken;
 
@@ -35,7 +37,7 @@ public final class JSONArrayRequest<Type> extends StringParsableRequest<JSONArra
         return new Response<>(responseString, parsed, new Status(statusCode, success), headers, throwable);
     }
 
-    @Override public String getRequestType() {
+    @NonNull @Override public String getRequestType() {
         return "JSON Array (" + typeClass.getSimpleName() + ")";
     }
 

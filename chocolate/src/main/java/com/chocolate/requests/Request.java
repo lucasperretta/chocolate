@@ -51,9 +51,9 @@ public abstract class Request<Self extends Request, ResponseType extends Request
     }
 
     // Abstract Methods.....
-    protected abstract Handler perform();
+    @Nullable protected abstract Handler perform();
 
-    public abstract String getRequestType();
+    @NotNull public abstract String getRequestType();
 
     // Protected Methods.....
     protected void onProgressUpdate(long bytesWritten, long totalSize, int progress) {

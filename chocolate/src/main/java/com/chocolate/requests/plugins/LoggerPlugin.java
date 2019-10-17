@@ -28,7 +28,7 @@ public class LoggerPlugin extends Request.Plugin {
                 response.failed());
     }
 
-    private static void print(String veryLongString, boolean isError) {
+    private static void print(@NotNull String veryLongString, boolean isError) {
         for(int i = 0; i <= veryLongString.length() / 1000; i++) {
             int start = i * 1000;
             int end = (i+1) * 1000;

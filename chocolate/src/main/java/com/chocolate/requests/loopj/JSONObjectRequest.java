@@ -2,6 +2,8 @@ package com.chocolate.requests.loopj;
 
 import android.content.Context;
 
+import androidx.annotation.NonNull;
+
 import com.chocolate.requests.Request;
 
 import org.jetbrains.annotations.NotNull;
@@ -32,7 +34,7 @@ public final class JSONObjectRequest<Type> extends StringParsableRequest<JSONObj
         return new Response<>(responseString, parsed, new Status(statusCode, success), headers, throwable);
     }
 
-    @Override public String getRequestType() {
+    @NonNull @Override public String getRequestType() {
         return "JSON Object (" + typeClass.getSimpleName() + ")";
     }
 

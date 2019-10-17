@@ -2,6 +2,8 @@ package com.chocolate.requests.loopj;
 
 import android.content.Context;
 
+import androidx.annotation.NonNull;
+
 import com.loopj.android.http.FileAsyncHttpResponseHandler;
 import com.loopj.android.http.RequestHandle;
 
@@ -35,7 +37,7 @@ public final class FileRequest extends BaseRequest<FileRequest, FileRequest.Resp
         });
     }
 
-    @Override public String getRequestType() {
+    @NonNull @Override public String getRequestType() {
         return "File";
     }
 

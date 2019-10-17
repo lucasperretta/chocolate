@@ -2,6 +2,8 @@ package com.chocolate.requests.loopj;
 
 import android.content.Context;
 
+import androidx.annotation.NonNull;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -22,7 +24,7 @@ public final class StringRequest extends StringParsableRequest<StringRequest, St
         return new Response(parsed, new Status(statusCode, success), headers, throwable);
     }
 
-    @Override public String getRequestType() {
+    @NonNull @Override public String getRequestType() {
         return String.class.getSimpleName();
     }
 

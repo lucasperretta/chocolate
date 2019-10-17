@@ -2,6 +2,8 @@ package com.chocolate.requests.loopj;
 
 import android.content.Context;
 
+import androidx.annotation.NonNull;
+
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestHandle;
 
@@ -21,7 +23,7 @@ public final class BinaryRequest extends BaseRequest<BinaryRequest, BinaryReques
     }
 
     // Methods.....
-    @Override protected RequestHandle perform() {
+    @Override @Nullable protected RequestHandle perform() {
         return performRequest(new AsyncHttpResponseHandler() {
             @Override public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, byte[] responseBody) {
                 onFinished(new Response(responseBody, new Status(statusCode, true), headers, null, null));
@@ -33,7 +35,7 @@ public final class BinaryRequest extends BaseRequest<BinaryRequest, BinaryReques
         });
     }
 
-    @Override public String getRequestType() {
+    @NonNull @Override public String getRequestType() {
         return "Byte Array";
     }
 

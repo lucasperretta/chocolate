@@ -32,7 +32,7 @@ public abstract class BaseRequest<Self extends BaseRequest, ResponseType extends
     }
 
     // Protected Methods.....
-    @SuppressWarnings("WeakerAccess") protected AsyncHttpClient getHttpClient() {
+    @SuppressWarnings("WeakerAccess") @NotNull protected AsyncHttpClient getHttpClient() {
         AsyncHttpClient client = new AsyncHttpClient(fixNoHttpException, 80, 443);
         for (Header header : headers) {
             client.addHeader(header.header, header.value);
@@ -49,7 +49,7 @@ public abstract class BaseRequest<Self extends BaseRequest, ResponseType extends
         return client;
     }
 
-    @SuppressWarnings("WeakerAccess") protected RequestHandle performRequest(AsyncHttpResponseHandler handler) {
+    @SuppressWarnings("WeakerAccess") @Nullable protected RequestHandle performRequest(@NotNull AsyncHttpResponseHandler handler) {
         RequestHandle requestHandle = null;
         if (body == null) body = new RequestParams();
 
