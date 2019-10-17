@@ -11,12 +11,12 @@ import org.jetbrains.annotations.Nullable;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class JSONRequest extends LoopjBaseRequest<JSONRequest, JSONRequest.Response> {
+public class JSONObjectRawRequest extends LoopjBaseRequest<JSONObjectRawRequest, JSONObjectRawRequest.Response> {
 
     // Constructors.....
-    public JSONRequest(@NotNull Context context, @Nullable String description) { super(context, description); }
+    public JSONObjectRawRequest(@NotNull Context context, @Nullable String description) { super(context, description); }
 
-    public JSONRequest(Context context) {
+    public JSONObjectRawRequest(Context context) {
         super(context);
     }
 

@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.chocolate.Requests.Loopj.BinaryRequest;
 import com.chocolate.Requests.Loopj.JSONObjectRequest;
-import com.chocolate.Requests.Loopj.JSONRequest;
+import com.chocolate.Requests.Loopj.JSONObjectRawRequest;
 import com.chocolate.Requests.Loopj.StringRequest;
 import com.chocolate.Requests.Plugins.LoggerPlugin;
 
@@ -170,8 +170,8 @@ public abstract class Request<Self extends Request, ResponseType extends Request
         return new JSONObjectRequest<>(context, typeClass, description);
     }
 
-    public static JSONRequest jsonObjectRaw(@NotNull Context context, @Nullable String description) {
-        return new JSONRequest(context, description);
+    public static JSONObjectRawRequest jsonObjectRaw(@NotNull Context context, @Nullable String description) {
+        return new JSONObjectRawRequest(context, description);
     }
 
     // Enums.....
