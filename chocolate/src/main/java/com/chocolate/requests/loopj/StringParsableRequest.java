@@ -17,11 +17,11 @@ public abstract class StringParsableRequest<Self extends StringParsableRequest, 
     @SuppressWarnings("WeakerAccess") @Nullable protected SetupGsonCallback setupGsonCallback = null;
 
     // Constructors.....
-    public StringParsableRequest(@NotNull Context context, @Nullable String description) {
+    @SuppressWarnings("WeakerAccess") public StringParsableRequest(@NotNull Context context, @Nullable String description) {
         super(context, description);
     }
 
-    public StringParsableRequest(@NotNull Context context) {
+    @SuppressWarnings("WeakerAccess") public StringParsableRequest(@NotNull Context context) {
         super(context);
     }
 
@@ -76,7 +76,7 @@ public abstract class StringParsableRequest<Self extends StringParsableRequest, 
         return self();
     }
 
-    protected Gson getGsonParser() {
+    @SuppressWarnings("WeakerAccess") protected Gson getGsonParser() {
         Gson gson = null;
         if (setupGsonCallback != null) gson = setupGsonCallback.setup();
         if (gson == null) gson = new Gson();

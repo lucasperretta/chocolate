@@ -295,7 +295,7 @@ public abstract class Request<Self extends Request, ResponseType extends Request
             return this;
         }
 
-        public Configuration enableLogging(boolean enable) {
+        @SuppressWarnings("UnusedReturnValue") public Configuration enableLogging(boolean enable) {
             if (enable) {
                 if (!plugins.contains(loggerPlugin)) plugins.add(0, loggerPlugin);
             } else {
