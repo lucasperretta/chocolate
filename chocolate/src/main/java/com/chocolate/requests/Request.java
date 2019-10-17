@@ -156,7 +156,8 @@ public abstract class Request<Self extends Request, ResponseType extends Request
 
     // Static Methods.....
     public static void setup(Configuration.SetupCallback callback) {
-        callback.setup(new Configuration());
+        configuration = new Configuration();
+        callback.setup(configuration);
     }
 
     @NotNull public static String getBaseURL() {
@@ -204,6 +205,7 @@ public abstract class Request<Self extends Request, ResponseType extends Request
     }
 
     // Classes.....
+    @SuppressWarnings({"RedundantSuppression", "WeakerAccess", "SpellCheckingInspection", "NullableProblems"})
     public static abstract class Plugin {
 
         // Abstract Methods.....
@@ -212,7 +214,7 @@ public abstract class Request<Self extends Request, ResponseType extends Request
         public abstract void onFinishingRequest(@NotNull Context context, @NotNull Request request, @NotNull Response response);
 
         // Overridable Methods.....
-        public void onRequestCanceled(@NotNull Context context, @NotNull Request request) {}
+        @SuppressWarnings("EmptyMethod") public void onRequestCanceled(@NotNull Context context, @NotNull Request request) {}
 
     }
 
@@ -269,7 +271,7 @@ public abstract class Request<Self extends Request, ResponseType extends Request
 
         // Variables.....
         @NotNull private String baseURL = "";
-        @NotNull private LoggerPlugin loggerPlugin = new LoggerPlugin();
+        @NotNull private final LoggerPlugin loggerPlugin = new LoggerPlugin();
         @NotNull private final List<Plugin> plugins = new ArrayList<>();
 
         // Constructor.....

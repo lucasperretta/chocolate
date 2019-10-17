@@ -23,7 +23,7 @@ android {
 }
 ```
 
-### Instalation
+### Installation
 In your project level build.gradle file, add this line inside your dependencies declaration:
 ``` groovy
 implementation 'com.google.code.gson:gson:2.8.6'

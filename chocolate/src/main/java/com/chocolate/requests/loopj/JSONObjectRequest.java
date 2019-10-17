@@ -11,7 +11,7 @@ import org.jetbrains.annotations.Nullable;
 public final class JSONObjectRequest<Type> extends StringParsableRequest<JSONObjectRequest<Type>, JSONObjectRequest.Response<Type>, Type> {
 
     // Variables.....
-    private Class<Type> typeClass;
+    private final Class<Type> typeClass;
 
     // Constructors.....
     public JSONObjectRequest(@NotNull Context context, Class<Type> typeClass, @Nullable String description) {
@@ -24,7 +24,7 @@ public final class JSONObjectRequest<Type> extends StringParsableRequest<JSONObj
     }
 
     // Methods.....
-    @Override protected Type parse(String responseString) throws Throwable {
+    @SuppressWarnings("RedundantThrows") @Override protected Type parse(String responseString) throws Throwable {
         return getGsonParser().fromJson(responseString, typeClass);
     }
 

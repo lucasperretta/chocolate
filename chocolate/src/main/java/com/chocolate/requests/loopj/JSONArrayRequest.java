@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public final class JSONArrayRequest<Type> extends StringParsableRequest<JSONArrayRequest<Type>, JSONArrayRequest.Response<Type>, ArrayList<Type>> {
 
     // Variables.....
-    private Class<Type> typeClass;
+    private final Class<Type> typeClass;
 
     // Constructor.....
     public JSONArrayRequest(@NotNull Context context, Class<Type> typeClass, @Nullable String description) {
@@ -27,7 +27,7 @@ public final class JSONArrayRequest<Type> extends StringParsableRequest<JSONArra
     }
 
     // Methods.....
-    @Override protected ArrayList<Type> parse(String responseString) throws Throwable {
+    @SuppressWarnings("RedundantThrows") @Override protected ArrayList<Type> parse(String responseString) throws Throwable {
         return getGsonParser().fromJson(responseString, new TypeToken<ArrayList<Type>>() {}.getType());
     }
 
