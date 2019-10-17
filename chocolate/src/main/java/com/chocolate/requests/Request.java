@@ -4,8 +4,8 @@ import android.content.Context;
 
 import com.chocolate.requests.loopj.BinaryRequest;
 import com.chocolate.requests.loopj.JSONArrayRequest;
-import com.chocolate.requests.loopj.JSONObjectRequest;
 import com.chocolate.requests.loopj.JSONObjectRawRequest;
+import com.chocolate.requests.loopj.JSONObjectRequest;
 import com.chocolate.requests.loopj.StringRequest;
 import com.chocolate.requests.plugins.LoggerPlugin;
 
