@@ -28,9 +28,9 @@ android {
 In your root level build.gradle file add the jitpack.io repository at the end of your repositories:
 ``` groovy
 allprojects {
-	repositories {
-		maven { url 'https://jitpack.io' }
-	}
+    repositories {
+        maven { url 'https://jitpack.io' }
+    }
 }
 ```
 
