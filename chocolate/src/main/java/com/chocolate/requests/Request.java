@@ -177,12 +177,20 @@ public abstract class Request<Self extends Request, ResponseType extends Request
         return new StringRequest(context, description);
     }
 
-    public static <Type> JSONObjectRequest<Type> jsonObject(@NotNull Context context, @Nullable String description, @NotNull Class<Type> typeClass) {
-        return new JSONObjectRequest<>(context, typeClass, description);
+    public static <Type, Error> JSONObjectRequest<Type, Error> jsonObject(@NotNull Context context, @Nullable String description, @NotNull Class<Type> typeClass, @NotNull Class<Error> errorClass) {
+        return new JSONObjectRequest<>(context, typeClass, errorClass, description);
     }
 
-    public static <Type>JSONArrayRequest<Type> jsonArray(@NotNull Context context, @Nullable String description, @NotNull Class<Type> typeClass) {
-        return new JSONArrayRequest<>(context, typeClass, description);
+    public static <Type, Error> JSONArrayRequest<Type, Error> jsonArray(@NotNull Context context, @Nullable String description, @NotNull Class<Type> typeClass, @NotNull Class<Error> errorClass) {
+        return new JSONArrayRequest<>(context, typeClass, errorClass, description);
+    }
+
+    public static <Type> JSONObjectRequest<Type, Void> jsonObject(@NotNull Context context, @Nullable String description, @NotNull Class<Type> typeClass) {
+        return new JSONObjectRequest<>(context, typeClass, Void.class, description);
+    }
+
+    public static <Type> JSONArrayRequest<Type, Void> jsonArray(@NotNull Context context, @Nullable String description, @NotNull Class<Type> typeClass) {
+        return new JSONArrayRequest<>(context, typeClass, Void.class, description);
     }
 
     public static JSONObjectRawRequest jsonObjectRaw(@NotNull Context context, @Nullable String description) {

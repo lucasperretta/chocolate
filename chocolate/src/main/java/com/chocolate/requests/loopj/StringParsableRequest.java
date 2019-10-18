@@ -2,7 +2,6 @@ package com.chocolate.requests.loopj;
 
 import android.content.Context;
 
-import com.google.gson.Gson;
 import com.loopj.android.http.RequestHandle;
 import com.loopj.android.http.TextHttpResponseHandler;
 
@@ -10,11 +9,10 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 @SuppressWarnings("unused")
-public abstract class StringParsableRequest<Self extends StringParsableRequest, ResponseType extends BaseRequest.Response<ParseType>, ParseType> extends BaseRequest<Self, ResponseType> {
+public abstract class StringParsableRequest<Self extends StringParsableRequest, ResponseType extends StringParsableRequest.Response<ParseType>, ParseType> extends BaseRequest<Self, ResponseType> {
 
     // Variables.....
     @SuppressWarnings("WeakerAccess") protected boolean printStackTraceOnParseFailure = true;
-    @SuppressWarnings("WeakerAccess") @Nullable protected SetupGsonCallback setupGsonCallback = null;
 
     // Constructors.....
     @SuppressWarnings("WeakerAccess") public StringParsableRequest(@NotNull Context context, @Nullable String description) {
@@ -28,10 +26,10 @@ public abstract class StringParsableRequest<Self extends StringParsableRequest, 
     // Abstract Methods.....
     protected abstract ParseType parse(String responseString) throws Throwable;
 
-    protected abstract ResponseType response(boolean success, int statusCode, cz.msebera.android.httpclient.Header[] headers, String responseString, Throwable throwable, ParseType parsed);
+    protected abstract ResponseType response(boolean success, int statusCode, cz.msebera.android.httpclient.Header[] headers, String responseString, Throwable throwable, ParseType parsed, Throwable parseError);
 
     // Methods.....
-    @Override protected final RequestHandle perform() {
+    @Override protected RequestHandle perform() {
         return performRequest(new TextHttpResponseHandler() {
             @Override public void onProgress(long bytesWritten, long totalSize) {
                 int progress = (int) ((bytesWritten * 100) / totalSize);
@@ -49,7 +47,7 @@ public abstract class StringParsableRequest<Self extends StringParsableRequest, 
                     if (printStackTraceOnParseFailure) e.printStackTrace();
                     parseThrowable = e;
                 }
-                onFinished(response(false, statusCode, headers, responseString, throwable == null ? parseThrowable : throwable, parsed));
+                onFinished(response(false, statusCode, headers, responseString, throwable, parsed, parseThrowable));
             }
 
             @Override public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, String responseString) {
@@ -61,7 +59,7 @@ public abstract class StringParsableRequest<Self extends StringParsableRequest, 
                     if (printStackTraceOnParseFailure) e.printStackTrace();
                     parseThrowable = e;
                 }
-                onFinished(response(parseThrowable == null, statusCode, headers, responseString, parseThrowable, parsed));
+                onFinished(response(parseThrowable == null, statusCode, headers, responseString, null, parsed, parseThrowable));
             }
         });
     }
@@ -71,21 +69,18 @@ public abstract class StringParsableRequest<Self extends StringParsableRequest, 
         return self();
     }
 
-    public Self setupGson(SetupGsonCallback callback) {
-        this.setupGsonCallback = callback;
-        return self();
-    }
+    // Classes.....
+    public static abstract class Response<Type> extends BaseRequest.Response<Type> {
 
-    @SuppressWarnings("WeakerAccess") protected Gson getGsonParser() {
-        Gson gson = null;
-        if (setupGsonCallback != null) gson = setupGsonCallback.setup();
-        if (gson == null) gson = new Gson();
-        return gson;
-    }
+        // Variables.....
+        @SuppressWarnings("WeakerAccess") @Nullable public final Throwable parseError;
 
-    // Interfaces.....
-    public interface SetupGsonCallback {
-        @Nullable Gson setup();
+        // Constructor.....
+        public Response(@Nullable Type value, @NotNull Status status, @Nullable cz.msebera.android.httpclient.Header[] headers, @Nullable Throwable throwable, @Nullable String stringResponse, @Nullable Throwable parseError) {
+            super(value, status, headers, throwable, stringResponse);
+            this.parseError = parseError;
+        }
+
     }
 
 }

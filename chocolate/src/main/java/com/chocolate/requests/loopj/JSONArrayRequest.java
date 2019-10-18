@@ -5,6 +5,7 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 
 import com.chocolate.requests.Request;
+import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import org.jetbrains.annotations.NotNull;
@@ -13,28 +14,29 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 
 @SuppressWarnings("unused")
-public final class JSONArrayRequest<Type> extends StringParsableRequest<JSONArrayRequest<Type>, JSONArrayRequest.Response<Type>, ArrayList<Type>> {
-
-    // Variables.....
-    private final Class<Type> typeClass;
+public final class JSONArrayRequest<Type, Error> extends GsonParsableRequest<JSONArrayRequest<Type, Error>, JSONArrayRequest.Response<Type, Error>, ArrayList<Type>, Error> {
 
     // Constructor.....
-    public JSONArrayRequest(@NotNull Context context, Class<Type> typeClass, @Nullable String description) {
-        super(context, description);
-        this.typeClass = typeClass;
+    public JSONArrayRequest(@NotNull Context context, @NotNull Class<Type> typeClass, @NotNull Class<Error> errorClass, @Nullable String description) {
+        //noinspection unchecked
+        super(context, (Class<ArrayList<Type>>) new TypeToken<ArrayList<Type>>(){}.getType(), errorClass, description);
     }
 
-    public JSONArrayRequest(@NotNull Context context, Class<Type> typeClass) {
-        this(context, typeClass, null);
+    public JSONArrayRequest(@NotNull Context context, @NotNull Class<Type> typeClass, @NotNull Class<Error> errorClass) {
+        this(context, typeClass, errorClass, null);
     }
 
     // Methods.....
-    @SuppressWarnings("RedundantThrows") @Override protected ArrayList<Type> parse(String responseString) throws Throwable {
-        return getGsonParser().fromJson(responseString, new TypeToken<ArrayList<Type>>() {}.getType());
+    @Override protected ArrayList<Type> parse(String responseString, @NotNull Gson gson) throws Throwable {
+        return gson.fromJson(responseString, typeClass);
     }
 
-    @Override protected Response<Type> response(boolean success, int statusCode, cz.msebera.android.httpclient.Header[] headers, String responseString, Throwable throwable, ArrayList<Type> parsed) {
-        return new Response<>(responseString, parsed, new Status(statusCode, success), headers, throwable);
+    @Override protected Error parseError(String responseString, @NotNull Gson gson) throws Throwable {
+        return gson.fromJson(responseString, errorClass);
+    }
+
+    @Override protected Response<Type, Error> response(boolean success, int statusCode, cz.msebera.android.httpclient.Header[] headers, String responseString, Throwable throwable, ArrayList<Type> parsed, Error parsedError, Throwable parseError) {
+        return new Response<>(responseString, parsed, parsedError, new Status(statusCode, success), headers, throwable, parseError);
     }
 
     @NonNull @Override public String getRequestType() {
@@ -43,11 +45,11 @@ public final class JSONArrayRequest<Type> extends StringParsableRequest<JSONArra
 
     // Classes.....
     @SuppressWarnings({"RedundantSuppression", "WeakerAccess", "SpellCheckingInspection", "NullableProblems"})
-    public static final class Response<Type> extends BaseRequest.Response<ArrayList<Type>> {
+    public static final class Response<Type, Error> extends GsonParsableRequest.Response<ArrayList<Type>, Error> {
 
         // Constructor.....
-        public Response(@NotNull String raw, @Nullable ArrayList<Type> array, @NotNull Request.Status status, @Nullable cz.msebera.android.httpclient.Header[] headers, @Nullable Throwable throwable) {
-            super(array, status, headers, throwable, raw);
+        public Response(@NotNull String raw, @Nullable ArrayList<Type> array, @Nullable Error errorValue, @NotNull Request.Status status, @Nullable cz.msebera.android.httpclient.Header[] headers, @Nullable Throwable throwable, @Nullable Throwable parseThrowable) {
+            super(array, errorValue, status, headers, throwable, raw, parseThrowable);
         }
 
     }

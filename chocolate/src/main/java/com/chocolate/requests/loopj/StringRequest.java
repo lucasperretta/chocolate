@@ -20,7 +20,7 @@ public final class StringRequest extends StringParsableRequest<StringRequest, St
         return responseString;
     }
 
-    @Override protected Response response(boolean success, int statusCode, cz.msebera.android.httpclient.Header[] headers, String responseString, Throwable throwable, String parsed) {
+    @Override protected Response response(boolean success, int statusCode, cz.msebera.android.httpclient.Header[] headers, String responseString, Throwable throwable, String parsed, Throwable parseError) {
         return new Response(parsed, new Status(statusCode, success), headers, throwable);
     }
 
@@ -30,11 +30,11 @@ public final class StringRequest extends StringParsableRequest<StringRequest, St
 
     // Classes.....
     @SuppressWarnings({"RedundantSuppression", "WeakerAccess", "SpellCheckingInspection", "NullableProblems"})
-    public static final class Response extends BaseRequest.Response<String> {
+    public static final class Response extends StringParsableRequest.Response<String> {
 
         // Constructors.....
         public Response(@Nullable String value, @NotNull Status status, @Nullable cz.msebera.android.httpclient.Header[] headers, @Nullable Throwable throwable) {
-            super(value, status, headers, throwable, value);
+            super(value, status, headers, throwable, value, null);
         }
 
     }

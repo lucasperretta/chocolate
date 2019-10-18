@@ -25,8 +25,8 @@ public final class JSONObjectRawRequest extends StringParsableRequest<JSONObject
         return new JSONObject(responseString);
     }
 
-    @Override protected Response response(boolean success, int statusCode, cz.msebera.android.httpclient.Header[] headers, String responseString, Throwable throwable, JSONObject parsed) {
-        return new Response(responseString, parsed, new Status(statusCode, success), headers, throwable);
+    @Override protected Response response(boolean success, int statusCode, cz.msebera.android.httpclient.Header[] headers, String responseString, Throwable throwable, JSONObject parsed, Throwable parseError) {
+        return new Response(responseString, parsed, new Status(statusCode, success), headers, throwable, parseError);
     }
 
     @NonNull @Override public String getRequestType() {
@@ -35,11 +35,11 @@ public final class JSONObjectRawRequest extends StringParsableRequest<JSONObject
 
     // Classes.....
     @SuppressWarnings({"RedundantSuppression", "WeakerAccess", "SpellCheckingInspection", "NullableProblems"})
-    public static final class Response extends BaseRequest.Response<JSONObject> {
+    public static final class Response extends StringParsableRequest.Response<JSONObject> {
 
         // Constructor.....
-        public Response(@NotNull String raw, @Nullable JSONObject object, @NotNull Request.Status status, @Nullable cz.msebera.android.httpclient.Header[] headers, @Nullable Throwable throwable) {
-            super(object, status, headers, throwable, raw);
+        public Response(@NotNull String raw, @Nullable JSONObject object, @NotNull Request.Status status, @Nullable cz.msebera.android.httpclient.Header[] headers, @Nullable Throwable throwable, @Nullable Throwable parseError) {
+            super(object, status, headers, throwable, raw, parseError);
         }
 
     }
