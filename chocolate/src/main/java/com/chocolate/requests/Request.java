@@ -85,6 +85,14 @@ public abstract class Request<Self extends Request, ResponseType extends Request
         return self();
     }
 
+    public Self url(@NotNull String url) {
+        return to(url, false);
+    }
+
+    public Self url(@NotNull String url, boolean ignoreBaseURL) {
+        return to(url, ignoreBaseURL);
+    }
+
     public Self method(@NotNull Method method) {
         this.method = method;
         return self();
