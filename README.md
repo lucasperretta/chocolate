@@ -2,12 +2,12 @@
 <br>
 
 <div align="center">
-<a href="https://github.com/lucasperretta/chocolate"><img src="https://img.shields.io/static/v1?label=stable&message=BETA&color=informational" alt="Version"></a>
+<a href="https://github.com/lucasperretta/chocolate"><img src="https://img.shields.io/github/v/release/lucasperretta/chocolate.svg" alt="Release"></a>
 <a href="https://github.com/lucasperretta/chocolate"><img src="https://img.shields.io/static/v1?label=license&message=MIT&color=green" alt="License"></a>
 <a href="https://github.com/lucasperretta/chocolate"><img 
 src="https://img.shields.io/badge/language-Java 8-yellow" alt="Language"></a>
 <a href="https://github.com/lucasperretta/chocolate"><img 
-src="https://img.shields.io/badge/android-API 21+-orange" alt="Language"></a>
+src="https://img.shields.io/badge/android-API 21+-orange" alt="Android"></a>
 </div>
 
 ## Prerequisites
