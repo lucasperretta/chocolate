@@ -24,7 +24,7 @@ android {
 ```
 
 ## Installation
-#### Repository
+### Repository
 In your root level build.gradle file add the jitpack.io repository at the end of your repositories:
 ``` groovy
 allprojects {
@@ -34,7 +34,7 @@ allprojects {
 }
 ```
 
-#### Dependency
+### Dependency
 In your project level build.gradle file, add this line inside your dependencies declaration:
 ``` groovy
 dependencies {
