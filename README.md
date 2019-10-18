@@ -13,7 +13,7 @@ src="https://img.shields.io/badge/android-API 21+-orange" alt="Android"></a>
 ## Prerequisites
 Android Chocolate works on Android 5.0+ (API 22) and requires Java 8+.
 
-If you don't have Java 8 installed, add this line in your android definition inside the module level build.gradle file:
+If you don't have Java 8 installed, add this line in your android definition inside your project level build.gradle file:
 ``` groovy
 android {
     compileOptions {
