@@ -13,19 +13,15 @@ import org.jetbrains.annotations.Nullable;
 public abstract class GsonParsableRequest<Self extends StringParsableRequest, ResponseType extends GsonParsableRequest.Response<ParseType, ErrorType>, ParseType, ErrorType> extends StringParsableRequest<Self, ResponseType, ParseType> {
 
     // Variables.....
-    @SuppressWarnings("WeakerAccess") @NotNull protected final Class<ParseType> typeClass;
-    @SuppressWarnings("WeakerAccess") @NotNull protected final Class<ErrorType> errorClass;
     @SuppressWarnings("WeakerAccess") @Nullable protected SetupGsonCallback setupGsonCallback = null;
 
     // Constructors.....
-    @SuppressWarnings("WeakerAccess") public GsonParsableRequest(@NotNull Context context, @NotNull Class<ParseType> typeClass, @NotNull Class<ErrorType> errorClass, @Nullable String description) {
+    @SuppressWarnings("WeakerAccess") public GsonParsableRequest(@NotNull Context context, @Nullable String description) {
         super(context, description);
-        this.typeClass = typeClass;
-        this.errorClass = errorClass;
     }
 
-    public GsonParsableRequest(@NotNull Context context, @NotNull Class<ParseType> typeClass, @NotNull Class<ErrorType> errorClass) {
-        this(context, typeClass, errorClass, null);
+    public GsonParsableRequest(@NotNull Context context) {
+        this(context, null);
     }
 
     // Abstract Methods.....

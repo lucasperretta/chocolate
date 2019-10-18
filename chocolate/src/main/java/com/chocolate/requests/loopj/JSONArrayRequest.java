@@ -16,10 +16,15 @@ import java.util.ArrayList;
 @SuppressWarnings({"unused", "RedundantThrows"})
 public final class JSONArrayRequest<Type, Error> extends GsonParsableRequest<JSONArrayRequest<Type, Error>, JSONArrayRequest.Response<Type, Error>, ArrayList<Type>, Error> {
 
+    // Variables.....
+    @SuppressWarnings("WeakerAccess") @NotNull protected final Class<Type> typeClass;
+    @SuppressWarnings("WeakerAccess") @NotNull protected final Class<Error> errorClass;
+
     // Constructor.....
     public JSONArrayRequest(@NotNull Context context, @NotNull Class<Type> typeClass, @NotNull Class<Error> errorClass, @Nullable String description) {
-        //noinspection unchecked
-        super(context, (Class<ArrayList<Type>>) new TypeToken<ArrayList<Type>>(){}.getType(), errorClass, description);
+        super(context, description);
+        this.typeClass = typeClass;
+        this.errorClass = errorClass;
     }
 
     public JSONArrayRequest(@NotNull Context context, @NotNull Class<Type> typeClass, @NotNull Class<Error> errorClass) {
@@ -28,7 +33,7 @@ public final class JSONArrayRequest<Type, Error> extends GsonParsableRequest<JSO
 
     // Methods.....
     @Override protected ArrayList<Type> parse(String responseString, @NotNull Gson gson) throws Throwable {
-        return gson.fromJson(responseString, typeClass);
+        return gson.fromJson(responseString, new TypeToken<ArrayList<Type>>() {}.getType());
     }
 
     @Override protected Error parseError(String responseString, @NotNull Gson gson) throws Throwable {

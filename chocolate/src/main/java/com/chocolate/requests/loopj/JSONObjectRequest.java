@@ -13,9 +13,15 @@ import org.jetbrains.annotations.Nullable;
 @SuppressWarnings({"unused", "RedundantThrows"})
 public final class JSONObjectRequest<Type, Error> extends GsonParsableRequest<JSONObjectRequest<Type, Error>, JSONObjectRequest.Response<Type, Error>, Type, Error> {
 
+    // Variables.....
+    @SuppressWarnings("WeakerAccess") @NotNull protected final Class<Type> typeClass;
+    @SuppressWarnings("WeakerAccess") @NotNull protected final Class<Error> errorClass;
+
     // Constructors.....
     public JSONObjectRequest(@NotNull Context context, @NotNull Class<Type> typeClass, @NotNull Class<Error> errorClass, @Nullable String description) {
-        super(context, typeClass, errorClass, description);
+        super(context, description);
+        this.typeClass = typeClass;
+        this.errorClass = errorClass;
     }
 
     public JSONObjectRequest(@NotNull Context context, @NotNull Class<Type> typeClass, @NotNull Class<Error> errorClass) {
