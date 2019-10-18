@@ -10,7 +10,7 @@ src="https://img.shields.io/badge/language-Java 8-yellow" alt="Language"></a>
 src="https://img.shields.io/badge/android-API 21+-orange" alt="Language"></a>
 </div>
 
-### Prerequisites
+## Prerequisites
 Android Chocolate works on Android 5.0+ (API 22) and requires Java 8+.
 
 If you don't have Java 8 installed, add this line in your android definition inside the module level build.gradle file:
@@ -23,8 +23,8 @@ android {
 }
 ```
 
-### Installation
-##### Repository
+## Installation
+#### Repository
 In your root level build.gradle file add the jitpack.io repository at the end of your repositories:
 ``` groovy
 allprojects {
@@ -34,7 +34,7 @@ allprojects {
 }
 ```
 
-##### Dependency
+#### Dependency
 In your project level build.gradle file, add this line inside your dependencies declaration:
 ``` groovy
 dependencies {
