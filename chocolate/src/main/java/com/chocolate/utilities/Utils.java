@@ -1,6 +1,7 @@
 package com.chocolate.utilities;
 
-public class Utils extends UtilityClass {
+@SuppressWarnings({"WeakerAccess", "RedundantSuppression", "unused"})
+public final class Utils extends UtilityClass {
 
     /**
      * @return Returns the StackTraceElement of the current function
