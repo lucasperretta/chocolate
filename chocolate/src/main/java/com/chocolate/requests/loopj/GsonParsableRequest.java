@@ -9,15 +9,16 @@ import com.loopj.android.http.TextHttpResponseHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+@SuppressWarnings({"RedundantThrows", "RedundantSuppression", "unused"})
 public abstract class GsonParsableRequest<Self extends StringParsableRequest, ResponseType extends GsonParsableRequest.Response<ParseType, ErrorType>, ParseType, ErrorType> extends StringParsableRequest<Self, ResponseType, ParseType> {
 
     // Variables.....
-    @NotNull protected final Class<ParseType> typeClass;
-    @NotNull protected final Class<ErrorType> errorClass;
+    @SuppressWarnings("WeakerAccess") @NotNull protected final Class<ParseType> typeClass;
+    @SuppressWarnings("WeakerAccess") @NotNull protected final Class<ErrorType> errorClass;
     @SuppressWarnings("WeakerAccess") @Nullable protected SetupGsonCallback setupGsonCallback = null;
 
     // Constructors.....
-    public GsonParsableRequest(@NotNull Context context, @NotNull Class<ParseType> typeClass, @NotNull Class<ErrorType> errorClass, @Nullable String description) {
+    @SuppressWarnings("WeakerAccess") public GsonParsableRequest(@NotNull Context context, @NotNull Class<ParseType> typeClass, @NotNull Class<ErrorType> errorClass, @Nullable String description) {
         super(context, description);
         this.typeClass = typeClass;
         this.errorClass = errorClass;
@@ -101,7 +102,7 @@ public abstract class GsonParsableRequest<Self extends StringParsableRequest, Re
     }
 
     // Interfaces.....
-    public interface SetupGsonCallback {
+    @SuppressWarnings("WeakerAccess") public interface SetupGsonCallback {
         @Nullable Gson setup();
     }
 
