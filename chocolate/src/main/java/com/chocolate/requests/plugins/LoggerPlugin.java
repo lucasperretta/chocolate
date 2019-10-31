@@ -1,22 +1,25 @@
 package com.chocolate.requests.plugins;
 
 import android.content.Context;
-import android.util.Log;
 
+import androidx.annotation.NonNull;
+
+import com.chocolate.logger.Logger;
+import com.chocolate.logger.LoggerInterface;
 import com.chocolate.requests.Request;
 
 import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("unused")
-public class LoggerPlugin extends Request.Plugin {
+public class LoggerPlugin extends Request.Plugin implements LoggerInterface {
 
     // Methods.....
     @Override public void onStartingRequest(@NotNull Context context, @NotNull Request request) {
-        print(request.getMethod().toString() + " Request to URL: " + request.getURL(), false);
+        print(request.getMethod().toString() + " Request to URL: " + request.getURL());
     }
 
     @Override public void onFinishingRequest(@NotNull Context context, @NotNull Request request, @NotNull Request.Response response) {
-        print("Request\n" +
+        log(response.failed() ? Logger.STYLE_ERROR : Logger.STYLE_INFO,"Request\n" +
                         (request.getDescription() != null ? ("Detail: " + request.getDescription() + "\n") : "") +
                         "URL: " + request.getURL() + "\n" +
                         "Request Method: " + request.getMethod().toString() + "\n" +
@@ -24,21 +27,11 @@ public class LoggerPlugin extends Request.Plugin {
                         "Elapsed Time: " + request.getElapsedTime() + "ms (Timeout: " + request.getTimeout() + "ms)\n" +
                         "Status Code: " + response.status.value + " " + response.status.description + "\n" +
                         "Request Type: " + request.getRequestType() +
-                        (response.stringResponse != null ? ("\nResponse: " + response.stringResponse) : ""),
-                response.failed());
+                        (response.stringResponse != null ? ("\nResponse: " + response.stringResponse) : ""));
     }
 
-    private static void print(@NotNull String veryLongString, boolean isError) {
-        for(int i = 0; i <= veryLongString.length() / 1000; i++) {
-            int start = i * 1000;
-            int end = (i+1) * 1000;
-            end = end > veryLongString.length() ? veryLongString.length() : end;
-            if (isError) {
-                Log.e("APP_" + Request.class.getSimpleName(), veryLongString.substring(start, end));
-            } else {
-                Log.i("APP_" + Request.class.getSimpleName(), veryLongString.substring(start, end));
-            }
-        }
+    @NonNull @Override public String getTag() {
+        return Request.class.getSimpleName();
     }
 
 }
