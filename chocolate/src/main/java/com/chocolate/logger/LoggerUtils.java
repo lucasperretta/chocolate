@@ -57,4 +57,11 @@ final class LoggerUtils extends UtilityClass {
         }
     }
 
+    static void logLineExecution(String tag, @Logger.LoggerStyle int logStyle, int stackOffset) {
+        StackTraceElement stackTraceElement = Thread.currentThread().getStackTrace()[5 + stackOffset];
+        String className =  stackTraceElement.getClassName();
+        className = className.substring(className.lastIndexOf('.') + 1);
+        log(tag, logStyle, className + "." + stackTraceElement.getMethodName() + "() [" + stackTraceElement.getLineNumber() + "]");
+    }
+
 }

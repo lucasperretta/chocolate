@@ -21,6 +21,26 @@ public interface LoggerInterface {
         LoggerUtils.logToString(getTag(), Logger.STYLE_ERROR, objects);
     }
 
+    default void logLineExecution(@Logger.LoggerStyle int logStyle) {
+        LoggerUtils.logLineExecution(getTag(), logStyle, 0);
+    }
+
+    default void logLineExecution(@Logger.LoggerStyle int logStyle, int stackOffset) {
+        LoggerUtils.logLineExecution(getTag(), logStyle, stackOffset);
+    }
+
+    default void printLineExecution() {
+        LoggerUtils.logLineExecution(getTag(), Logger.STYLE_INFO, 0);
+    }
+
+    default void warnLineExecution() {
+        LoggerUtils.logLineExecution(getTag(), Logger.STYLE_WARN, 0);
+    }
+
+    default void errorLineExecution() {
+        LoggerUtils.logLineExecution(getTag(), Logger.STYLE_ERROR, 0);
+    }
+
     @NonNull default String getTag() {
         return this.getClass().getSimpleName();
     }

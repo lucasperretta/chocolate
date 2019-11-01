@@ -44,4 +44,20 @@ public final class Logger extends UtilityClass {
         logger.error(objects);
     }
 
+    public static void logLineExecution(@Logger.LoggerStyle int logStyle) {
+        logger.logLineExecution(logStyle, 1);
+    }
+
+    public static void printLineExecution() {
+        logger.logLineExecution(STYLE_INFO, 1);
+    }
+
+    public static void warnLineExecution() {
+        logger.logLineExecution(STYLE_WARN, 1);
+    }
+
+    public static void errorLineExecution() {
+        logger.logLineExecution(STYLE_ERROR, 1);
+    }
+
 }
