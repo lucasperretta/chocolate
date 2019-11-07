@@ -23,20 +23,59 @@ import java.util.List;
 public abstract class Request<Self extends Request, ResponseType extends Request.Response, Body, Handler> {
 
     // Static Variables.....
+    /**
+     * Represents the current global request configuration
+     */
     private static Configuration configuration = new Configuration();
 
     // Variables.....
+    /**
+     * Context in which the request will operate on
+     */
     @NotNull protected final Context context;
+    /**
+     * The request's action description
+     */
     @Nullable protected final String description;
+    /**
+     * Callback for when the request ends
+     */
     @SuppressWarnings({"WeakerAccess", "NullableProblems"}) @NotNull protected Callback<ResponseType> callback;
+    /**
+     * The request's verb
+     */
     @NotNull protected Method method = Method.GET;
+    /**
+     * The request's URL
+     */
     @NotNull protected String URL;
+    /**
+     * The request's body that will be sent when it's performed
+     */
     @Nullable protected Body body;
+    /**
+     * The request's progress listener
+     */
     @SuppressWarnings("WeakerAccess") @Nullable protected Progress.Listener progressListener;
+    /**
+     * The request's headers list
+     */
     @NotNull protected final List<Header> headers = new ArrayList<>();
+    /**
+     * The request's time until timeout represented in milliseconds
+     */
     protected int timeout = 20*1000;
+    /**
+     * Flag that represent's if the request was cancelled
+     */
     private boolean canceled = false;
+    /**
+     * Timestamp saved when the request starts
+     */
     @SuppressWarnings("WeakerAccess") protected Long requestStartTime;
+    /**
+     * Timestamp saved when the request ends
+     */
     @SuppressWarnings("WeakerAccess") protected Long requestEndTime;
 
     // Constructor.....
@@ -69,50 +108,83 @@ public abstract class Request<Self extends Request, ResponseType extends Request
         callback.finished(response);
     }
 
+    /**
+     * @return Represents the current instance of a Request object following the provided generic type (Which should ALWAYS match the returned type of a mutating method).
+     * It allows a proper cascade programming style without changing the returned object in every extension of the Request class.
+     * It should ALWAYS be used instead of return this;
+     */
     @SuppressWarnings("unchecked")
     protected Self self() {
         return (Self) this;
     }
 
     // Setters.....
+    /**
+     * Sets the request's URL
+     */
     public Self to(@NotNull String url) {
         return to(url, false);
     }
 
+    /**
+     * Sets the request's URL
+     * @param ignoreBaseURL Disables Base URL concatenation with the provided URL
+     */
     @SuppressWarnings("WeakerAccess")
     public Self to(@NotNull String url, boolean ignoreBaseURL) {
         this.URL = (ignoreBaseURL ? "" : configuration.baseURL) + url;
         return self();
     }
 
+    /**
+     * Represents the to() method in a more intuitive way (but less human readable)
+     */
     public Self url(@NotNull String url) {
         return to(url, false);
     }
 
+    /**
+     * Represents the to() method in a more intuitive way (but less human readable)
+     */
     public Self url(@NotNull String url, boolean ignoreBaseURL) {
         return to(url, ignoreBaseURL);
     }
 
+    /**
+     * Set's the request's verb
+     */
     public Self method(@NotNull Method method) {
         this.method = method;
         return self();
     }
 
+    /**
+     * Set's the request's body
+     */
     public Self body(Body body) {
         this.body = body;
         return self();
     }
 
+    /**
+     * Adds a request header
+     */
     public Self addHeader(String header, String value) {
         headers.add(new Header(header, value));
         return self();
     }
 
+    /**
+     * Set's the request's progress callback
+     */
     public Self progress(Progress.Listener listener) {
         this.progressListener = listener;
         return self();
     }
 
+    /**
+     * Set's the request's timeout
+     */
     public Self timeout(int timeout) {
         this.timeout = timeout;
         return self();
@@ -145,6 +217,11 @@ public abstract class Request<Self extends Request, ResponseType extends Request
     }
 
     // Methods.....
+    /**
+     * Performs the actual request
+     * @param callback Request's completion callback
+     * @return Request Handler
+     */
     @SuppressWarnings("WeakerAccess") public Handler start(@NotNull Callback<ResponseType> callback) {
         this.callback = callback;
         this.requestStartTime = Calendar.getInstance().getTimeInMillis();
@@ -155,11 +232,18 @@ public abstract class Request<Self extends Request, ResponseType extends Request
         return perform();
     }
 
+    /**
+     * Restarts the request after it was cancelled
+     * @return Request handler
+     */
     public Handler restart() {
         canceled = false;
         return start(callback);
     }
 
+    /**
+     * Cancels the request's execution and notifies the subscribed plugins. Can be undone by calling the restart() method
+     */
     public void cancel() {
         for (int i = 0; i < configuration.plugins.size(); i++) {
             configuration.plugins.get(i).onRequestCanceled(context, this);
@@ -168,11 +252,19 @@ public abstract class Request<Self extends Request, ResponseType extends Request
     }
 
     // Static Methods.....
+
+    /**
+     * Overrides the current global configuration and set's a new global Configuration object
+     * @param callback This callback is called instantly and never again. It just helps keep the configuration code clean :)
+     */
     public static void setup(Configuration.SetupCallback callback) {
         configuration = new Configuration();
         callback.setup(configuration);
     }
 
+    /**
+     * @return Application's base URL that will be used in every request that doesn't include the ignoreBaseURL parameter set to true when setting the URL
+     */
     @NotNull public static String getBaseURL() {
         return configuration.baseURL;
     }
