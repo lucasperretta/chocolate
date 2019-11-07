@@ -14,6 +14,7 @@ public abstract class GsonParsableRequest<Self extends StringParsableRequest, Re
 
     // Variables.....
     @SuppressWarnings("WeakerAccess") @Nullable protected SetupGsonCallback setupGsonCallback = null;
+    @SuppressWarnings("WeakerAccess") protected boolean addAcceptApplicationJsonHeader = true;
 
     // Constructors.....
     @SuppressWarnings("WeakerAccess") public GsonParsableRequest(@NotNull Context context, @Nullable String description) {
@@ -37,6 +38,7 @@ public abstract class GsonParsableRequest<Self extends StringParsableRequest, Re
     @Deprecated @Override protected final ResponseType response(boolean success, int statusCode, cz.msebera.android.httpclient.Header[] headers, String responseString, Throwable throwable, ParseType parsed, Throwable parseError) { return null; }
 
     @Override protected RequestHandle perform() {
+        addHeader("Accept", "application/json");
         return performRequest(new TextHttpResponseHandler() {
             @Override public void onProgress(long bytesWritten, long totalSize) {
                 int progress = (int) ((bytesWritten * 100) / totalSize);
@@ -76,11 +78,20 @@ public abstract class GsonParsableRequest<Self extends StringParsableRequest, Re
         return self();
     }
 
+    public Self addJsonHeader(boolean add) {
+        this.addAcceptApplicationJsonHeader = add;
+        return self();
+    }
+
     @SuppressWarnings("WeakerAccess") protected Gson getGsonParser() {
         Gson gson = null;
         if (setupGsonCallback != null) gson = setupGsonCallback.setup();
         if (gson == null) gson = new Gson();
         return gson;
+    }
+
+    public boolean autoAddJsonHeader() {
+        return addAcceptApplicationJsonHeader;
     }
 
     // Classes.....

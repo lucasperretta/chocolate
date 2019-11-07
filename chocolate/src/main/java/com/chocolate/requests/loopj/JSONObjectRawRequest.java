@@ -5,6 +5,7 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 
 import com.chocolate.requests.Request;
+import com.loopj.android.http.RequestHandle;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -12,6 +13,9 @@ import org.json.JSONObject;
 
 @SuppressWarnings("unused")
 public final class JSONObjectRawRequest extends StringParsableRequest<JSONObjectRawRequest, JSONObjectRawRequest.Response, JSONObject> {
+
+    // Variables.....
+    private boolean addAcceptApplicationJsonHeader = true;
 
     // Constructors.....
     public JSONObjectRawRequest(@NotNull Context context, @Nullable String description) { super(context, description); }
@@ -29,8 +33,22 @@ public final class JSONObjectRawRequest extends StringParsableRequest<JSONObject
         return new Response(responseString, parsed, new Status(statusCode, success), headers, throwable, parseError);
     }
 
+    @Override protected RequestHandle perform() {
+        addHeader("Accept", "application/json");
+        return super.perform();
+    }
+
     @NonNull @Override public String getRequestType() {
         return "JSON Raw";
+    }
+
+    public JSONObjectRawRequest addJsonHeader(boolean add) {
+        this.addAcceptApplicationJsonHeader = add;
+        return self();
+    }
+
+    public boolean autoAddJsonHeader() {
+        return addAcceptApplicationJsonHeader;
     }
 
     // Classes.....
