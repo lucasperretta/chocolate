@@ -145,7 +145,7 @@ public abstract class Request<Self extends Request, ResponseType extends Request
     }
 
     // Methods.....
-    public Handler start(@NotNull Callback<ResponseType> callback) {
+    @SuppressWarnings("WeakerAccess") public Handler start(@NotNull Callback<ResponseType> callback) {
         this.callback = callback;
         this.requestStartTime = Calendar.getInstance().getTimeInMillis();
         for (int i = 0; i < configuration.plugins.size() && !canceled; i++) {
@@ -153,6 +153,11 @@ public abstract class Request<Self extends Request, ResponseType extends Request
         }
         if (canceled) return null;
         return perform();
+    }
+
+    public Handler restart() {
+        canceled = false;
+        return start(callback);
     }
 
     public void cancel() {
