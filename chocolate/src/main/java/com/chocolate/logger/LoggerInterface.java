@@ -2,7 +2,7 @@ package com.chocolate.logger;
 
 import androidx.annotation.NonNull;
 
-@SuppressWarnings({"WeakerAccess", "RedundantSuppression"})
+@SuppressWarnings({"WeakerAccess", "RedundantSuppression", "unused"})
 public interface LoggerInterface {
 
     default void log(@Logger.LoggerStyle int logStyle, Object... objects) {

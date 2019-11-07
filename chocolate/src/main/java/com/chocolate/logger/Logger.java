@@ -25,7 +25,7 @@ public final class Logger extends UtilityClass {
     public static final int STYLE_ERROR = 3;
 
     // Variables.....
-    public static String tagPrefix = "APP_";
+    @SuppressWarnings("CanBeFinal") public static String tagPrefix = "APP_";
 
     // Methods.....
     public static void log(@LoggerStyle int logStyle, Object... objects) {
