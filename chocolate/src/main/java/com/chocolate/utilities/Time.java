@@ -64,7 +64,7 @@ public final class Time extends UtilityClass {
         }
 
         public static int toTimestamp(long millis) {
-            return (int) (millis / 1000);
+            return (int) (millis / 1000L);
         }
 
         public static int toTimestamp(@NotNull String string, @NotNull String format) throws ParseException {
@@ -80,7 +80,7 @@ public final class Time extends UtilityClass {
         }
 
         public static long toMillis(int timestamp) {
-            return timestamp * 1000;
+            return ((long) timestamp) * 1000L;
         }
 
         public static long toMillis(@NotNull String string, @NotNull String format) throws ParseException {
