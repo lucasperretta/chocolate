@@ -3,8 +3,10 @@ package com.chocolate.utilities;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import java.lang.reflect.Array;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.Objects;
 
 @SuppressWarnings({"RedundantSuppression", "WeakerAccess", "unused"})
 public final class Collections extends UtilityClass {
@@ -153,6 +155,24 @@ public final class Collections extends UtilityClass {
      */
     public static <Type, CollectionType extends Collection<Type>> String stringify(@NonNull CollectionType collection) {
         return collection.isEmpty() ? "[]" : stringify(collection, (object, currentValue, isFirst, isLast) -> (isFirst ? "[" : "") + object.toString() + (isLast ? "]" :  ", "));
+    }
+
+    /**
+     * Returns the concatenation between two arrays
+     * @param first First Array
+     * @param second Second Array
+     * @param <Type> Type of the Array's contents
+     */
+    public static <Type> Type[] concatenate(Type[] first, Type[] second) {
+        int firstLength = first.length;
+        int secondLength = second.length;
+
+        @SuppressWarnings("unchecked")
+        Type[] result = (Type[]) Array.newInstance(Objects.requireNonNull(first.getClass().getComponentType()), firstLength + secondLength);
+        System.arraycopy(first, 0, result, 0, firstLength);
+        System.arraycopy(second, 0, result, firstLength, secondLength);
+
+        return result;
     }
 
     // Classes.....
