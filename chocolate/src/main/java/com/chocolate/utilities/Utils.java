@@ -8,6 +8,11 @@ import java.lang.reflect.Method;
 @SuppressWarnings({"WeakerAccess", "RedundantSuppression", "unused"})
 public final class Utils extends UtilityClass {
 
+    // Methods.....
+    public static DelayedExecution executeAfterDelay(long delayInMillis, @NotNull Runnable runnable) {
+        return new DelayedExecution(delayInMillis, runnable);
+    }
+
     // Classes.....
     public static final class java extends UtilityClass {
 
