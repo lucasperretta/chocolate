@@ -141,66 +141,6 @@ public final class Color {
 
     }
 
-    public static class CMYKColor implements ColorModel {
-
-        // Variables.....
-        public int cyan;
-        public int magenta;
-        public int yellow;
-        public int black;
-
-        // Constructors.....
-        public CMYKColor() {}
-
-        public CMYKColor(@ColorInt int color, boolean useBlackInk) {
-            setValuesFromRGBColor(new RGBColor(color), useBlackInk);
-        }
-
-        public CMYKColor(@NotNull String hex, boolean useBlackInk) {
-            setValuesFromRGBColor(new RGBColor(hex), useBlackInk);
-        }
-
-        public CMYKColor(int cyan, int magenta, int yellow) {
-            this(cyan, magenta, yellow, 0);
-        }
-
-        public CMYKColor(int cyan, int magenta, int yellow, int black) {
-            this.cyan = cyan;
-            this.magenta = magenta;
-            this.yellow = yellow;
-            this.black = black;
-        }
-
-        // Methods.....
-        protected void setValuesFromRGBColor(@NotNull RGBColor rgbColor, boolean useBlackInk) {
-            int rc = (int) ((rgbColor.red/255f)*100);
-            int gc = (int) ((rgbColor.green/255f)*100);
-            int bc = (int) ((rgbColor.blue/255f)*100);
-            this.black = useBlackInk ? 100 - Math.max(Math.max(rc, gc), bc) : 0;
-
-            this.cyan = (100-rc-black)/(100-black);
-            this.magenta = (100-gc-black)/(100-black);
-            this.yellow = (100-bc-black)/(100-black);
-        }
-
-        protected RGBColor toRGBColor() {
-            return new RGBColor(255*(1-cyan/100)*(1-black/100), 255*(1-magenta/100)*(1-black/100), 255*(1-yellow/100)*(1-black/100));
-        }
-
-        @Override public int toInt() {
-            return toRGBColor().toInt();
-        }
-
-        @Override public String toHex() {
-            return toRGBColor().toHex();
-        }
-
-        @Override public String toHex(boolean ignoreAlpha) {
-            return toRGBColor().toHex(ignoreAlpha);
-        }
-
-    }
-
     /*
     public static class HSVColor implements ColorModel {
 
