@@ -26,73 +26,7 @@ public final class Color {
         }
     }
 
-    /*
     // Classes.....
-    public static final class convert extends UtilityClass {
-
-        @ColorInt public static int toInt(@NotNull String hex) {
-            return android.graphics.Color.parseColor(hex);
-        }
-
-        @ColorInt public static int toInt(int red, int green, int blue) {
-            return toInt(red, green, blue, 255);
-        }
-
-        @ColorInt public static int toInt(int red, int green, int blue, int alpha) {
-            return (alpha & 0xff) << 24 | (red & 0xff) << 16 | (green & 0xff) << 8 | (blue & 0xff);
-        }
-
-        @ColorInt public static int toInt(float hue, float saturation, float value) {
-
-        }
-
-        public static String toHex(@ColorInt int colorInt) {
-            return '#' + Integer.toHexString(colorInt);
-        }
-
-        public static String toHex(@ColorInt int colorInt, boolean ignoreAlpha) {
-            return ignoreAlpha ? toHex(colorInt).substring(2) : toHex(colorInt);
-        }
-
-        public static String toHex(int red, int green, int blue) {
-
-        }
-
-        public static String toHex(int red, int green, int blue, int alpha) {
-
-        }
-
-        public static String toHex(float hue, float saturation, float value) {
-
-        }
-
-        public static RGBColor toRGB(@ColorInt int colorInt) {
-            return new RGBColor(colorInt);
-        }
-
-        public static RGBColor toRGB(@NotNull String hex) {
-
-        }
-
-        public static RGBColor toRGB(float hue, float saturation, float value) {
-
-        }
-
-        public static HSVColor toHSV(@ColorInt int colorInt) {
-            return new HSVColor(colorInt);
-        }
-
-        public static HSVColor toHSV(@NotNull String hex) {
-            return new HSVColor()
-        }
-
-        public static HSVColor toHSV(int red, int green, int blue) {
-            return new HSVColor(red, green, blue);
-        }
-
-    }
-     */
-
     public static class RGBColor implements ColorModel {
 
         // Variables.....
@@ -141,18 +75,19 @@ public final class Color {
 
     }
 
-    /*
     public static class HSVColor implements ColorModel {
 
         // Variables.....
-        public final float hue;
-        public final float saturation;
-        public final float value;
+        public float hue;
+        public float saturation;
+        public float value;
 
         // Constructors.....
+        public HSVColor() {}
+
         public HSVColor(@ColorInt int color) {
             float[] hsv = new float[3];
-            RGBColor rgbaComponents = convert.toRGB(color);
+            RGBColor rgbaComponents = new RGBColor(color);
             android.graphics.Color.RGBToHSV(rgbaComponents.red, rgbaComponents.green, rgbaComponents.blue, hsv);
 
             this.hue = hsv[0];
@@ -160,25 +95,36 @@ public final class Color {
             this.value = hsv[2];
         }
 
-        public HSVColor(int red, int green, int blue) {
-            float[] hsv = new float[3];
-            android.graphics.Color.RGBToHSV(red, green, blue, hsv);
+        public HSVColor(@NotNull String hex) {
+            this(android.graphics.Color.parseColor(hex));
+        }
 
-            this.hue = hsv[0];
-            this.saturation = hsv[1];
-            this.value = hsv[2];
+        public HSVColor(float hue, float saturation, float value) {
+            this.hue = hue;
+            this.saturation = saturation;
+            this.value = value;
+        }
+
+        // Methods.....
+        @Override public int toInt() {
+            return android.graphics.Color.HSVToColor(new float[]{hue, saturation, value});
+        }
+
+        @Override public String toHex() {
+            return new RGBColor(toInt()).toHex();
+        }
+
+        @Override public String toHex(boolean ignoreAlpha) {
+            return new RGBColor(toInt()).toHex(ignoreAlpha);
         }
 
     }
-    */
 
     // Interfaces.....
     public interface ColorModel {
-
         @ColorInt int toInt();
         String toHex();
         String toHex(boolean ignoreAlpha);
-
     }
 
 }
