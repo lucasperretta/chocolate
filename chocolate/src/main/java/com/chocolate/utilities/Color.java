@@ -173,10 +173,14 @@ public final class Color {
 
         // Methods.....
         protected void setValuesFromRGBColor(@NotNull RGBColor rgbColor, boolean useBlackInk) {
-            this.black = useBlackInk ? Math.max(Math.max(rgbColor.red, rgbColor.green), rgbColor.blue) : 0;
-            this.cyan = (int) ((1-(rgbColor.red/255f)-black)/(1-black));
-            this.magenta = (int) ((1-(rgbColor.green/255f)-black)/(1-black));
-            this.yellow = (int) ((1-(rgbColor.blue/255f)-black)/(1-black));
+            int rc = (int) ((rgbColor.red/255f)*100);
+            int gc = (int) ((rgbColor.green/255f)*100);
+            int bc = (int) ((rgbColor.blue/255f)*100);
+            this.black = useBlackInk ? 100 - Math.max(Math.max(rc, gc), bc) : 0;
+
+            this.cyan = (100-rc-black)/(100-black);
+            this.magenta = (100-gc-black)/(100-black);
+            this.yellow = (100-bc-black)/(100-black);
         }
 
         protected RGBColor toRGBColor() {
