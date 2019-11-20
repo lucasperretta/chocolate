@@ -93,15 +93,17 @@ public final class Color {
     }
      */
 
-    public static final class RGBColor implements Model {
+    public static class RGBColor implements ColorModel {
 
         // Variables.....
-        public final int red;
-        public final int green;
-        public final int blue;
-        public final int alpha;
+        public int red;
+        public int green;
+        public int blue;
+        public int alpha;
 
         // Constructors.....
+        public RGBColor() {}
+
         public RGBColor(@ColorInt int color) {
             this.red = android.graphics.Color.red(color);
             this.green = android.graphics.Color.green(color);
@@ -125,22 +127,78 @@ public final class Color {
         }
 
         // Methods.....
-        @Override public int toInt() {
+        @ColorInt @Override public int toInt() {
             return (alpha & 0xff) << 24 | (red & 0xff) << 16 | (green & 0xff) << 8 | (blue & 0xff);
         }
 
         @Override public String toHex() {
-            return String.format("#%08X", toInt());
+            return toHex(true);
         }
 
         @Override public String toHex(boolean ignoreAlpha) {
-            return ignoreAlpha ? toHex().substring(2) : toHex();
+            return '#' + (ignoreAlpha ? String.format("%08X", toInt()).substring(2) : String.format("%08X", toInt()));
+        }
+
+    }
+
+    public static class CMYKColor implements ColorModel {
+
+        // Variables.....
+        public int cyan;
+        public int magenta;
+        public int yellow;
+        public int black;
+
+        // Constructors.....
+        public CMYKColor() {}
+
+        public CMYKColor(@ColorInt int color, boolean useBlackInk) {
+            setValuesFromRGBColor(new RGBColor(color), useBlackInk);
+        }
+
+        public CMYKColor(@NotNull String hex, boolean useBlackInk) {
+            setValuesFromRGBColor(new RGBColor(hex), useBlackInk);
+        }
+
+        public CMYKColor(int cyan, int magenta, int yellow) {
+            this(cyan, magenta, yellow, 0);
+        }
+
+        public CMYKColor(int cyan, int magenta, int yellow, int black) {
+            this.cyan = cyan;
+            this.magenta = magenta;
+            this.yellow = yellow;
+            this.black = black;
+        }
+
+        // Methods.....
+        protected void setValuesFromRGBColor(@NotNull RGBColor rgbColor, boolean useBlackInk) {
+            this.black = useBlackInk ? Math.max(Math.max(rgbColor.red, rgbColor.green), rgbColor.blue) : 0;
+            this.cyan = (int) ((1-(rgbColor.red/255f)-black)/(1-black));
+            this.magenta = (int) ((1-(rgbColor.green/255f)-black)/(1-black));
+            this.yellow = (int) ((1-(rgbColor.blue/255f)-black)/(1-black));
+        }
+
+        protected RGBColor toRGBColor() {
+            return new RGBColor(255*(1-cyan/100)*(1-black/100), 255*(1-magenta/100)*(1-black/100), 255*(1-yellow/100)*(1-black/100));
+        }
+
+        @Override public int toInt() {
+            return toRGBColor().toInt();
+        }
+
+        @Override public String toHex() {
+            return toRGBColor().toHex();
+        }
+
+        @Override public String toHex(boolean ignoreAlpha) {
+            return toRGBColor().toHex(ignoreAlpha);
         }
 
     }
 
     /*
-    public static final class HSVColor implements Model {
+    public static class HSVColor implements ColorModel {
 
         // Variables.....
         public final float hue;
@@ -171,7 +229,7 @@ public final class Color {
     */
 
     // Interfaces.....
-    public interface Model {
+    public interface ColorModel {
 
         @ColorInt int toInt();
         String toHex();
