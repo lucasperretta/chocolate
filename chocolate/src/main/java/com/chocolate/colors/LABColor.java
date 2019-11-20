@@ -6,7 +6,7 @@ import androidx.core.graphics.ColorUtils;
 import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings({"unused", "WeakerAccess"})
-public class LABColor implements Color.ColorModel {
+public class LABColor implements Color.Model {
 
     // Variables.....
     public double l;

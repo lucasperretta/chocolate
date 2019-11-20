@@ -27,7 +27,7 @@ public final class Color {
     }
 
     // Interfaces.....
-    public interface ColorModel {
+    public interface Model {
         @ColorInt int toInt();
         String toHex();
         String toHex(boolean ignoreAlpha);

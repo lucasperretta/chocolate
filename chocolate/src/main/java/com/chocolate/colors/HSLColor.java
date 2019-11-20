@@ -6,7 +6,7 @@ import androidx.core.graphics.ColorUtils;
 import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings({"unused", "WeakerAccess"})
-public class HSLColor implements Color.ColorModel {
+public class HSLColor implements Color.Model {
 
     // Variables.....
     public float hue;

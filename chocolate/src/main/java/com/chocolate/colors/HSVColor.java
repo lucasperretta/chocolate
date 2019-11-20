@@ -5,7 +5,7 @@ import androidx.annotation.ColorInt;
 import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings({"unused", "WeakerAccess"})
-public class HSVColor implements Color.ColorModel {
+public class HSVColor implements Color.Model {
 
     // Variables.....
     public float hue;
