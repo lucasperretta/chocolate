@@ -237,6 +237,20 @@ public abstract class Request<Self extends Request, ResponseType extends Request
         // Overridable Methods.....
         @SuppressWarnings("EmptyMethod") public void onRequestCanceled(@NotNull Context context, @NotNull Request request) {}
 
+        // Classes.....
+        public static class Callback<ResponseType> {
+
+            // Methods.....
+            public void cancelRequest() {
+
+            }
+
+            public void continueRequest() {
+
+            }
+
+        }
+
     }
 
     @SuppressWarnings({"RedundantSuppression", "WeakerAccess", "SpellCheckingInspection", "NullableProblems"})
