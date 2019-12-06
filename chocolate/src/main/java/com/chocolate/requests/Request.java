@@ -10,12 +10,12 @@ import com.chocolate.requests.loopj.JSONObjectRawRequest;
 import com.chocolate.requests.loopj.JSONObjectRequest;
 import com.chocolate.requests.loopj.StringRequest;
 import com.chocolate.requests.plugins.LoggerPlugin;
+import com.chocolate.utilities.Time;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -38,6 +38,7 @@ public abstract class Request<Self extends Request, ResponseType extends Request
     private boolean canceled = false;
     @SuppressWarnings("WeakerAccess") protected Long requestStartTime;
     @SuppressWarnings("WeakerAccess") protected Long requestEndTime;
+    private int nextPluginToCall;
 
     // Constructor.....
     public Request(@NotNull Context context, @Nullable String description) {
@@ -60,13 +61,33 @@ public abstract class Request<Self extends Request, ResponseType extends Request
         if (progressListener != null) progressListener.progress(new Progress(bytesWritten, totalSize, progress));
     }
 
-    protected void onFinished(ResponseType response) {
-        this.requestEndTime = Calendar.getInstance().getTimeInMillis();
-        for (int i = 0; i < configuration.plugins.size() && !canceled; i++) {
-            configuration.plugins.get(i).onFinishingRequest(context, this, response);
-        }
+    protected void onFinished(@NotNull ResponseType response) {
+        this.requestEndTime = Time.current.millis();
+        nextPluginToCall = -1;
+        continueFinishingRequest(response, new Plugin.FinishingCallback<>(this, response));
+    }
+
+    private void continueFinishingRequest(@NotNull ResponseType response, @NotNull Plugin.FinishingCallback<ResponseType, Handler> finishingCallback) {
         if (canceled) return;
-        callback.finished(response);
+        nextPluginToCall++;
+        if (nextPluginToCall >= configuration.plugins.size()) {
+            this.callback.finished(response);
+            return;
+        }
+        configuration.plugins.get(nextPluginToCall).onFinishingRequest(context, this, response, finishingCallback);
+    }
+
+    private void restart() {
+        canceled = false;
+        start(callback);
+    }
+
+    @SuppressWarnings("WeakerAccess")
+    protected void cancel() {
+        for (int i = 0; i < configuration.plugins.size(); i++) {
+            configuration.plugins.get(i).onRequestCanceled(context, this);
+        }
+        canceled = true;
     }
 
     @SuppressWarnings("unchecked")
@@ -145,26 +166,15 @@ public abstract class Request<Self extends Request, ResponseType extends Request
     }
 
     // Methods.....
-    @SuppressWarnings("WeakerAccess") public Handler start(@NotNull Callback<ResponseType> callback) {
+    @SuppressWarnings({"WeakerAccess", "UnusedReturnValue"}) public Handler start(@NotNull Callback<ResponseType> callback) {
         this.callback = callback;
-        this.requestStartTime = Calendar.getInstance().getTimeInMillis();
+        this.requestStartTime = Time.current.millis();
+        Plugin.StartingCallback startingCallback = new Plugin.StartingCallback<>(this);
         for (int i = 0; i < configuration.plugins.size() && !canceled; i++) {
-            configuration.plugins.get(i).onStartingRequest(context, this);
+            configuration.plugins.get(i).onStartingRequest(context, this, startingCallback);
         }
         if (canceled) return null;
         return perform();
-    }
-
-    public Handler restart() {
-        canceled = false;
-        return start(callback);
-    }
-
-    public void cancel() {
-        for (int i = 0; i < configuration.plugins.size(); i++) {
-            configuration.plugins.get(i).onRequestCanceled(context, this);
-        }
-        canceled = true;
     }
 
     // Static Methods.....
@@ -230,23 +240,59 @@ public abstract class Request<Self extends Request, ResponseType extends Request
     public static abstract class Plugin {
 
         // Abstract Methods.....
-        public abstract void onStartingRequest(@NotNull Context context, @NotNull Request request);
+        public abstract void onStartingRequest(@NotNull Context context, @NotNull Request request, @NotNull StartingCallback callback);
 
-        public abstract void onFinishingRequest(@NotNull Context context, @NotNull Request request, @NotNull Response response);
+        public abstract void onFinishingRequest(@NotNull Context context, @NotNull Request request, @NotNull Response response, @NotNull FinishingCallback callback);
 
         // Overridable Methods.....
         @SuppressWarnings("EmptyMethod") public void onRequestCanceled(@NotNull Context context, @NotNull Request request) {}
 
         // Classes.....
-        public static class Callback<ResponseType> {
+        public static class StartingCallback<ResponseType extends Response, HandlerType> extends Plugin.Callback<ResponseType, HandlerType> {
+
+            // Constructors.....
+            private StartingCallback(@NotNull Request<?, ResponseType, ?, HandlerType> request) {
+                super(request);
+            }
+
+        }
+
+        public static class FinishingCallback<ResponseType extends Response, HandlerType> extends Plugin.Callback<ResponseType, HandlerType> {
+
+            // Variables.....
+            @NotNull private final ResponseType response;
+
+            // Constructors.....
+            private FinishingCallback(@NotNull Request<?, ResponseType, ?, HandlerType> request, @NotNull ResponseType response) {
+                super(request);
+                this.response = response;
+            }
+
+            // Methods.....
+            public void continueRequest() {
+                request.continueFinishingRequest(response, this);
+            }
+
+        }
+
+        // Interfaces.....
+        private static abstract class Callback<ResponseType extends Response, HandlerType> {
+
+            // Variables.....
+            @NotNull protected final Request<?, ResponseType, ?, HandlerType> request;
+
+            // Constructors.....
+            private Callback(@NotNull Request<?, ResponseType, ?, HandlerType> request) {
+                this.request = request;
+            }
 
             // Methods.....
             public void cancelRequest() {
-
+                request.cancel();
             }
 
-            public void continueRequest() {
-
+            public void restartRequest() {
+                request.restart();
             }
 
         }

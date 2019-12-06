@@ -14,11 +14,11 @@ import org.jetbrains.annotations.NotNull;
 public class LoggerPlugin extends Request.Plugin implements LoggerInterface {
 
     // Methods.....
-    @Override public void onStartingRequest(@NotNull Context context, @NotNull Request request) {
+    @Override public void onStartingRequest(@NotNull Context context, @NotNull Request request, @NotNull StartingCallback callback) {
         print(request.getMethod().toString() + " Request to URL: " + request.getURL());
     }
 
-    @Override public void onFinishingRequest(@NotNull Context context, @NotNull Request request, @NotNull Request.Response response) {
+    @Override public void onFinishingRequest(@NotNull Context context, @NotNull Request request, @NotNull Request.Response response, @NotNull FinishingCallback callback) {
         log(response.failed() ? Logger.STYLE_ERROR : Logger.STYLE_INFO,"Request\n" +
                         (request.getDescription() != null ? ("Detail: " + request.getDescription() + "\n") : "") +
                         "URL: " + request.getURL() + "\n" +
@@ -28,6 +28,7 @@ public class LoggerPlugin extends Request.Plugin implements LoggerInterface {
                         "Status Code: " + response.status.value + " " + response.status.description + "\n" +
                         "Request Type: " + request.getRequestType() +
                         (response.stringResponse != null ? ("\nResponse: " + response.stringResponse) : ""));
+        callback.continueRequest();
     }
 
     @NonNull @Override public String getTag() {

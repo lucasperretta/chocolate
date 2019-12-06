@@ -1,5 +1,8 @@
 package com.chocolate.utilities;
 
+import java.util.Locale;
+
+@SuppressWarnings({"unused", "WeakerAccess", "RedundantSuppression"})
 public final class Text extends UtilityClass {
 
     // Constants.....
@@ -10,7 +13,7 @@ public final class Text extends UtilityClass {
 
     // Methods.....
     public static String capitalizeFirstLetter(String string) {
-        return string == null || string.isEmpty() ? string : string.substring(0, 1).toUpperCase() + string.substring(1);
+        return string == null || string.isEmpty() ? string : string.substring(0, 1).toUpperCase(Locale.getDefault()) + string.substring(1);
     }
 
     public static String capitalize(String string) {

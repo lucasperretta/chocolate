@@ -5,6 +5,9 @@ import androidx.annotation.NonNull;
 
 import com.chocolate.utilities.UtilityClass;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
 @SuppressWarnings({"unused", "WeakerAccess"})
 public final class Logger extends UtilityClass {
 
@@ -16,6 +19,7 @@ public final class Logger extends UtilityClass {
     };
 
     // @Interfaces.....
+    @Retention(RetentionPolicy.SOURCE)
     @IntDef({ STYLE_INFO, STYLE_WARN, STYLE_ERROR })
     public @interface LoggerStyle {}
 
