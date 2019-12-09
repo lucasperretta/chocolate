@@ -1,16 +1,36 @@
 package com.chocolate.utilities;
 
+import android.content.Context;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.lang.reflect.Method;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 @SuppressWarnings({"WeakerAccess", "RedundantSuppression", "unused"})
 public final class Utils extends UtilityClass {
 
     // Methods.....
-    public static Delayed executeAfterDelay(long delayInMillis, @NotNull Runnable runnable) {
-        return new Delayed(delayInMillis, runnable);
+    @NotNull public static String readAssetsTextFile(@NotNull Context context, @NotNull String fileName) throws IOException {
+        return readAssetsTextFile(context, fileName, StandardCharsets.UTF_8);
+    }
+
+    @NotNull public static String readAssetsTextFile(@NotNull Context context, @NotNull String fileName, @NotNull Charset charset) throws IOException {
+        StringBuilder stringBuilder = new StringBuilder();
+        InputStream inputStream = context.getAssets().open(fileName);
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, charset));
+        String string;
+        while ((string = bufferedReader.readLine()) != null) {
+            stringBuilder.append(string);
+        }
+        bufferedReader.close();
+        return stringBuilder.toString();
     }
 
     // Classes.....
