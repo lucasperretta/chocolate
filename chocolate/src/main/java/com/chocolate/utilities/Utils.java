@@ -9,8 +9,8 @@ import java.lang.reflect.Method;
 public final class Utils extends UtilityClass {
 
     // Methods.....
-    public static DelayedExecution executeAfterDelay(long delayInMillis, @NotNull Runnable runnable) {
-        return new DelayedExecution(delayInMillis, runnable);
+    public static Delayed executeAfterDelay(long delayInMillis, @NotNull Runnable runnable) {
+        return new Delayed(delayInMillis, runnable);
     }
 
     // Classes.....
