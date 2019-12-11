@@ -14,8 +14,8 @@ public final class Validation {
     public static void tryOr(@NotNull TryHandler handler, @NotNull ValidationFailedHandler failedHandler) {
         try {
             handler.handle();
-        } catch (Exception e) {
-            failedHandler.handle();
+        } catch (Exception exception) {
+            failedHandler.handle(exception);
         }
     }
 
@@ -29,8 +29,9 @@ public final class Validation {
 
     public Validation validate(boolean expected, String message, ValidationFailedHandler handler) throws Exception {
         if (!expected) {
-            if (handler != null) handler.handle();
-            throw new Exception(message);
+            final Exception exception = new Exception(message);
+            if (handler != null) handler.handle(exception);
+            throw exception;
         }
         return this;
     }
@@ -52,7 +53,7 @@ public final class Validation {
     }
 
     public interface ValidationFailedHandler {
-        void handle();
+        void handle(Exception exception);
     }
 
 }
