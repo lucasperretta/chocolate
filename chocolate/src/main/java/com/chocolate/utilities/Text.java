@@ -43,11 +43,11 @@ public final class Text extends UtilityClass {
         return string.matches(REGEX_LOWER_CASE + ".*");
     }
 
-    public static boolean hasAtLeastOneNumbers(@NotNull String string) {
+    public static boolean hasAtLeastOneNumber(@NotNull String string) {
         return string.matches(REGEX_NUMBERS + ".*");
     }
 
-    public static boolean hasAtLeastOneSpecialCharacters(@NotNull String string) {
+    public static boolean hasAtLeastOneSpecialCharacter(@NotNull String string) {
         return string.matches(REGEX_SPECIAL_CHARACTERS + ".*");
     }
 
