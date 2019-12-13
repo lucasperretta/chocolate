@@ -303,11 +303,11 @@ public abstract class Request<Self extends Request, ResponseType extends Request
     public static abstract class Response<Type, Header, Error> {
 
         // Variables.....
-        @Nullable public final Type value;
-        @Nullable public final Error error;
-        @Nullable public final Header[] headers;
+        public final Type value;
+        public final Error error;
+        public final Header[] headers;
         @NotNull public final Status status;
-        @Nullable public final String stringResponse;
+        public final String stringResponse;
 
         // Constructor.....
         public Response(@Nullable Type value, @NotNull Status status, @Nullable Header[] headers, @Nullable Error error, @Nullable String stringResponse) {
