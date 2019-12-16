@@ -22,7 +22,11 @@ public final class Collections extends UtilityClass {
     public static <Type> void foreach(@NotNull Collection<Type> collection, @NotNull Predicate.Foreach<Type> predicate) {
         int index = 0;
         for (Type type : collection) {
-            predicate.iteration(index, type);
+            try {
+                predicate.iteration(index, type);
+            } catch (Predicate.Foreach.BreakException breakException) {
+                break;
+            }
             index++;
         }
     }
@@ -206,7 +210,16 @@ public final class Collections extends UtilityClass {
 
     public static final class Predicate extends UtilityClass {
 
-        public interface Foreach<Type> { void iteration(int index, Type object); }
+        public interface Foreach<Type> {
+
+            // Methods.....
+            void iteration(int index, Type object) throws BreakException;
+            default void _break() throws BreakException { throw new BreakException(); }
+
+            // Classes.....
+            class BreakException extends Exception {}
+
+        }
 
         public interface Map<Type, Result> { Result applyTo(Type object); }
 
