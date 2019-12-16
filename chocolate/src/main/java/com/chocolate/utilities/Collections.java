@@ -3,6 +3,8 @@ package com.chocolate.utilities;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.lang.reflect.Array;
 import java.util.Collection;
 import java.util.Iterator;
@@ -10,6 +12,20 @@ import java.util.Objects;
 
 @SuppressWarnings({"RedundantSuppression", "WeakerAccess", "unused"})
 public final class Collections extends UtilityClass {
+
+    /**
+     * Calls a provided function on every element of the collection providing it with the corresponding index and object
+     * @param collection The collection in which to iterate over
+     * @param predicate Function to execute on every iteration
+     * @param <Type> Type of the collection objects
+     */
+    public static <Type> void foreach(@NotNull Collection<Type> collection, @NotNull Predicate.Foreach<Type> predicate) {
+        int index = 0;
+        for (Type type : collection) {
+            predicate.iteration(index, type);
+            index++;
+        }
+    }
 
     /**
      * Calls a provided function on every element of the collection and returns a new collection with the results
@@ -189,6 +205,8 @@ public final class Collections extends UtilityClass {
     }
 
     public static final class Predicate extends UtilityClass {
+
+        public interface Foreach<Type> { void iteration(int index, Type object); }
 
         public interface Map<Type, Result> { Result applyTo(Type object); }
 
