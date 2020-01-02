@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Array;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Objects;
 
@@ -40,6 +41,28 @@ public final class Collections extends UtilityClass {
     public static <Type, Result, Return extends Collection<Result>> Return map(@NonNull Collection<Type> collection, @NonNull Return initial, @NonNull Predicate.Map<Type, Result> predicate) {
         for (Type object : collection) initial.add(predicate.applyTo(object));
         return initial;
+    }
+
+    /**
+     * Calls a provided function on every element of the collection expecting the user to populate a new collection in every iteration
+     * @param collection The collection in which to iterate over
+     * @param predicate Function to execute on every iteration
+     * @param <Type> Type of the collection objects
+     */
+    public static <Type, NewCollection> NewCollection map(@NonNull Collection<Type> collection, @NonNull NewCollection newCollection, @NonNull Predicate.ManualMap<Type, NewCollection> predicate) {
+        for (Type object : collection) predicate.applyTo(object, newCollection);
+        return newCollection;
+    }
+
+    /**
+     * Performs a Map operation only asking for the corresponding Key for each Value
+     * @param collection The collection in which to iterate over
+     * @param predicate Function to execute on every iteration
+     * @param <Key> Type of the expected map's key
+     * @param <Value> Type of the collection objects
+     */
+    public static <Key, Value> HashMap<Key, Value> autoMap(@NonNull Collection<Value> collection, @NonNull Predicate.AutoMap<Key, Value> predicate) {
+        return map(collection, new HashMap<>(), (value, map) -> map.put(predicate.applyTo(value), value));
     }
 
     /**
@@ -213,7 +236,7 @@ public final class Collections extends UtilityClass {
         public interface Foreach<Type> {
 
             // Methods.....
-            void iteration(int index, Type object) throws BreakException;
+            @SuppressWarnings("RedundantThrows") void iteration(int index, Type object) throws BreakException;
             default void _break() throws BreakException { throw new BreakException(); }
 
             // Classes.....
@@ -222,6 +245,10 @@ public final class Collections extends UtilityClass {
         }
 
         public interface Map<Type, Result> { Result applyTo(Type object); }
+
+        public interface ManualMap<Type, NewCollection> { void applyTo(Type object, NewCollection newCollection); }
+
+        public interface AutoMap<Key, Value> { Key applyTo(Value value); }
 
         public interface Reduce<Type, Result> { Result reduce(Result currentValue, Type nextElement); }
 
