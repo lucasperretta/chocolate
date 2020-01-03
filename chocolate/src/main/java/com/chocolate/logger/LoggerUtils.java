@@ -31,6 +31,9 @@ final class LoggerUtils extends UtilityClass {
     private static void performLog(String tag, @Logger.LoggerStyle int logStyle, @NonNull String log) {
         tag = Logger.tagPrefix + tag;
         switch (logStyle) {
+            case Logger.STYLE_VERBOSE:
+                Log.v(tag, log);
+                break;
             case Logger.STYLE_INFO:
                 Log.i(tag, log);
                 break;

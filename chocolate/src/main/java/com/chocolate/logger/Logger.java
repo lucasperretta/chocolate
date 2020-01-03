@@ -20,10 +20,11 @@ public final class Logger extends UtilityClass {
 
     // @Interfaces.....
     @Retention(RetentionPolicy.SOURCE)
-    @IntDef({ STYLE_INFO, STYLE_WARN, STYLE_ERROR })
+    @IntDef({ STYLE_VERBOSE, STYLE_INFO, STYLE_WARN, STYLE_ERROR })
     public @interface LoggerStyle {}
 
     // Constants.....
+    public static final int STYLE_VERBOSE = 0;
     public static final int STYLE_INFO = 1;
     public static final int STYLE_WARN = 2;
     public static final int STYLE_ERROR = 3;

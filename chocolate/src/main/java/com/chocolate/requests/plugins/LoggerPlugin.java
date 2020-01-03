@@ -19,7 +19,7 @@ public class LoggerPlugin extends Request.Plugin implements LoggerInterface {
     }
 
     @Override public void onFinishingRequest(@NotNull Context context, @NotNull Request request, @NotNull Request.Response response, @NotNull FinishingCallback callback) {
-        log(response.failed() ? Logger.STYLE_ERROR : Logger.STYLE_INFO,"Request\n" +
+        log(response.failed() ? Logger.STYLE_ERROR : request.getVerbose() ? Logger.STYLE_VERBOSE : Logger.STYLE_INFO,"Request\n" +
                         (request.getDescription() != null ? ("Detail: " + request.getDescription() + "\n") : "") +
                         "URL: " + request.getURL() + "\n" +
                         "Request Method: " + request.getMethod().toString() + "\n" +

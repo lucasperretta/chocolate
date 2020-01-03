@@ -39,6 +39,7 @@ public abstract class Request<Self extends Request, ResponseType extends Request
     @SuppressWarnings("WeakerAccess") protected Long requestStartTime;
     @SuppressWarnings("WeakerAccess") protected Long requestEndTime;
     private int nextPluginToCall;
+    private boolean printVerbose = false;
 
     // Constructor.....
     public Request(@NotNull Context context, @Nullable String description) {
@@ -139,6 +140,16 @@ public abstract class Request<Self extends Request, ResponseType extends Request
         return self();
     }
 
+    public Self verbose() {
+        this.printVerbose = true;
+        return self();
+    }
+
+    public Self setVerbose(boolean verbose) {
+        this.printVerbose = verbose;
+        return self();
+    }
+
     // Getters.....
     @Nullable public String getDescription() { return description; }
 
@@ -151,6 +162,8 @@ public abstract class Request<Self extends Request, ResponseType extends Request
     @NotNull public List<Header> getHeaders() { return headers; }
 
     public int getTimeout() { return timeout; }
+
+    public boolean getVerbose() { return printVerbose; }
 
     @Nullable public Progress.Listener getProgressListener() { return progressListener; }
 
