@@ -15,7 +15,7 @@ public class LoggerPlugin extends Request.Plugin implements LoggerInterface {
 
     // Methods.....
     @Override public void onStartingRequest(@NotNull Context context, @NotNull Request request, @NotNull StartingCallback callback) {
-        print(request.getMethod().toString() + " Request to URL: " + request.getURL());
+        if (!request.getPrintQuietly()) print(request.getMethod().toString() + " Request to URL: " + request.getURL());
     }
 
     @Override public void onFinishingRequest(@NotNull Context context, @NotNull Request request, @NotNull Request.Response response, @NotNull FinishingCallback callback) {
