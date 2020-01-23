@@ -202,18 +202,25 @@ public final class Collections extends UtilityClass {
 
     /**
      * Returns the concatenation between two arrays
-     * @param first First Array
-     * @param second Second Array
+     * @param arrays The arrays to concatenate
      * @param <Type> Type of the Array's contents
      */
-    public static <Type> Type[] concatenate(Type[] first, Type[] second) {
-        int firstLength = first.length;
-        int secondLength = second.length;
+    @SafeVarargs public static <Type> Type[] concatenate(Type[]... arrays) {
+        if (arrays.length == 0) throw new IllegalStateException("Must provide at least one array to concatenate");
+
+        int length = 0;
+        for (Type[] array : arrays) {
+            length += array.length;
+        }
 
         @SuppressWarnings("unchecked")
-        Type[] result = (Type[]) Array.newInstance(Objects.requireNonNull(first.getClass().getComponentType()), firstLength + secondLength);
-        System.arraycopy(first, 0, result, 0, firstLength);
-        System.arraycopy(second, 0, result, firstLength, secondLength);
+        Type[] result = (Type[]) Array.newInstance(Objects.requireNonNull(arrays[0].getClass().getComponentType()), length);
+
+        int position = 0;
+        for (Type[] array : arrays) {
+            System.arraycopy(array, 0, result, position, array.length);
+            position += array.length;
+        }
 
         return result;
     }
