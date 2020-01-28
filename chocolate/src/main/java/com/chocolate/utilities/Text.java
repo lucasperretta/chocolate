@@ -22,6 +22,10 @@ public final class Text extends UtilityClass {
         String[] words = string.split(" ");
         StringBuilder builder = new StringBuilder();
         for (String word : words) {
+            if (word.isEmpty()) {
+                builder.append(" ");
+                continue;
+            }
             builder.append(Character.toUpperCase(word.charAt(0))).append(word.substring(1)).append(" ");
         }
         return builder.toString().trim();
