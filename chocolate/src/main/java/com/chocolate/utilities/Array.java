@@ -39,6 +39,26 @@ public class Array<Type> extends ArrayList<Type> {
         return get(size()-1);
     }
 
+    @Nullable public Type getNextTo(Type object) {
+        int index = indexOfNext(object);
+        return index == -1 ? null : get(index);
+    }
+
+    @SuppressWarnings("WeakerAccess") public int indexOfNext(Type object) {
+        int index = indexOf(object) + 1;
+        return index == size() ? -1 : index;
+    }
+
+    @Nullable public Type getPreviousTo(Type object) {
+        int index = indexOfPrevious(object);
+        return index == -1 ? null : get(index);
+    }
+
+    @SuppressWarnings("WeakerAccess") public int indexOfPrevious(Type object) {
+        int index = indexOf(object) - 1;
+        return index < 0 ? -1 : index;
+    }
+
     // Collections Method Extensions.....
     public void foreach(@NotNull Collections.Predicate.Foreach<Type> predicate) {
         Collections.foreach(this, predicate);
