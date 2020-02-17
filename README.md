@@ -38,6 +38,6 @@ allprojects {
 In your project level build.gradle file, add this line inside your dependencies declaration:
 ``` groovy
 dependencies {
-    implementation 'com.github.lucasperretta:chocolate:0.1.1'
+    implementation 'com.github.lucasperretta:chocolate:1.0.0'
 }
 ```
