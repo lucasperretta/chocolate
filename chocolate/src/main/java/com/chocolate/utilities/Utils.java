@@ -9,6 +9,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.lang.reflect.Method;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -17,6 +18,26 @@ import java.nio.charset.StandardCharsets;
 public final class Utils extends UtilityClass {
 
     // Methods.....
+    public boolean hasRootPrivileges() {
+        Process exec = null;
+        try {
+            exec = Runtime.getRuntime().exec(new String[]{ "su", "-c" });
+            final OutputStreamWriter out = new OutputStreamWriter(exec.getOutputStream());
+            out.write("exit");
+            out.flush();
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (exec != null) {
+                try {
+                    exec.destroy();
+                } catch (Exception ignored) {}
+            }
+        }
+        return false;
+    }
+
     @NotNull public static String readAssetsTextFile(@NotNull Context context, @NotNull String fileName) throws IOException {
         return readAssetsTextFile(context, fileName, StandardCharsets.UTF_8);
     }
