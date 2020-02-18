@@ -18,7 +18,7 @@ import java.nio.charset.StandardCharsets;
 public final class Utils extends UtilityClass {
 
     // Methods.....
-    public boolean hasRootPrivileges() {
+    public static boolean hasRootPrivileges() {
         Process exec = null;
         try {
             exec = Runtime.getRuntime().exec(new String[]{ "su", "-c" });
