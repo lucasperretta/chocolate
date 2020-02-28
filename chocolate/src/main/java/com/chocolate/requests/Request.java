@@ -120,6 +120,36 @@ public abstract class Request<Self extends Request, ResponseType extends Request
         return self();
     }
 
+    public Self get() {
+        this.method = Method.GET;
+        return self();
+    }
+
+    public Self post() {
+        this.method = Method.POST;
+        return self();
+    }
+
+    public Self put() {
+        this.method = Method.PUT;
+        return self();
+    }
+
+    public Self patch() {
+        this.method = Method.PATCH;
+        return self();
+    }
+
+    public Self delete() {
+        this.method = Method.DELETE;
+        return self();
+    }
+
+    public Self head() {
+        this.method = Method.HEAD;
+        return self();
+    }
+
     public Self body(Body body) {
         this.body = body;
         return self();
