@@ -35,4 +35,12 @@ import androidx.annotation.NonNull;
         cancelled = true;
     }
 
+    public static Scheduled run(long interval, @NonNull Runnable runnable) {
+        return new Scheduled(interval, runnable);
+    }
+
+    public static Scheduled run(long interval, long delay, @NonNull Runnable runnable) {
+        return new Scheduled(interval, delay, runnable);
+    }
+
 }
