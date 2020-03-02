@@ -24,6 +24,7 @@ import androidx.annotation.NonNull;
     // Methods.....
     protected void start(long interval, @NonNull Runnable runnable) {
         runnable.run();
+        if (cancelled) return;
         delayed = Delayed.run(interval, () -> {
             if (cancelled) return;
             start(interval, runnable);
@@ -31,7 +32,7 @@ import androidx.annotation.NonNull;
     }
 
     public void cancel() {
-        delayed.cancel();
+        if (delayed != null) delayed.cancel();
         cancelled = true;
     }
 
