@@ -79,6 +79,12 @@ public abstract class BaseRequest<Self extends BaseRequest, ResponseType extends
         return requestHandle;
     }
 
+    // Methods.....
+    public Self body(Object... params) {
+        this.body(new RequestParams(params));
+        return self();
+    }
+
     // Setters.....
     public Self useCookies(boolean value) {
         this.useCookies = value;

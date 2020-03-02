@@ -534,7 +534,7 @@ public abstract class Request<Self extends Request, ResponseType extends Request
     }
 
     @SuppressWarnings({"RedundantSuppression", "WeakerAccess", "SpellCheckingInspection", "NullableProblems"})
-    protected class Header {
+    protected static class Header {
 
         // Variables.....
         @NotNull public final String header;
