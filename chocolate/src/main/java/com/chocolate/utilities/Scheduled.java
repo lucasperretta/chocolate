@@ -23,8 +23,8 @@ import androidx.annotation.NonNull;
 
     // Methods.....
     protected void start(long interval, @NonNull Runnable runnable) {
-        runnable.run();
         if (cancelled) return;
+        runnable.run();
         delayed = Delayed.run(interval, () -> {
             if (cancelled) return;
             start(interval, runnable);
