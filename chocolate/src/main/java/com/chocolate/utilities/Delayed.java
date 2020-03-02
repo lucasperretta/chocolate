@@ -4,7 +4,7 @@ import android.os.Handler;
 
 import org.jetbrains.annotations.NotNull;
 
-@SuppressWarnings("unused") public class Delayed {
+@SuppressWarnings({"unused", "WeakerAccess"}) public class Delayed {
 
     // Variables.....
     @SuppressWarnings("WeakerAccess") protected final Handler handler = new Handler();
