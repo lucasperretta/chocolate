@@ -12,6 +12,8 @@ import com.loopj.android.http.RequestParams;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import cz.msebera.android.httpclient.HttpEntity;
+
 @SuppressWarnings("unused")
 public abstract class BaseRequest<Self extends BaseRequest, ResponseType extends BaseRequest.Response> extends Request<Self, ResponseType, RequestParams, RequestHandle> {
 
@@ -19,6 +21,8 @@ public abstract class BaseRequest<Self extends BaseRequest, ResponseType extends
     @SuppressWarnings("WeakerAccess") protected boolean fixNoHttpException = false;
     @SuppressWarnings("WeakerAccess") protected boolean useCookies = true;
     @SuppressWarnings("WeakerAccess") protected boolean enableRedirects = true;
+    @SuppressWarnings("WeakerAccess") protected HttpEntity httpEntity;
+    @SuppressWarnings("WeakerAccess") protected String httpEntityContentType;
     @SuppressWarnings("WeakerAccess") @Nullable SetupClientCallback setupClientCallback;
 
     // Constructors.....
@@ -55,33 +59,65 @@ public abstract class BaseRequest<Self extends BaseRequest, ResponseType extends
 
         AsyncHttpClient client = getHttpClient();
 
-        switch (method) {
-            case GET:
-                requestHandle = client.get(URL, body, handler);
-                break;
-            case POST:
-                requestHandle = client.post(URL, body, handler);
-                break;
-            case HEAD:
-                requestHandle = client.head(URL, body, handler);
-                break;
-            case PUT:
-                requestHandle = client.put(URL, body, handler);
-                break;
-            case DELETE:
-                client.delete(URL, body, handler);
-                break;
-            case PATCH:
-                requestHandle = client.patch(URL, body, handler);
-                break;
+        if (httpEntity != null && method != Method.HEAD) {
+            switch (method) {
+                case GET:
+                    requestHandle = client.get(context, URL, httpEntity, httpEntityContentType, handler);
+                    break;
+                case POST:
+                    requestHandle = client.post(context, URL, httpEntity, httpEntityContentType, handler);
+                    break;
+                case PUT:
+                    requestHandle = client.put(context, URL, httpEntity, httpEntityContentType, handler);
+                    break;
+                case DELETE:
+                    requestHandle = client.delete(context, URL, httpEntity, httpEntityContentType, handler);
+                    break;
+                case PATCH:
+                    requestHandle = client.patch(context, URL, httpEntity, httpEntityContentType, handler);
+                    break;
+            }
+        } else {
+            switch (method) {
+                case GET:
+                    requestHandle = client.get(URL, body, handler);
+                    break;
+                case POST:
+                    requestHandle = client.post(URL, body, handler);
+                    break;
+                case HEAD:
+                    requestHandle = client.head(URL, body, handler);
+                    break;
+                case PUT:
+                    requestHandle = client.put(URL, body, handler);
+                    break;
+                case DELETE:
+                    requestHandle = client.delete(URL, body, handler);
+                    break;
+                case PATCH:
+                    requestHandle = client.patch(URL, body, handler);
+                    break;
+            }
         }
 
         return requestHandle;
     }
 
     // Methods.....
+    @Override public Self body(RequestParams params) {
+        this.httpEntity = null;
+        this.httpEntityContentType = null;
+        return super.body(params);
+    }
+
     public Self body(Object... params) {
-        this.body(new RequestParams(params));
+        return this.body(new RequestParams(params));
+    }
+
+    public Self body(HttpEntity entity, String contentType) {
+        this.body = null;
+        this.httpEntity = entity;
+        this.httpEntityContentType = contentType;
         return self();
     }
 
