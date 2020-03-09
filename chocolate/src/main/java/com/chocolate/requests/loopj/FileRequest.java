@@ -27,6 +27,13 @@ public final class FileRequest extends BaseRequest<FileRequest, FileRequest.Resp
     // Methods.....
     @Override protected RequestHandle perform() {
         return performRequest(new FileAsyncHttpResponseHandler(context) {
+            @Override public void onProgress(long bytesWritten, long totalSize) {
+                int progress = (int) ((bytesWritten * 100) / totalSize);
+                if (progress <= 100 && progress >= 0) {
+                    onProgressUpdate(bytesWritten, totalSize, progress);
+                }
+            }
+
             @Override public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, Throwable throwable, File file) {
                 onFinished(new Response(file, new Status(statusCode, false), headers, throwable));
             }

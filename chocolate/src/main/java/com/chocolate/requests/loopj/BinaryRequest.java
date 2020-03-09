@@ -25,6 +25,13 @@ public final class BinaryRequest extends BaseRequest<BinaryRequest, BinaryReques
     // Methods.....
     @Override @Nullable protected RequestHandle perform() {
         return performRequest(new AsyncHttpResponseHandler() {
+            @Override public void onProgress(long bytesWritten, long totalSize) {
+                int progress = (int) ((bytesWritten * 100) / totalSize);
+                if (progress <= 100 && progress >= 0) {
+                    onProgressUpdate(bytesWritten, totalSize, progress);
+                }
+            }
+
             @Override public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, byte[] responseBody) {
                 onFinished(new Response(responseBody, new Status(statusCode, true), headers, null, null));
             }
