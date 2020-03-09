@@ -2,6 +2,8 @@ package com.chocolate.requests;
 
 import android.content.Context;
 
+import androidx.annotation.NonNull;
+
 import com.chocolate.requests.loopj.BinaryRequest;
 import com.chocolate.requests.loopj.FileRequest;
 import com.chocolate.requests.loopj.JSONArrayRawRequest;
@@ -11,6 +13,7 @@ import com.chocolate.requests.loopj.JSONObjectRequest;
 import com.chocolate.requests.loopj.StringRequest;
 import com.chocolate.requests.plugins.LoggerPlugin;
 import com.chocolate.utilities.Time;
+import com.loopj.android.http.PersistentCookieStore;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -228,6 +231,10 @@ public abstract class Request<Self extends Request, ResponseType extends Request
 
     @NotNull public static String getBaseURL() {
         return configuration.baseURL;
+    }
+
+    public static void clearCookies(@NonNull Context context) {
+        new PersistentCookieStore(context).clear();
     }
 
     // Static Helpers.....
