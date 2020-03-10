@@ -18,6 +18,7 @@ import com.loopj.android.http.PersistentCookieStore;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -43,6 +44,7 @@ public abstract class Request<Self extends Request, ResponseType extends Request
     @SuppressWarnings("WeakerAccess") protected Long requestEndTime;
     private int nextPluginToCall;
     private boolean printQuietly = false;
+    protected HashMap<String, String> tags;
 
     // Constructor.....
     public Request(@NotNull Context context, @Nullable String description) {
@@ -183,6 +185,16 @@ public abstract class Request<Self extends Request, ResponseType extends Request
         return self();
     }
 
+    public Self addTag(String tag) {
+        return addTag(tag, null);
+    }
+
+    @SuppressWarnings("WeakerAccess") public Self addTag(String tag, String value) {
+        if (tags == null) tags = new HashMap<>();
+        tags.put(tag, value);
+        return self();
+    }
+
     // Getters.....
     @Nullable public String getDescription() { return description; }
 
@@ -210,6 +222,10 @@ public abstract class Request<Self extends Request, ResponseType extends Request
         }
         return null;
     }
+
+    @Nullable public String getTag(String tag) { return tags != null ? tags.get(tag) : null; }
+
+    public boolean hasTag(String tag) { return tags != null && tags.containsKey(tag); }
 
     // Methods.....
     @SuppressWarnings({"WeakerAccess", "UnusedReturnValue"}) public Handler start(@NotNull Callback<ResponseType> callback) {
