@@ -161,7 +161,7 @@ public abstract class BaseRequest<Self extends BaseRequest, ResponseType extends
     }
 
     // Interfaces.....
-    public interface SetupClientCallback {
+    @SuppressWarnings({"WeakerAccess", "RedundantSuppression"}) public interface SetupClientCallback {
         void setup(AsyncHttpClient client);
     }
 

@@ -49,10 +49,10 @@ public final class FileRequest extends BaseRequest<FileRequest, FileRequest.Resp
     }
 
     // Classes.....
-    public static final class Response extends BaseRequest.Response<File> {
+    @SuppressWarnings({"WeakerAccess", "RedundantSuppression"}) public static final class Response extends BaseRequest.Response<File> {
 
         // Constructor.....
-        public Response(@Nullable File value, @NotNull Status status, @Nullable cz.msebera.android.httpclient.Header[] headers, @Nullable Throwable throwable) {
+        @SuppressWarnings("WeakerAccess") public Response(@Nullable File value, @NotNull Status status, @Nullable cz.msebera.android.httpclient.Header[] headers, @Nullable Throwable throwable) {
             super(value, status, headers, throwable, null);
         }
 
