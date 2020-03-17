@@ -1,6 +1,7 @@
 package com.chocolate.utilities;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Locale;
 
@@ -14,6 +15,18 @@ public final class Text extends UtilityClass {
     private final static String REGEX_SPECIAL_CHARACTERS = ".*[^a-zA-Z0-9]";
 
     // Methods.....
+    public static String emptyIfNull(@Nullable String string) {
+        return string == null ? "" : string;
+    }
+
+    public static String nullIfEmpty(@Nullable String string) {
+        return empty(string) ? null : string;
+    }
+
+    public static boolean empty(@Nullable String string) {
+        return string == null || string.trim().isEmpty();
+    }
+
     public static String capitalizeFirstLetter(String string) {
         return string == null || string.isEmpty() ? string : string.substring(0, 1).toUpperCase(Locale.getDefault()) + string.substring(1);
     }
