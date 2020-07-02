@@ -9,7 +9,7 @@ import com.loopj.android.http.TextHttpResponseHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-@SuppressWarnings({"RedundantThrows", "RedundantSuppression", "unused"})
+@SuppressWarnings({"RedundantThrows", "RedundantSuppression", "unused", "rawtypes"})
 public abstract class GsonParsableRequest<Self extends StringParsableRequest, ResponseType extends GsonParsableRequest.Response<ParseType, ErrorType>, ParseType, ErrorType> extends StringParsableRequest<Self, ResponseType, ParseType> {
 
     // Variables.....

@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "rawtypes", "RedundantSuppression"})
 public abstract class Request<Self extends Request, ResponseType extends Request.Response, Body, Handler> {
 
     // Static Variables.....
@@ -31,7 +31,7 @@ public abstract class Request<Self extends Request, ResponseType extends Request
     // Variables.....
     @NotNull protected final Context context;
     @SuppressWarnings({"WeakerAccess", "RedundantSuppression"}) @Nullable protected final String description;
-    @SuppressWarnings({"WeakerAccess", "NullableProblems"}) @NotNull protected Callback<ResponseType> callback;
+    @SuppressWarnings({"WeakerAccess", "NullableProblems", "NotNullFieldNotInitialized"}) @NotNull protected Callback<ResponseType> callback;
     @NotNull protected Method method = Method.GET;
     @NotNull protected String URL;
     @Nullable protected Body body;
@@ -571,7 +571,7 @@ public abstract class Request<Self extends Request, ResponseType extends Request
     }
 
     // Interfaces.....
-    @SuppressWarnings({"WeakerAccess", "RedundantSuppression"}) public interface Callback<ResponseType extends Request.Response> {
+    @SuppressWarnings({"WeakerAccess", "RedundantSuppression", "rawtypes"}) public interface Callback<ResponseType extends Request.Response> {
         void finished(ResponseType response);
     }
 

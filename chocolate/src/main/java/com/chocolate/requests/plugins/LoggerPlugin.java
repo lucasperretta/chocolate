@@ -10,7 +10,7 @@ import com.chocolate.requests.Request;
 
 import org.jetbrains.annotations.NotNull;
 
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "rawtypes"})
 public class LoggerPlugin extends Request.Plugin implements LoggerInterface {
 
     // Methods.....
@@ -18,7 +18,7 @@ public class LoggerPlugin extends Request.Plugin implements LoggerInterface {
         if (!request.getPrintQuietly()) print(request.getMethod().toString() + " Request to URL: " + request.getURL());
     }
 
-    @Override public void onFinishingRequest(@NotNull Context context, @NotNull Request request, @NotNull Request.Response response, @NotNull FinishingCallback callback) {
+    @SuppressWarnings("rawtypes") @Override public void onFinishingRequest(@NotNull Context context, @NotNull Request request, @NotNull Request.Response response, @NotNull FinishingCallback callback) {
         log(response.failed() ? Logger.STYLE_ERROR : request.getPrintQuietly() ? Logger.STYLE_VERBOSE : Logger.STYLE_INFO,"Request\n" +
                         (request.getDescription() != null ? ("Detail: " + request.getDescription() + "\n") : "") +
                         "URL: " + request.getURL() + "\n" +

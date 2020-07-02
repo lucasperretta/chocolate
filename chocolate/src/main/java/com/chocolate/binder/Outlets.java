@@ -13,7 +13,7 @@ import com.chocolate.utilities.Utils;
 import java.lang.reflect.Field;
 import java.util.Objects;
 
-@SuppressWarnings({"WeakerAccess", "unused"}) public final class Outlets extends UtilityClass {
+@SuppressWarnings({"WeakerAccess", "unused", "rawtypes"}) public final class Outlets extends UtilityClass {
 
     // Methods.....
     public static void bind(@NonNull Activity activity) {
@@ -41,7 +41,7 @@ import java.util.Objects;
         }
     }
 
-    @NonNull private static Class findRIdsClass(@NonNull Object object) {
+    @SuppressWarnings("rawtypes") @NonNull private static Class findRIdsClass(@NonNull Object object) {
         if (object instanceof IdClassProvider) return ((IdClassProvider) object).getIdClass();
         String packageName = Objects.requireNonNull(object.getClass().getPackage()).getName();
         Array<String> array = new Array<>(packageName.split("\\."));

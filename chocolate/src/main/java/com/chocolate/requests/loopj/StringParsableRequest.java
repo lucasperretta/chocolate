@@ -8,7 +8,7 @@ import com.loopj.android.http.TextHttpResponseHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "rawtypes"})
 public abstract class StringParsableRequest<Self extends StringParsableRequest, ResponseType extends StringParsableRequest.Response<ParseType>, ParseType> extends BaseRequest<Self, ResponseType> {
 
     // Variables.....
@@ -73,7 +73,7 @@ public abstract class StringParsableRequest<Self extends StringParsableRequest, 
     public static abstract class Response<Type> extends BaseRequest.Response<Type> {
 
         // Variables.....
-        @SuppressWarnings("WeakerAccess") @Nullable public final Throwable parseError;
+        @SuppressWarnings({"WeakerAccess", "unused"}) @Nullable public final Throwable parseError;
 
         // Constructor.....
         public Response(@Nullable Type value, @NotNull Status status, @Nullable cz.msebera.android.httpclient.Header[] headers, @Nullable Throwable throwable, @Nullable String stringResponse, @Nullable Throwable parseError) {
