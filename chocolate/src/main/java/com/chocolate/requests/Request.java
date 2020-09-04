@@ -32,6 +32,7 @@ public abstract class Request<Self extends Request, ResponseType extends Request
     @NotNull protected final Context context;
     @SuppressWarnings({"WeakerAccess", "RedundantSuppression"}) @Nullable protected final String description;
     @SuppressWarnings({"WeakerAccess", "NullableProblems", "NotNullFieldNotInitialized"}) @NotNull protected Callback<ResponseType> callback;
+    @Nullable CallbackErrorHandler callbackErrorHandler;
     @NotNull protected Method method = Method.GET;
     @NotNull protected String URL;
     @Nullable protected Body body;
@@ -43,6 +44,7 @@ public abstract class Request<Self extends Request, ResponseType extends Request
     @SuppressWarnings("WeakerAccess") protected Long requestEndTime;
     private int nextPluginToCall;
     private boolean printQuietly = false;
+    private boolean handleCallbackErrors = false;
     @SuppressWarnings("WeakerAccess") protected HashMap<String, String> tags;
 
     // Constructor.....
@@ -76,7 +78,16 @@ public abstract class Request<Self extends Request, ResponseType extends Request
         if (canceled) return;
         nextPluginToCall++;
         if (nextPluginToCall >= configuration.plugins.size()) {
-            this.callback.finished(response);
+            if (handleCallbackErrors) {
+                try {
+                    this.callback.finished(response);
+                } catch (Throwable throwable) {
+                    throwable.printStackTrace();
+                    if (callbackErrorHandler != null) callbackErrorHandler.onError(throwable);
+                }
+            } else {
+                this.callback.finished(response);
+            }
             return;
         }
         configuration.plugins.get(nextPluginToCall).onFinishingRequest(context, this, response, finishingCallback);
@@ -194,7 +205,21 @@ public abstract class Request<Self extends Request, ResponseType extends Request
         return self();
     }
 
+    public Self handleCallbackErrors(boolean handle) {
+        this.handleCallbackErrors = handle;
+        return self();
+    }
+
+    public Self callbackErrorHandler(CallbackErrorHandler callback) {
+        this.callbackErrorHandler = callback;
+        return self();
+    }
+
     // Getters.....
+    @NotNull public static Configuration getConfiguration() {
+        return configuration;
+    }
+
     @Nullable public String getDescription() { return description; }
 
     @NotNull public String getURL() { return URL; }
@@ -225,6 +250,12 @@ public abstract class Request<Self extends Request, ResponseType extends Request
     @Nullable public String getTag(String tag) { return tags != null ? tags.get(tag) : null; }
 
     public boolean hasTag(String tag) { return tags != null && tags.containsKey(tag); }
+
+    public boolean handlesCallbackErrors() {
+        return handleCallbackErrors;
+    }
+
+    @Nullable public CallbackErrorHandler getCallbackErrorHandler() { return callbackErrorHandler; }
 
     // Methods.....
     @SuppressWarnings({"WeakerAccess", "UnusedReturnValue"}) public Handler start(@NotNull Callback<ResponseType> callback) {
@@ -417,6 +448,7 @@ public abstract class Request<Self extends Request, ResponseType extends Request
 
         // Variables.....
         @NotNull private String baseURL = "";
+        private boolean ignoreSSLVerification = false;
         @NotNull private final LoggerPlugin loggerPlugin = new LoggerPlugin();
         @NotNull private final List<Plugin> plugins = new ArrayList<>();
 
@@ -439,6 +471,14 @@ public abstract class Request<Self extends Request, ResponseType extends Request
         public Configuration removePlugin(@NotNull Plugin plugin) {
             plugins.remove(plugin);
             return this;
+        }
+
+        public void ignoreSSLVerification(boolean ignoreSSLVerification) {
+            this.ignoreSSLVerification = ignoreSSLVerification;
+        }
+
+        public boolean getIgnoreSSLVerification() {
+            return ignoreSSLVerification;
         }
 
         @SuppressWarnings("UnusedReturnValue") public Configuration enableLogging(boolean enable) {
@@ -573,6 +613,10 @@ public abstract class Request<Self extends Request, ResponseType extends Request
     // Interfaces.....
     @SuppressWarnings({"WeakerAccess", "RedundantSuppression", "rawtypes"}) public interface Callback<ResponseType extends Request.Response> {
         void finished(ResponseType response);
+    }
+
+    public interface CallbackErrorHandler {
+        void onError(Throwable throwable);
     }
 
 }
