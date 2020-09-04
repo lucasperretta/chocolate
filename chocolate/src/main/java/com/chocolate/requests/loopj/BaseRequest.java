@@ -37,7 +37,7 @@ public abstract class BaseRequest<Self extends BaseRequest, ResponseType extends
 
     // Protected Methods.....
     @SuppressWarnings("WeakerAccess") @NotNull protected AsyncHttpClient getHttpClient() {
-        AsyncHttpClient client = new AsyncHttpClient(fixNoHttpException, 80, 443);
+        AsyncHttpClient client = new AsyncHttpClient(getConfiguration().getIgnoreSSLVerification() || fixNoHttpException, 80, 443);
         for (Header header : headers) {
             client.addHeader(header.header, header.value);
         }
