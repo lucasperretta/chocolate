@@ -44,6 +44,10 @@ public final class FileRequest extends BaseRequest<FileRequest, FileRequest.Resp
         });
     }
 
+    @NotNull @Override protected Response constructFailedResponse() {
+        return new Response(null, new Status(0, false), null, null);
+    }
+
     @NonNull @Override public String getRequestType() {
         return "File";
     }

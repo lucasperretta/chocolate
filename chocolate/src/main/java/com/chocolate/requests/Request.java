@@ -63,6 +63,8 @@ public abstract class Request<Self extends Request, ResponseType extends Request
 
     @NotNull public abstract String getRequestType();
 
+    @NotNull protected abstract ResponseType constructFailedResponse();
+
     // Protected Methods.....
     protected void onProgressUpdate(long bytesWritten, long totalSize, int progress) {
         if (progressListener != null) progressListener.progress(new Progress(bytesWritten, totalSize, progress));
@@ -369,9 +371,12 @@ public abstract class Request<Self extends Request, ResponseType extends Request
                 request.continueFinishingRequest(response, this);
             }
 
+            @Override public void failRequest() {
+                request.callback.finished(request.constructFailedResponse());
+                request.canceled = true;
+            }
         }
 
-        // Interfaces.....
         private static abstract class Callback<ResponseType extends Response, HandlerType> {
 
             // Variables.....
@@ -389,6 +394,11 @@ public abstract class Request<Self extends Request, ResponseType extends Request
 
             public void restartRequest() {
                 request.restart();
+            }
+
+            public void failRequest() {
+                request.onFinished(request.constructFailedResponse());
+                request.canceled = true;
             }
 
         }

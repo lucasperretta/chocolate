@@ -73,6 +73,10 @@ public abstract class GsonParsableRequest<Self extends StringParsableRequest, Re
         });
     }
 
+    @NotNull @Override protected ResponseType constructFailedResponse() {
+        return response(false, 0, null, null, null, null, null, null);
+    }
+
     public Self setupGson(SetupGsonCallback callback) {
         this.setupGsonCallback = callback;
         return self();

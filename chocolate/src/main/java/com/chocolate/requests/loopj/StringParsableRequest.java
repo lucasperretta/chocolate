@@ -64,6 +64,10 @@ public abstract class StringParsableRequest<Self extends StringParsableRequest, 
         });
     }
 
+    @NotNull @Override protected ResponseType constructFailedResponse() {
+        return response(false, 0, null, null, null, null, null);
+    }
+
     public Self printStackTraceOnParseFailure(boolean print) {
         this.printStackTraceOnParseFailure = print;
         return self();

@@ -42,6 +42,10 @@ public final class BinaryRequest extends BaseRequest<BinaryRequest, BinaryReques
         });
     }
 
+    @NotNull @Override protected Response constructFailedResponse() {
+        return new Response(null, new Status(0, false), null, null, null);
+    }
+
     @NonNull @Override public String getRequestType() {
         return "Byte Array";
     }

@@ -24,6 +24,10 @@ public final class StringRequest extends StringParsableRequest<StringRequest, St
         return new Response(parsed, new Status(statusCode, success), headers, throwable);
     }
 
+    @NotNull @Override protected Response constructFailedResponse() {
+        return new Response(null, new Status(0, false), null, null);
+    }
+
     @NonNull @Override public String getRequestType() {
         return String.class.getSimpleName();
     }
