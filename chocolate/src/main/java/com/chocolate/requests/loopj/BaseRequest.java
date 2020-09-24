@@ -24,6 +24,8 @@ public abstract class BaseRequest<Self extends BaseRequest, ResponseType extends
     @SuppressWarnings("WeakerAccess") protected HttpEntity httpEntity;
     @SuppressWarnings("WeakerAccess") protected String httpEntityContentType;
     @SuppressWarnings("WeakerAccess") @Nullable SetupClientCallback setupClientCallback;
+    @SuppressWarnings("WeakerAccess") protected Integer connectTimeout = null;
+    @SuppressWarnings("WeakerAccess") protected Integer responseTimeout = null;
 
     // Constructors.....
     @SuppressWarnings("WeakerAccess") public BaseRequest(@NotNull Context context, @Nullable String description) { super(context, description); }
@@ -42,6 +44,12 @@ public abstract class BaseRequest<Self extends BaseRequest, ResponseType extends
             client.addHeader(header.header, header.value);
         }
         client.setTimeout(timeout);
+        if (connectTimeout != null) {
+            client.setConnectTimeout(connectTimeout);
+        }
+        if (responseTimeout != null) {
+            client.setResponseTimeout(responseTimeout);
+        }
         if (useCookies) {
             PersistentCookieStore persistentCookieStore = new PersistentCookieStore(context);
             client.setCookieStore(persistentCookieStore);
@@ -142,12 +150,26 @@ public abstract class BaseRequest<Self extends BaseRequest, ResponseType extends
         return self();
     }
 
+    public Self connectTimeout(Integer connectTimeout) {
+        this.connectTimeout = connectTimeout;
+        return self();
+    }
+
+    public Self setupClient(Integer responseTimeout) {
+        this.responseTimeout = responseTimeout;
+        return self();
+    }
+
     // Getters.....
     public boolean getUseCookies() { return useCookies; }
 
     public boolean getFixNoHttpException() { return fixNoHttpException; }
 
     public boolean getEnableRedirects() { return enableRedirects; }
+
+    public Integer getConnectTimeout() { return connectTimeout; }
+
+    public Integer getResponseTimeout() { return responseTimeout; }
 
     // Classes.....
     @SuppressWarnings({"RedundantSuppression", "WeakerAccess", "SpellCheckingInspection", "NullableProblems"})

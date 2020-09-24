@@ -600,8 +600,18 @@ public abstract class Request<Self extends Request, ResponseType extends Request
 
         // Methods.....
         public boolean isValueSuccessful() {
-            return value >= 200 && value <= 299;
+            return isValueSuccessfull(value);
         }
+
+        public static boolean isValueInformation(int code) { return code >= 100 && code < 200; }
+
+        public static boolean isValueSuccessfull(int code) { return code >= 200 && code < 300; }
+
+        public static boolean isValueRedirection(int code) { return code >= 300 && code < 400; }
+
+        public static boolean isValueClientError(int code) { return code >= 400 && code < 500; }
+
+        public static boolean isValueServerError(int code) { return code >= 500 && code < 600; }
 
     }
 
