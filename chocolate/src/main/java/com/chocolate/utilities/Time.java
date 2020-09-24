@@ -121,7 +121,7 @@ public final class Time extends UtilityClass {
         }
 
         public static int timestamp(@NotNull TimeZone timeZone) {
-            return convert.toTimestamp(current.millis());
+            return convert.toTimestamp(current.millis(timeZone));
         }
 
         public static long millis() {
