@@ -24,8 +24,8 @@ public abstract class BaseRequest<Self extends BaseRequest, ResponseType extends
     @SuppressWarnings("WeakerAccess") protected HttpEntity httpEntity;
     @SuppressWarnings("WeakerAccess") protected String httpEntityContentType;
     @SuppressWarnings("WeakerAccess") @Nullable SetupClientCallback setupClientCallback;
-    @SuppressWarnings("WeakerAccess") protected Integer connectTimeout = null;
-    @SuppressWarnings("WeakerAccess") protected Integer responseTimeout = null;
+    @SuppressWarnings("WeakerAccess") protected Integer connectTimeout = 5;
+    @SuppressWarnings("WeakerAccess") protected Integer responseTimeout = 20;
 
     // Constructors.....
     @SuppressWarnings("WeakerAccess") public BaseRequest(@NotNull Context context, @Nullable String description) { super(context, description); }
