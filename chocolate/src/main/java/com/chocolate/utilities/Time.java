@@ -20,6 +20,10 @@ public final class Time extends UtilityClass {
     public static final String ISO_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ssZ";
     public static final String ISO_DATE_FORMAT_ALTERNATIVE = "yyyy-MM-dd'T'HH:mm:ss";
 
+    // Variables.....
+    public static Locale defaultLocale = Locale.getDefault();
+    public static TimeZone defaultTimeZone = TimeZone.getDefault();
+
     // Methods.....
     public static boolean isSameDay(@NotNull Date date1, @NotNull Date date2) {
         Calendar calendar1 = Calendar.getInstance();
@@ -44,15 +48,15 @@ public final class Time extends UtilityClass {
         }
 
         public static Date toDate(@NotNull String string, @NotNull String format) throws ParseException {
-            return new SimpleDateFormat(format, Locale.getDefault()).parse(string);
+            return new SimpleDateFormat(format, defaultLocale).parse(string);
         }
 
         public static Date toDate(@NotNull String isoDate) throws ISODateParseException {
             try {
-                return new SimpleDateFormat(ISO_DATE_FORMAT, Locale.getDefault()).parse(isoDate);
+                return new SimpleDateFormat(ISO_DATE_FORMAT, defaultLocale).parse(isoDate);
             } catch (ParseException exception1) {
                 try {
-                    return new SimpleDateFormat(ISO_DATE_FORMAT_ALTERNATIVE, Locale.getDefault()).parse(isoDate);
+                    return new SimpleDateFormat(ISO_DATE_FORMAT_ALTERNATIVE, defaultLocale).parse(isoDate);
                 } catch (ParseException exception2) {
                     throw new ISODateParseException(exception1, exception2);
                 }
@@ -92,7 +96,7 @@ public final class Time extends UtilityClass {
         }
 
         public static String toString(@NotNull Date date, @NotNull String format) {
-            return new SimpleDateFormat(format, Locale.getDefault()).format(date);
+            return new SimpleDateFormat(format, defaultLocale).format(date);
         }
 
         public static String toString(int timestamp, @NotNull String format) {
@@ -109,7 +113,7 @@ public final class Time extends UtilityClass {
 
         // Methods.....
         @NotNull public static Date date() {
-            return date(TimeZone.getDefault());
+            return date(defaultTimeZone);
         }
 
         @NotNull public static Date date(@NotNull TimeZone timeZone) {
@@ -117,7 +121,7 @@ public final class Time extends UtilityClass {
         }
 
         public static int timestamp() {
-            return timestamp(TimeZone.getDefault());
+            return timestamp(defaultTimeZone);
         }
 
         public static int timestamp(@NotNull TimeZone timeZone) {
@@ -125,7 +129,7 @@ public final class Time extends UtilityClass {
         }
 
         public static long millis() {
-            return millis(TimeZone.getDefault());
+            return millis(defaultTimeZone);
         }
 
         public static long millis(@NotNull TimeZone timeZone) {
@@ -133,7 +137,7 @@ public final class Time extends UtilityClass {
         }
 
         @NotNull public static String formatted(@NotNull String format) {
-            return formatted(TimeZone.getDefault(), format);
+            return formatted(defaultTimeZone, format);
         }
 
         @NotNull public static String formatted(@NotNull TimeZone timeZone, @NotNull String format) {
