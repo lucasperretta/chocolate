@@ -79,8 +79,7 @@ public final class Utils extends UtilityClass {
         @Nullable public static Class<?> getClassByName(@NotNull String className) {
             try {
                 return Class.forName(className);
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
+            } catch (ClassNotFoundException ignored) {
                 return null;
             }
         }
