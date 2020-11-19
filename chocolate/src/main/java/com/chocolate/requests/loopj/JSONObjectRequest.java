@@ -10,7 +10,7 @@ import com.google.gson.Gson;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-@SuppressWarnings({"unused", "RedundantThrows"})
+@SuppressWarnings({"unused", "RedundantThrows", "RedundantSuppression"})
 public final class JSONObjectRequest<Type, Error> extends GsonParsableRequest<JSONObjectRequest<Type, Error>, JSONObjectRequest.Response<Type, Error>, Type, Error> {
 
     // Variables.....

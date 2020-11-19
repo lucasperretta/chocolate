@@ -1,6 +1,6 @@
 package com.chocolate.utilities;
 
-@SuppressWarnings({"WeakerAccess", "unused"})
+@SuppressWarnings({"WeakerAccess", "unused", "RedundantSuppression"})
 public abstract class UtilityClass {
 
     protected UtilityClass() {

@@ -10,7 +10,7 @@ import com.loopj.android.http.RequestHandle;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "RedundantSuppression"})
 public final class BinaryRequest extends BaseRequest<BinaryRequest, BinaryRequest.Response> {
 
     // Constructors.....

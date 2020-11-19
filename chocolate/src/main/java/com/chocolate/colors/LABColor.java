@@ -5,7 +5,7 @@ import androidx.core.graphics.ColorUtils;
 
 import org.jetbrains.annotations.NotNull;
 
-@SuppressWarnings({"unused", "WeakerAccess"})
+@SuppressWarnings({"unused", "WeakerAccess", "RedundantSuppression"})
 public class LABColor implements Color.Model {
 
     // Variables.....

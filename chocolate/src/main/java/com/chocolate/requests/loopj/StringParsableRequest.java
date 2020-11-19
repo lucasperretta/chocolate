@@ -8,7 +8,7 @@ import com.loopj.android.http.TextHttpResponseHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-@SuppressWarnings({"unused", "rawtypes"})
+@SuppressWarnings({"unused", "rawtypes", "RedundantSuppression"})
 public abstract class StringParsableRequest<Self extends StringParsableRequest, ResponseType extends StringParsableRequest.Response<ParseType>, ParseType> extends BaseRequest<Self, ResponseType> {
 
     // Variables.....

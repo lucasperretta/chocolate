@@ -4,7 +4,7 @@ import androidx.annotation.ColorInt;
 
 import org.jetbrains.annotations.NotNull;
 
-@SuppressWarnings({"unused", "WeakerAccess"})
+@SuppressWarnings({"unused", "WeakerAccess", "RedundantSuppression"})
 public class RGBColor implements Color.Model {
 
     // Variables.....

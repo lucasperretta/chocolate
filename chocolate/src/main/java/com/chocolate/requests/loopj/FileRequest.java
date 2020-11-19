@@ -12,7 +12,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "RedundantSuppression"})
 public final class FileRequest extends BaseRequest<FileRequest, FileRequest.Response> {
 
     // Constructors.....

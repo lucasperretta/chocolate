@@ -2,7 +2,7 @@ package com.chocolate.utilities;
 
 import androidx.annotation.NonNull;
 
-@SuppressWarnings({"unused", "WeakerAccess"}) public class Scheduled {
+@SuppressWarnings({"unused", "WeakerAccess", "RedundantSuppression"}) public class Scheduled {
 
     // Variables.....
     protected Delayed delayed;

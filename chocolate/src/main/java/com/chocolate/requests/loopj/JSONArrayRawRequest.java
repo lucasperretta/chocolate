@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.json.JSONArray;
 
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "RedundantSuppression"})
 public final class JSONArrayRawRequest extends StringParsableRequest<JSONArrayRawRequest, JSONArrayRawRequest.Response, JSONArray> {
 
     // Variables.....

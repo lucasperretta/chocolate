@@ -7,7 +7,7 @@ import androidx.annotation.NonNull;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "RedundantSuppression"})
 public final class StringRequest extends StringParsableRequest<StringRequest, StringRequest.Response, String> {
 
     // Constructors.....

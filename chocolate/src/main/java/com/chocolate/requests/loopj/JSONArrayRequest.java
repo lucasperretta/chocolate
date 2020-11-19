@@ -13,7 +13,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 
-@SuppressWarnings({"unused", "RedundantThrows"})
+@SuppressWarnings({"unused", "RedundantThrows", "RedundantSuppression"})
 public final class JSONArrayRequest<Type, Error> extends GsonParsableRequest<JSONArrayRequest<Type, Error>, JSONArrayRequest.Response<Type, Error>, ArrayList<Type>, Error> {
 
     // Variables.....

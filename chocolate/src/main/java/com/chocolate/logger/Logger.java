@@ -8,7 +8,7 @@ import com.chocolate.utilities.UtilityClass;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-@SuppressWarnings({"unused", "WeakerAccess"})
+@SuppressWarnings({"unused", "WeakerAccess", "RedundantSuppression"})
 public final class Logger extends UtilityClass {
 
     // Logger.....

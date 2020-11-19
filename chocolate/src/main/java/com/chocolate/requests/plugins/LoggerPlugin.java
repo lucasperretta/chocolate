@@ -10,7 +10,7 @@ import com.chocolate.requests.Request;
 
 import org.jetbrains.annotations.NotNull;
 
-@SuppressWarnings({"unused", "rawtypes"})
+@SuppressWarnings({"unused", "rawtypes", "RedundantSuppression"})
 public class LoggerPlugin extends Request.Plugin implements LoggerInterface {
 
     // Variables.....

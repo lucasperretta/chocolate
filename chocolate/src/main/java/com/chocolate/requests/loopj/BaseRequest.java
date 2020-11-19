@@ -14,7 +14,7 @@ import org.jetbrains.annotations.Nullable;
 
 import cz.msebera.android.httpclient.HttpEntity;
 
-@SuppressWarnings({"unused", "rawtypes"})
+@SuppressWarnings({"unused", "rawtypes", "RedundantSuppression"})
 public abstract class BaseRequest<Self extends BaseRequest, ResponseType extends BaseRequest.Response> extends Request<Self, ResponseType, RequestParams, RequestHandle> {
 
     // Variables.....

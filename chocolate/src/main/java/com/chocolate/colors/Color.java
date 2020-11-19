@@ -10,7 +10,7 @@ import androidx.annotation.RequiresApi;
 
 import org.jetbrains.annotations.NotNull;
 
-@SuppressWarnings({"unused", "WeakerAccess"})
+@SuppressWarnings({"unused", "WeakerAccess", "RedundantSuppression"})
 public final class Color {
 
     // Methods.....
