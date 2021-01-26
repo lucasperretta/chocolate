@@ -21,8 +21,8 @@ public final class Time extends UtilityClass {
     public static final String ISO_DATE_FORMAT_ALTERNATIVE = "yyyy-MM-dd'T'HH:mm:ss";
 
     // Variables.....
-    public static final Locale defaultLocale = Locale.getDefault();
-    public static final TimeZone defaultTimeZone = TimeZone.getDefault();
+    public static Locale defaultLocale = Locale.getDefault();
+    public static TimeZone defaultTimeZone = TimeZone.getDefault();
 
     // Methods.....
     public static boolean isSameDay(@NotNull Date date1, @NotNull Date date2) {
